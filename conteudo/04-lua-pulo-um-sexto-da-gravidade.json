@@ -1,0 +1,205 @@
+{
+ "id": "04-lua-pulo-um-sexto-da-gravidade",
+ "ordem": 4,
+ "formato": "escolha",
+ "estilo": "epico",
+ "motor": "2d",
+ "titulo": "Na Lua você pesa um sexto. Pular a cratera? A ou B?",
+ "titulo_youtube": "Quanto você consegue pular na Lua? Pular a cratera? A ou B",
+ "titulo_curto": "PULAR NA LUA",
+ "thumb_texto": "A OU B: O PULO",
+ "descricao": "Na Lua a gravidade é cerca de um sexto da terrestre. Será que dá para pular uma cratera? Dramatização educativa. A mais votada vira o próximo vídeo.",
+ "comentario_fixado": "A: pular a cratera em um salto longo. B: contornar a cratera pelo caminho seguro. Qual a sua escolha?",
+ "tags": [
+  "lua",
+  "gravidade",
+  "apollo",
+  "astronauta",
+  "ciencia",
+  "voce decide",
+  "espaco"
+ ],
+ "elenco": {
+  "prot": "comandante-traje",
+  "f": [
+   "piloto-traje"
+  ],
+  "amb": {
+   "houston": [
+    "controlador"
+   ]
+  },
+  "protAmb": {
+   "houston": "controlador2"
+  },
+  "vazio": [
+   "espaco",
+   "descida-lunar"
+  ]
+ },
+ "perfil": "generico",
+ "cenas": [
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Na Lua, um homem de setenta quilos pesaria pouco mais de onze."
+    }
+   ],
+   "emocao": "surpreso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "Na Lua, um homem de setenta quilos pesaria pouco mais de onze.",
+   "destaques": [
+    "onze"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "prot",
+     "texto": "Olha isso! Cada passo me joga para o alto!"
+    },
+    {
+     "quem": "f0",
+     "texto": "Parece que estou flutuando!"
+    }
+   ],
+   "emocao": "feliz",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "Olha isso! Cada passo me joga para o alto! Parece que estou flutuando!",
+   "destaques": [
+    "flutuando"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "A gravidade da Lua é cerca de um sexto da nossa. Os astronautas da Apollo saltavam como coelhos."
+    }
+   ],
+   "emocao": "feliz",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "A gravidade da Lua é cerca de um sexto da nossa. Os astronautas da Apollo saltavam como coelhos.",
+   "destaques": [
+    "coelhos"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Mas tem um detalhe: o traje pesa dezenas de quilos, e cair de mau jeito pode rasgar o tecido."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "Mas tem um detalhe: o traje pesa dezenas de quilos, e cair de mau jeito pode rasgar o tecido.",
+   "destaques": [
+    "rasgar"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "f0",
+     "texto": "Tem uma cratera de uns quatro metros na frente. Dá para pular!"
+    },
+    {
+     "quem": "prot",
+     "texto": "Será que dá mesmo?"
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "Tem uma cratera de uns quatro metros na frente. Dá para pular! Será que dá mesmo?",
+   "destaques": [
+    "cratera"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Se o salto falhar, você cai dentro de uma cratera cheia de pedras soltas."
+    }
+   ],
+   "emocao": "surpreso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "Se o salto falhar, você cai dentro de uma cratera cheia de pedras soltas.",
+   "destaques": [
+    "cai"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Pular ou contornar? Comenta A para pular a cratera, ou B para dar a volta. A mais votada vira o próximo vídeo."
+    }
+   ],
+   "emocao": "neutro",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "Pular ou contornar? Comenta A para pular a cratera, ou B para dar a volta. A mais votada vira o próximo vídeo.",
+   "destaques": [
+    "escolha"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,198 @@
+{
+ "id": "05-espaco-silencio-cabo-solto",
+ "ordem": 5,
+ "formato": "escolha",
+ "estilo": "epico",
+ "motor": "2d",
+ "titulo": "Seu cabo de segurança se solta no espaço. A ou B?",
+ "titulo_youtube": "Seu cabo se solta no espaço: ninguém ouve você. A ou B?",
+ "titulo_curto": "CABO SOLTO NO ESPAÇO",
+ "thumb_texto": "A OU B: CABO SOLTO",
+ "descricao": "Em uma caminhada espacial, o seu cabo de segurança se solta. No espaço não existe som, mas o rádio do traje funciona. Dramatização educativa. A mais votada vira o próximo vídeo.",
+ "comentario_fixado": "A: pedir resgate pelo rádio e esperar o piloto. B: usar o jato de emergência do traje. Qual a sua escolha?",
+ "tags": [
+  "espaco",
+  "astronauta",
+  "caminhada espacial",
+  "ciencia",
+  "voce decide",
+  "nasa",
+  "curiosidades"
+ ],
+ "elenco": {
+  "prot": "comandante",
+  "f": [
+   "piloto"
+  ],
+  "amb": {
+   "houston": [
+    "controlador"
+   ]
+  },
+  "protAmb": {
+   "houston": "controlador2"
+  },
+  "vazio": [
+   "espaco"
+  ]
+ },
+ "perfil": "generico",
+ "cenas": [
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "No espaço não existe som. Se você gritar, ninguém vai ouvir."
+    }
+   ],
+   "emocao": "misterioso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "espaco",
+   "fala": "No espaço não existe som. Se você gritar, ninguém vai ouvir.",
+   "destaques": [
+    "som"
+   ],
+   "cams": [
+    "ampla",
+    "panoramica"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "prot",
+     "texto": "Controle, meu cabo de segurança se soltou."
+    },
+    {
+     "quem": "f0",
+     "texto": "Calma, comandante. O rádio funciona."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "espaco",
+   "fala": "Controle, meu cabo de segurança se soltou. Calma, comandante. O rádio funciona.",
+   "destaques": [
+    "cabo"
+   ],
+   "cams": [
+    "ampla",
+    "panoramica"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "O som precisa de ar para viajar. Mas as ondas de rádio atravessam o vazio sem problema."
+    }
+   ],
+   "emocao": "neutro",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "espaco",
+   "fala": "O som precisa de ar para viajar. Mas as ondas de rádio atravessam o vazio sem problema.",
+   "destaques": [
+    "rádio"
+   ],
+   "cams": [
+    "ampla",
+    "panoramica"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Você está flutuando para longe da nave, a milhares de quilômetros por hora, junto com ela."
+    }
+   ],
+   "emocao": "surpreso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "espaco",
+   "fala": "Você está flutuando para longe da nave, a milhares de quilômetros por hora, junto com ela.",
+   "destaques": [
+    "milhares"
+   ],
+   "cams": [
+    "ampla",
+    "panoramica"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "prot",
+     "texto": "Estou me afastando devagar. Tenho uns poucos minutos de oxigênio."
+    },
+    {
+     "quem": "f0",
+     "texto": "Posso sair com a nave e te alcançar."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "nave-cabine",
+   "fala": "Estou me afastando devagar. Tenho uns poucos minutos de oxigênio. Posso sair com a nave e te alcançar.",
+   "destaques": [
+    "oxigênio"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Hoje os astronautas usam uma mochila a jato de emergência chamada SAFER, feita só para esse tipo de resgate."
+    }
+   ],
+   "emocao": "surpreso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "espaco",
+   "fala": "Hoje os astronautas usam uma mochila a jato de emergência chamada SAFER, feita só para esse tipo de resgate.",
+   "destaques": [
+    "SAFER"
+   ],
+   "cams": [
+    "ampla",
+    "panoramica"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Esperar o piloto ou usar o jato? Comenta A para esperar o resgate, ou B para usar o jato. A mais votada vira o próximo vídeo."
+    }
+   ],
+   "emocao": "neutro",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "espaco",
+   "fala": "Esperar o piloto ou usar o jato? Comenta A para esperar o resgate, ou B para usar o jato. A mais votada vira o próximo vídeo.",
+   "destaques": [
+    "escolha"
+   ],
+   "cams": [
+    "ampla",
+    "panoramica"
+   ]
+  }
+ ]
+}

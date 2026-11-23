@@ -1,0 +1,205 @@
+{
+ "id": "03-lua-poeira-cheiro-de-polvora",
+ "ordem": 3,
+ "formato": "escolha",
+ "estilo": "epico",
+ "motor": "2d",
+ "titulo": "Você volta da Lua com poeira no traje. Entrar assim? A ou B?",
+ "titulo_youtube": "O cheiro estranho da Lua: o que a poeira faz com você? A ou B",
+ "titulo_curto": "A POEIRA DA LUA",
+ "thumb_texto": "A OU B: POEIRA",
+ "descricao": "Depois de horas na Lua, a poeira gruda em tudo. Os astronautas da Apollo disseram que ela cheirava a pólvora queimada. Dramatização educativa. A mais votada vira o próximo vídeo.",
+ "comentario_fixado": "A: limpar a poeira com escova antes de entrar. B: entrar logo e fechar a escotilha. Qual a sua escolha?",
+ "tags": [
+  "lua",
+  "poeira lunar",
+  "apollo",
+  "nasa",
+  "curiosidades",
+  "voce decide",
+  "espaco"
+ ],
+ "elenco": {
+  "prot": "comandante-traje",
+  "f": [
+   "piloto-traje"
+  ],
+  "amb": {
+   "houston": [
+    "controlador"
+   ]
+  },
+  "protAmb": {
+   "houston": "controlador2"
+  },
+  "vazio": [
+   "espaco",
+   "descida-lunar"
+  ]
+ },
+ "perfil": "generico",
+ "cenas": [
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "A poeira da Lua é áspera e cheia de pontas. E ela vai entrar no seu módulo."
+    }
+   ],
+   "emocao": "misterioso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "A poeira da Lua é áspera e cheia de pontas. E ela vai entrar no seu módulo.",
+   "destaques": [
+    "pontas"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "prot",
+     "texto": "Terminamos o passeio lunar. O traje está coberto de pó cinza."
+    },
+    {
+     "quem": "f0",
+     "texto": "Parece que alguém passou carvão em mim."
+    }
+   ],
+   "emocao": "feliz",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "Terminamos o passeio lunar. O traje está coberto de pó cinza. Parece que alguém passou carvão em mim.",
+   "destaques": [
+    "pó"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Na Lua não tem vento nem chuva. A poeira nunca foi desgastada, então os grãos são cheios de pontas."
+    }
+   ],
+   "emocao": "surpreso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "Na Lua não tem vento nem chuva. A poeira nunca foi desgastada, então os grãos são cheios de pontas.",
+   "destaques": [
+    "pontas"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Dentro do módulo, os astronautas da Apollo tiraram o capacete e sentiram um cheiro estranho."
+    }
+   ],
+   "emocao": "surpreso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "modulo-lunar",
+   "fala": "Dentro do módulo, os astronautas da Apollo tiraram o capacete e sentiram um cheiro estranho.",
+   "destaques": [
+    "cheiro"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "f0",
+     "texto": "Isso cheira a pólvora queimada!"
+    },
+    {
+     "quem": "prot",
+     "texto": "E está grudando em tudo. Até no meu rosto."
+    }
+   ],
+   "emocao": "surpreso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "modulo-lunar",
+   "fala": "Isso cheira a pólvora queimada! E está grudando em tudo. Até no meu rosto.",
+   "destaques": [
+    "pólvora"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Essa poeira arranhou visores e desgastou vedações dos trajes. Ela é um problema sério."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "modulo-lunar",
+   "fala": "Essa poeira arranhou visores e desgastou vedações dos trajes. Ela é um problema sério.",
+   "destaques": [
+    "problema"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Limpar tudo antes de entrar ou fechar a porta logo? Comenta A para escovar a poeira, ou B para entrar direto. A mais votada vira o próximo vídeo."
+    }
+   ],
+   "emocao": "neutro",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "modulo-lunar",
+   "fala": "Limpar tudo antes de entrar ou fechar a porta logo? Comenta A para escovar a poeira, ou B para entrar direto. A mais votada vira o próximo vídeo.",
+   "destaques": [
+    "escolha"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  }
+ ]
+}

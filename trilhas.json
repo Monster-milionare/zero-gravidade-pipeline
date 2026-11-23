@@ -1,0 +1,31 @@
+{
+ "_nota": "Gravacoes de dominio publico ou CC0 do Wikimedia Commons (nome do arquivo no Commons). Para usar suas proprias faixas, coloque mp3/ogg/wav em assets/musica/<clima>/ - elas tem prioridade.",
+ "triste": [
+  {"arquivo": "Gymnopedie No. 1..ogg", "titulo": "Satie - Gymnopedie No. 1"},
+  {"arquivo": "Moonlight Sonata.ogg", "titulo": "Beethoven - Sonata ao Luar"},
+  {"arquivo": "Ludwig van Beethoven - sonata no. 14 in c sharp minor 'moonlight', op. 27 no. 2 - i. adagio sostenuto.ogg", "titulo": "Beethoven - Sonata ao Luar, 1o mov."},
+  {"arquivo": "Chopin - Nocturne No. 7 in C-sharp minor, Op. 27 No. 1 (Luke Faulkner).flac", "titulo": "Chopin - Noturno Op. 27 No. 1"},
+  {"arquivo": "Mozart - Requiem (Krips) - VIII. Lacrimosa.flac", "titulo": "Mozart - Lacrimosa (Requiem)"},
+  {"arquivo": "Air (Bach).ogg", "titulo": "Bach - Air"},
+  {"arquivo": "Funeral March Chopin Op 72 2.ogg", "titulo": "Chopin - Marcha Funebre"}
+ ],
+ "epica": [
+  {"arquivo": "Holst- mars.ogg", "titulo": "Holst - Marte, o Portador da Guerra"},
+  {"arquivo": "Pyotr Ilyich Tchaikovsky - 1812 overture.ogg", "titulo": "Tchaikovsky - Abertura 1812"},
+  {"arquivo": "Ludwig van Beethoven - Symphonie 5 c-moll - 1. Allegro con brio.ogg", "titulo": "Beethoven - Sinfonia no 5"},
+  {"arquivo": "Richard Wagner - Ride of the Valkyries.ogg", "titulo": "Wagner - Cavalgada das Valquirias"}
+ ],
+ "animada": [
+  {"arquivo": "Free Tim - Vivaldos Spring from the Four Seasons-Allegro.ogg", "titulo": "Vivaldi - Primavera"},
+  {"arquivo": "Gioachino Rossini, William Tell Overture (military band version, 2000).ogg", "titulo": "Rossini - Guilherme Tell"},
+  {"arquivo": "Jacques Offenbach - Galop Infernal from Orpheus in the Underworld (Can Can) (1858).ogg", "titulo": "Offenbach - Can-Can"},
+  {"arquivo": "Radetzky March.ogg", "titulo": "Strauss - Marcha Radetzky"},
+  {"arquivo": "Rondo Alla Turka.ogg", "titulo": "Mozart - Marcha Turca"}
+ ],
+ "tensa": [
+  {"arquivo": "Toccata et Fugue BWV565.ogg", "titulo": "Bach - Tocata e Fuga"},
+  {"arquivo": "Modest Mussorgsky - night on bald mountain.ogg", "titulo": "Mussorgsky - Noite no Monte Calvo"},
+  {"arquivo": "Grieg - Peer Gynt Suite No. 1, Op. 46 - IV. In the Hall of the Mountain King (Musopen Symphony).flac", "titulo": "Grieg - Na Gruta do Rei da Montanha"},
+  {"arquivo": "Saint-Saëns - Danse macabre (Fourestier, 1953).flac", "titulo": "Saint-Saens - Danca Macabra"}
+ ]
+}

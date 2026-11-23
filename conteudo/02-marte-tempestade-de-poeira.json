@@ -1,0 +1,208 @@
+{
+ "id": "02-marte-tempestade-de-poeira",
+ "ordem": 2,
+ "formato": "escolha",
+ "estilo": "epico",
+ "motor": "2d",
+ "titulo": "Uma tempestade de poeira cobre Marte. Sair ou esperar? A ou B?",
+ "titulo_youtube": "Tempestade de poeira em Marte: sair da base ou esperar? A ou B",
+ "titulo_curto": "TEMPESTADE EM MARTE",
+ "thumb_texto": "A OU B: TEMPESTADE",
+ "descricao": "Uma tempestade de poeira engole os painéis solares da base marciana. Dramatização educativa inspirada na tempestade de 2018 que silenciou o robô Opportunity. A mais votada vira o próximo vídeo.",
+ "comentario_fixado": "A: sair e limpar os painéis no meio da tempestade. B: esperar dentro da base com a energia no mínimo. Qual a sua escolha?",
+ "tags": [
+  "marte",
+  "tempestade de poeira",
+  "opportunity",
+  "nasa",
+  "ciencia",
+  "voce decide",
+  "espaco"
+ ],
+ "elenco": {
+  "prot": "comandante-traje",
+  "f": [
+   "piloto-traje",
+   "cientista-traje"
+  ],
+  "amb": {
+   "houston": [
+    "controlador"
+   ]
+  },
+  "protAmb": {
+   "houston": "controlador2"
+  },
+  "vazio": [
+   "espaco"
+  ]
+ },
+ "perfil": "generico",
+ "cenas": [
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Em dois mil e dezoito, uma tempestade de poeira cobriu Marte e silenciou o robô Opportunity."
+    }
+   ],
+   "emocao": "surpreso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "marte",
+   "hora": "tempestade",
+   "fala": "Em dois mil e dezoito, uma tempestade de poeira cobriu Marte e silenciou o robô Opportunity.",
+   "destaques": [
+    "Opportunity"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Agora imagine que isso acontece com você, dentro da base. A luz do sol some."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "marte",
+   "hora": "tempestade",
+   "fala": "Agora imagine que isso acontece com você, dentro da base. A luz do sol some.",
+   "destaques": [
+    "você"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "f0",
+     "texto": "Comandante, os painéis solares estão quase sem energia."
+    },
+    {
+     "quem": "prot",
+     "texto": "Quanto tempo de bateria temos?"
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "marte",
+   "hora": "tempestade",
+   "fala": "Comandante, os painéis solares estão quase sem energia. Quanto tempo de bateria temos?",
+   "destaques": [
+    "energia"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "f1",
+     "texto": "Só alguns dias, se a gente apagar tudo que não for vital."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "marte",
+   "hora": "tempestade",
+   "fala": "Só alguns dias, se a gente apagar tudo que não for vital.",
+   "destaques": [
+    "dias"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Essas tempestades podem durar semanas. Algumas chegam a cobrir o planeta inteiro."
+    }
+   ],
+   "emocao": "surpreso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "marte",
+   "hora": "tempestade",
+   "fala": "Essas tempestades podem durar semanas. Algumas chegam a cobrir o planeta inteiro.",
+   "destaques": [
+    "semanas"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "prot",
+     "texto": "Se limparmos os painéis agora, ganhamos energia. Mas a poeira lá fora é cega e perigosa."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "marte",
+   "hora": "tempestade",
+   "fala": "Se limparmos os painéis agora, ganhamos energia. Mas a poeira lá fora é cega e perigosa.",
+   "destaques": [
+    "perigosa"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Arriscar a saída ou economizar e esperar? Comenta A para sair e limpar os painéis, ou B para esperar na base. A mais votada vira o próximo vídeo."
+    }
+   ],
+   "emocao": "neutro",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "marte",
+   "hora": "tempestade",
+   "fala": "Arriscar a saída ou economizar e esperar? Comenta A para sair e limpar os painéis, ou B para esperar na base. A mais votada vira o próximo vídeo.",
+   "destaques": [
+    "escolha"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  }
+ ]
+}

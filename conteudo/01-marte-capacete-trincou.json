@@ -1,0 +1,212 @@
+{
+ "id": "01-marte-capacete-trincou",
+ "ordem": 1,
+ "formato": "escolha",
+ "estilo": "epico",
+ "motor": "2d",
+ "titulo": "Seu capacete trinca em Marte. Tampar ou correr? A ou B?",
+ "titulo_youtube": "Seu capacete trinca em Marte: você tem segundos. A ou B?",
+ "titulo_curto": "CAPACETE TRINCADO EM MARTE",
+ "thumb_texto": "A OU B: MARTE",
+ "descricao": "Você é o comandante da primeira missão a Marte e o capacete trinca longe da base. Dramatização educativa baseada em fatos sobre a atmosfera marciana. A mais votada vira o próximo vídeo.",
+ "comentario_fixado": "A: tapar a trinca com a luva e correr até a base. B: chamar o piloto para o rover. Qual a sua escolha?",
+ "tags": [
+  "marte",
+  "astronauta",
+  "espaco",
+  "ciencia",
+  "voce decide",
+  "nasa",
+  "atmosfera"
+ ],
+ "elenco": {
+  "prot": "comandante-traje",
+  "f": [
+   "piloto-traje",
+   "cientista-traje"
+  ],
+  "amb": {
+   "houston": [
+    "controlador"
+   ]
+  },
+  "protAmb": {
+   "houston": "controlador2"
+  },
+  "vazio": [
+   "espaco"
+  ]
+ },
+ "perfil": "generico",
+ "cenas": [
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Marte tem menos de um por cento do ar da Terra. E o capacete acabou de trincar."
+    }
+   ],
+   "emocao": "surpreso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "marte",
+   "hora": "dia",
+   "fala": "Marte tem menos de um por cento do ar da Terra. E o capacete acabou de trincar.",
+   "destaques": [
+    "trincar"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "prot",
+     "texto": "Estou perdendo pressão! Estou a oitocentos metros da base."
+    },
+    {
+     "quem": "f0",
+     "texto": "Comandante, aguenta! Eu vou te buscar!"
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "marte",
+   "hora": "dia",
+   "fala": "Estou perdendo pressão! Estou a oitocentos metros da base. Comandante, aguenta! Eu vou te buscar!",
+   "destaques": [
+    "pressão"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "O ar marciano é quase só gás carbônico. Você não consegue respirar nele, nem por um minuto."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "marte",
+   "hora": "dia",
+   "fala": "O ar marciano é quase só gás carbônico. Você não consegue respirar nele, nem por um minuto.",
+   "destaques": [
+    "carbônico"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Sem a pressão do traje, a consciência some em poucos segundos. Cada passo conta."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "marte",
+   "hora": "dia",
+   "fala": "Sem a pressão do traje, a consciência some em poucos segundos. Cada passo conta.",
+   "destaques": [
+    "segundos"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "prot",
+     "texto": "A luva tapa a rachadura, mas o rover está longe."
+    },
+    {
+     "quem": "f1",
+     "texto": "Eu chego em dois minutos! Segura!"
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "marte",
+   "hora": "dia",
+   "fala": "A luva tapa a rachadura, mas o rover está longe. Eu chego em dois minutos! Segura!",
+   "destaques": [
+    "rover"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Dois minutos parecem uma eternidade. A temperatura lá fora chega perto de sessenta graus negativos."
+    }
+   ],
+   "emocao": "surpreso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "marte",
+   "hora": "dia",
+   "fala": "Dois minutos parecem uma eternidade. A temperatura lá fora chega perto de sessenta graus negativos.",
+   "destaques": [
+    "negativos"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Corrida para a base ou esperar o rover? Comenta A para correr tapando a trinca, ou B para esperar o rover. A mais votada vira o próximo vídeo."
+    }
+   ],
+   "emocao": "neutro",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "marte",
+   "hora": "dia",
+   "fala": "Corrida para a base ou esperar o rover? Comenta A para correr tapando a trinca, ou B para esperar o rover. A mais votada vira o próximo vídeo.",
+   "destaques": [
+    "escolha"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  }
+ ]
+}
