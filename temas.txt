@@ -1,0 +1,12 @@
+escolha|Você está na estação espacial e um pedaço de lixo espacial vem na sua direção: A para se esconder na cápsula ou B para desviar a estação
+e-se|E se você tirasse o capacete no espaço por quinze segundos?
+escolha|Você está em Marte e a tempestade de poeira cobriu os painéis solares: A para sair e limpar ou B para economizar energia e esperar
+pov|POV: você está na Apollo 13 e ouve o estrondo do tanque de oxigênio
+escolha|Você está em Marte e acha gelo debaixo do chão: A para usar como água ou B para fazer combustível pra voltar
+escolha|Você está na Lua e o módulo não quer ligar pra voltar pra casa: A para tentar de novo ou B para chamar Houston
+pov|POV: você fica sozinho na nave orbitando a Lua enquanto seus colegas descem
+escolha|Seu traje começa a vazar no meio da caminhada espacial: A para voltar agora ou B para terminar o conserto
+pov|POV: você é o primeiro humano em Marte e o rádio com a Terra fica mudo por vinte minutos
+escolha|Você está em Marte e o seu colega fica doente: A para gastar o remédio da missão ou B para esperar a nave de resgate
+e-se|E se você pulasse na Lua com toda a sua força?
+escolha|Você está na estação espacial e o alarme de fogo dispara: A para apagar com o extintor ou B para fugir pra cápsula de emergência
