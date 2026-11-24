@@ -66,8 +66,7 @@ jobs:
           python-version: "3.11"
           cache: pip
       - name: Garantir ffmpeg
-        run: |
-          which ffmpeg >/dev/null 2>&1 || (sudo apt-get update -y -qq && sudo apt-get install -y -qq ffmpeg)
+        run: for i in 1 2 3 4; do which ffmpeg >/dev/null 2>&1 && break; sudo apt-get update -y -qq; sudo apt-get install -y -qq ffmpeg && break; sleep 15; done; which ffmpeg
       - run: pip install -r requirements.txt
       - name: Motor 2D/3D (Chromium headless + three.js)
         run: |
