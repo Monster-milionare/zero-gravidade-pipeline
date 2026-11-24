@@ -180,5 +180,12 @@ def preparar(c: dict, semente: str | None = None) -> dict:
             else:
                 cams = list(padroes[ciclo % len(padroes)])
                 ciclo += 1
+            # so enquadra quem pode existir nesse lugar (cenario sem gente = so planos de cenario)
+            el = c.get("elenco") or {}
+            n_f = len((el.get("amb") or {}).get(cena["amb"]) or el.get("f") or [])
+            if cena["amb"] in (el.get("vazio") or []):
+                cams = ["ampla", "panoramica", "alto"]
+            else:
+                cams = [x for x in cams if not (re.match(r"^f(\d)c?$", x) and int(re.match(r"^f(\d)", x).group(1)) >= n_f)] or ["ampla"]
             cena["cams"] = cams
     return c

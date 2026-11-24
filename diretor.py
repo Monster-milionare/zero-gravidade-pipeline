@@ -67,7 +67,8 @@ NAO_NOMES = {"cidadao", "cidada", "marujo", "nativo", "soldado", "soldado romano
              "soldado holandes", "controlador", "engenheiro", "cientista", "astronauta", "explorador", "exploradora",
              "guia", "mongol", "campones", "camponesa", "passageira", "passageiro", "bombeiro", "operador", "medico peste",
              "senador", "pretoriano", "escravo", "gladiador", "legionario", "plebeu", "plebeia", "menino", "menina", "dino",
-             "bebe tricera", "viking", "egipcio", "samurai", "asteca", "cavaleiro"}
+             "bebe tricera", "viking", "egipcio", "samurai", "asteca", "cavaleiro", "engenheiro usina", "liquidador",
+             "morador", "moradora", "oficial sovietico", "cidadao romano", "cidada romana", "medico"}
 PONTOS_KW_GERAIS = {"ceu": r"\bceu\b|estrelas|\blua\b", "grupo": r"todos|voces|grupo|juntos"}
 
 
@@ -271,7 +272,7 @@ def planejar(conteudo: dict, sintetizar, elenco_vozes, work: Path):
                 mov = "zoom"
         if alvo == "grupo" and not aqui:
             alvo = "ampla"
-        if (b.get("fx", c.get("fx", "")) in FX_SEM_ELENCO) and (fid or alvo == "grupo" or str(alvo).startswith("eu-")):
+        if (b.get("fx", c.get("fx", "")) in FX_SEM_ELENCO) and (fid or alvo in ("grupo", "prot") or str(alvo).startswith("eu-")):
             alvo, mov = "ampla", ("recua" if mov == "corte" else mov)      # ninguem fica na base vendo o foguete subir
         base = {"amb": amb_b, "hora": b.get("hora") or c.get("hora"), "falante": x["quem"],
                 "fx": b.get("fx", c.get("fx", "")), "pov": bool(b.get("pov", pov and alvo not in ("prot",) and not str(alvo).startswith("eu-"))),
