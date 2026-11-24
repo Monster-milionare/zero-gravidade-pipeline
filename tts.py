@@ -219,7 +219,12 @@ def synthesize_sentences(text: str, out_dir: Path, cta: bool = False, voz: str |
         else:
             rate = random.choice(_RATE_VARIACAO)
             pitch = random.choice(_PITCH_VARIACAO)
-        if tom:   # voz de personagem: tom fixo (com uma variacao minima) em vez de sortear
+        if tom and tom.startswith("~"):   # persona de narracao: tom e ritmo fixos do video, com variacao pequena
+            tb, _, rb = tom[1:].partition("@")
+            base_p, base_r = int(tb.replace("Hz", "")), int((rb or "+0%").replace("%", ""))
+            pitch = f"{base_p + random.choice((-1, 0, 1)) + (3 if energica else 0):+d}Hz"
+            rate = f"{base_r + random.choice((-2, 0, 2)) + (5 if energica else 0):+d}%"
+        elif tom:   # voz de personagem: tom fixo (com uma variacao minima) em vez de sortear
             base = int(tom.replace("Hz", ""))
             pitch = f"{base + (4 if energica else 0):+d}Hz"
         words = _synth_com_fallback(sentence, audio_path, rate, pitch, voz)

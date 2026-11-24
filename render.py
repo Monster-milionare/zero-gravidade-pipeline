@@ -229,12 +229,19 @@ def _palavras_abs(segs, inicios):
 
 
 def _blocos_legenda(palavras):
-    """Agrupa palavras em blocos de 2-3 para a legenda."""
+    """Agrupa palavras em blocos de 2-3 para a legenda. Fim de frase (. ! ? ...) SEMPRE fecha o bloco, mesmo com
+    1 palavra: a legenda nunca junta o fim de uma frase com o comeco da proxima (o "LUA. 14" do longo da Apollo).
+    Pausa longa entre palavras (>0.45 s) tambem fecha o bloco."""
     blocos, atual = [], []
-    for w in palavras:
+    for k, w in enumerate(palavras):
+        if atual and w[1] - atual[-1][2] > 0.45:
+            blocos.append(atual)
+            atual = []
         atual.append(w)
-        fim = w[0].rstrip().endswith((".", "!", "?", ",", ":"))
-        if len(atual) >= 3 or (fim and len(atual) >= 2) or sum(len(x[0]) for x in atual) > 17:
+        txt = w[0].rstrip().rstrip('"\u201d\u2019)')
+        fim_frase = txt.endswith((".", "!", "?", "…", ";"))
+        virgula = txt.endswith((",", ":"))
+        if fim_frase or len(atual) >= 3 or (virgula and len(atual) >= 2) or sum(len(x[0]) for x in atual) > 17:
             blocos.append(atual)
             atual = []
     if atual:
@@ -455,3 +462,25 @@ def render_video(conteudo: dict, out_path: Path, estilo_nome: str | None = None,
 def hash_seed(vid: str, a: int, b: int) -> int:
     import hashlib
     return int(hashlib.md5(f"{vid}-{a}-{b}".encode()).hexdigest()[:7], 16)
+
+
+def porta_abrindo(frame, u):
+    """Transicao 'porta': duas folhas de madeira escura se abrem do centro para os lados (u = 0..1)."""
+    import numpy as _np
+    if u >= 1:
+        return frame
+    h, w = frame.shape[:2]
+    k = (1 - (1 - u) ** 3)
+    meia = int(w / 2 * (1 - k))
+    if meia <= 0:
+        return frame
+    cor = _np.array([46, 30, 20], _np.uint8)
+    frame[:, :meia] = cor
+    frame[:, w - meia:] = cor
+    frame[:, max(0, meia - 8):meia] = (20, 12, 8)
+    frame[:, w - meia:min(w, w - meia + 8)] = (20, 12, 8)
+    # macaneta
+    y0 = int(h * 0.52)
+    x0 = max(0, meia - 40)
+    frame[y0 - 10:y0 + 10, x0:x0 + 22] = (200, 170, 80)
+    return frame

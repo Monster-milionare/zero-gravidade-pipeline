@@ -13,11 +13,22 @@ FEMININOS = {"rainha", "cidada", "cleopatra", "isabel", "cidada-berlim", "cidada
 GRAVES = {"rei", "imperador", "cabral", "general-romano", "faraoh", "viking", "napoleao", "guia", "oficial", "capitao"}
 AGUDOS = {"cidadao2", "marujo2", "nativo3", "newton", "bebe-tricera", "menino"}
 
-NARRADORES = [("pt-BR-MacerioMultilingualNeural", "-1Hz"), ("pt-BR-ThalitaMultilingualNeural", "+0Hz"),
-              ("pt-BR-MacerioMultilingualNeural", "-3Hz"), ("pt-BR-AntonioNeural", "-2Hz"), ("pt-BR-FranciscaNeural", "+0Hz")]
+# PERSONAS de narracao (pedido do Andre: "so uma voz feminina pra narrar sempre nao da"). So existem duas vozes
+# femininas e duas masculinas com sotaque brasileiro no edge-tts gratis; cada persona e uma voz + TOM + RITMO
+# fixos no video inteiro ("~tom@ritmo": o tts varia so um pouquinho em volta). Rodizio pela contagem de videos:
+# dois videos seguidos com narradora nunca tem a mesma persona.
+NARRADORES_F = [("pt-BR-FranciscaNeural", "~-3Hz@-4%"),            # documentario
+                ("pt-BR-ThalitaMultilingualNeural", "~+3Hz@+6%"),  # apresentadora animada
+                ("pt-BR-FranciscaNeural", "~-9Hz@-8%"),            # suspense, mais grave e lenta
+                ("pt-BR-ThalitaMultilingualNeural", "~-5Hz@-2%"),  # contadora de historia
+                ("pt-BR-FranciscaNeural", "~+6Hz@+9%")]            # jovem e rapida
+NARRADORES_M = [("pt-BR-MacerioMultilingualNeural", "~-1Hz@+0%"),  # padrao do canal
+                ("pt-BR-AntonioNeural", "~-6Hz@-6%"),              # documentario grave
+                ("pt-BR-MacerioMultilingualNeural", "~+4Hz@+8%"),  # animado
+                ("pt-BR-AntonioNeural", "~-10Hz@-9%"),             # suspense
+                ("pt-BR-MacerioMultilingualNeural", "~-6Hz@-3%")]  # contador de historia
+NARRADORES = NARRADORES_M + NARRADORES_F
 NARRADOR = NARRADORES[0]
-NARRADORES_M = [("pt-BR-MacerioMultilingualNeural", "-1Hz"), ("pt-BR-AntonioNeural", "-2Hz"), ("pt-BR-MacerioMultilingualNeural", "-3Hz")]
-NARRADORES_F = [("pt-BR-ThalitaMultilingualNeural", "+0Hz"), ("pt-BR-FranciscaNeural", "+0Hz")]
 # SO sotaque brasileiro (pedido do Andre): as vozes "Multilingual" estrangeiras e a de Portugal saiam com sotaque.
 # A variedade entre personagens vem do tom (Hz) de cada um.
 MASCULINAS = [("pt-BR-AntonioNeural", "+0Hz"), ("pt-BR-MacerioMultilingualNeural", "+4Hz"), ("pt-BR-AntonioNeural", "-6Hz"),
@@ -49,13 +60,15 @@ def papel_de(quem: str, cena: dict, elenco: dict) -> str:
 
 
 class Elenco:
-    def __init__(self, elenco: dict, semente: str = "", feminino=None):
-        """feminino: True/False alterna narradora/narrador entre videos (pedido do Andre); None = sorteio pelo id."""
+    def __init__(self, elenco: dict, semente: str = "", feminino=None, n_pub=None):
+        """feminino: True/False alterna narradora/narrador entre videos (pedido do Andre); None = sorteio pelo id.
+        n_pub (videos ja publicados) faz o rodizio das personas: cada video do mesmo genero usa a seguinte."""
         self.elenco = elenco
         self.por_papel = {}
         self.semente = semente or "planob"
         lista = NARRADORES if feminino is None else (NARRADORES_F if feminino else NARRADORES_M)
-        self.narrador = (elenco.get("narrador_voz") and (elenco["narrador_voz"], "+0Hz")) or lista[_h(self.semente) % len(lista)]
+        idx = (n_pub // 2) if n_pub is not None else _h(self.semente)
+        self.narrador = (elenco.get("narrador_voz") and (elenco["narrador_voz"], "+0Hz")) or lista[idx % len(lista)]
         k = _h(self.semente + "m")
         self.masc = MASCULINAS[k % len(MASCULINAS):] + MASCULINAS[:k % len(MASCULINAS)]
         k = _h(self.semente + "f")

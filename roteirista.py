@@ -36,6 +36,15 @@ CENAS: 7 a 9 cenas. Cada cena: "fala" (1 a 2 frases, o texto completo da cena), 
 - Se o formato for "futuro": o espectador acorda no ano indicado (ex.: 2100) no meio da sociedade; mostre COMO e a vida (trabalho, comida, moradia, governo, tecnologia), com consequencias surpreendentes e coerentes com tendencias reais de hoje. Deixe claro que e uma projecao ("segundo projecoes", "imagine"), nunca afirme o futuro como fato. Termine com voto A ou B sobre o que fazer.
 - Se o formato for "pov" ou "pov3d": narre em PRIMEIRA PESSOA, como se o espectador fosse o personagem, sempre com perigo ou decisao iminente.
 - Inclua "thumb_texto" (gancho de 2 a 4 palavras em MAIUSCULAS que gere curiosidade), "titulo_curto" (ate 24 caracteres, MAIUSCULAS), "titulo_youtube" (ate 62 caracteres, com lacuna de curiosidade e um nome ou numero concreto, sem clickbait falso) e "comentario_fixado" (1 frase que pergunta a opiniao e repete a votacao).
+HISTORIA CONSTRUIDA (regra do Andre, a mais importante): o video e um FILME em primeira pessoa, nao uma apresentacao de elenco.
+- Cena 1: SO VOCE ("prot") no lugar. O narrador diz onde voce esta e o que voce ve ou ouve. Nenhum figurante fala na cena 1.
+- Os personagens ENTRAM UM POR VEZ, quando a historia precisa deles: a PRIMEIRA fala de um figurante e o momento em que ele aparece
+  (o narrador pode anunciar: "um colega chega correndo", "o capitao se vira pra voce"). Nunca apresente todo mundo de uma vez.
+- Tem ACAO: voce ve algo ao longe, aponta, chama alguem, ANDA ate outro lugar, ABRE uma porta, pega o radio. Para mostrar isso,
+  a cena pode ter "acao": "anda" (voce caminha ate o proximo ponto) ou "porta" (voce abre a porta e o lugar novo aparece).
+- Exemplo do Titanic: voce no convés, passageiros passeando; voce ve o iceberg ao longe; vira pra um marujo ("tem um iceberg!");
+  "acao": "anda" ate a ponte; "acao": "porta" e o capitao ja esta la dentro; ele pergunta o que houve; a decisao A ou B.
+- Use os figurantes com papeis DIFERENTES entre si (nada de dois iguais) e so quem faz sentido estar naquele lugar.
 TEMA QUENTE (regra do canal): o assunto e escolhido para gerar CLIQUE e debate (desastres, imperios, pestes, guerras,
 ditadores, decisoes impossiveis). Pese a mao no drama e na decisao, mas SEMPRE com fato real e sem glorificar violencia.
 Temas sensiveis (YouTube desmonetiza apologia):
@@ -84,7 +93,7 @@ def _bloco_2d(amb, p) -> str:
             f"(f0, f1, f2 nas falas, NESSA ordem) SO desta lista: {', '.join(p['papeis'])}. Quem nao estava la nao aparece.\n")
 
 CRITICO = """Voce e um editor severo de Shorts virais. Avalie este roteiro (JSON) para o tema "{titulo}".
-De nota de 0 a 10 para: gancho (a primeira cena faria alguem parar de deslizar em 2 segundos?), tensao crescente, final em loop com voto, continuidade (hora do dia, lugar, epoca e personagens batem com as falas? dialogos naturais e bem divididos entre narrador e personagens?) e risco factual (0 = nada inventado, 10 = muito inventado).
+De nota de 0 a 10 para: gancho (a primeira cena faria alguem parar de deslizar em 2 segundos?), tensao crescente (a historia se CONSTROI: voce comeca sozinho, os personagens entram um a um, ha acao e deslocamento; apresentar todo mundo de uma vez = nota baixa), final em loop com voto, continuidade (hora do dia, lugar, epoca e personagens batem com as falas? dialogos naturais e bem divididos entre narrador e personagens?) e risco factual (0 = nada inventado, 10 = muito inventado).
 Se QUALQUER nota de gancho/tensao/loop/continuidade for menor que 8 ou risco factual maior que 2, REESCREVA o roteiro inteiro corrigindo os problemas, mantendo o formato JSON identico e os fatos reais.
 Responda SOMENTE com JSON: {{"notas": {{"gancho": n, "tensao": n, "loop": n, "continuidade": n, "risco_factual": n}}, "roteiro": <o roteiro, reescrito se preciso, no mesmo formato>}}
 ROTEIRO:
@@ -138,6 +147,12 @@ def _validar(d: dict):
         c.setdefault("emocao", "neutro")
         if c["emocao"] not in ("neutro", "feliz", "surpreso", "preocupado", "misterioso"):
             c["emocao"] = "neutro"
+    for x in cenas[0].get("falas") or []:      # historia construida: na cena 1 voce esta sozinho
+        if str(x.get("quem", "")).startswith("f"):
+            return "na cena 1 so o narrador e voce (prot) falam: os figurantes entram depois"
+    for c in cenas:
+        if c.get("acao") not in (None, "", "anda", "porta"):
+            c.pop("acao", None)
     if sum(1 for c in cenas if any(x.get("quem") != "narrador" for x in c.get("falas", []))) < 2:
         return "poucas falas de personagem (minimo 2 cenas com dialogo)"
     if not 95 <= total <= 160:

@@ -30,6 +30,22 @@ function ell(c, x, y, rx, ry, rot) { c.beginPath(); c.ellipse(x, y, rx, ry, rot 
 // ---------------------------------------------------------------- personagens (frente, estilo "boneco" fofo)
 const ROLES = {};   // preenchido pelos arquivos de cenario/papeis
 function papel2d(nome) { if (!ROLES[nome]) throw new Error('papel 2D inexistente: ' + nome); return Object.assign({}, ROLES[nome]); }
+// figurante repetido NUNCA e clone: a 2a/3a copia do mesmo papel muda pele, cabelo, barba, roupa e altura
+const PELES2 = ['#f2c9a0', '#d9a77c', '#b57e55', '#8d5733', '#e8b890', '#6e4227'];
+const CABELOS2 = ['#2a1a10', '#6a4a2a', '#c9a050', '#111111', '#8a3a1a', '#9a9a9a'];
+function variar2d(o, k) {
+  if (!k || o.tipo === 'tricera') return o;
+  o = Object.assign({}, o);
+  o.pele = PELES2[(PELES2.indexOf(o.pele) + 1 + k * 2) % PELES2.length];
+  if (o.cabelo) o.cabelo = CABELOS2[(k * 2 + 1) % CABELOS2.length];
+  if (o.cachos) o.cachos = o.cabelo || CABELOS2[k % CABELOS2.length];
+  o.barba = k % 2 ? (o.cabelo || CABELOS2[k % CABELOS2.length]) : (o.barba ? null : o.barba);
+  if (!o.barba && k % 2 === 0 && !o.bigode) o.bigode = o.cabelo || '#2a1a10';
+  for (const campo of ['camisa', 'manga', 'calca', 'capa', 'saia']) if (o[campo]) o[campo] = mix(o[campo], k % 2 ? '#1a1a2a' : '#f4e8d0', 0.22 + 0.08 * k);
+  o.escala = (o.escala || 1) * (k % 2 ? 0.94 : 1.05);
+  if (o.penteado === undefined && k % 2) o.penteado = 'mop';
+  return o;
+}
 
 function olhos(c, o, ox, oy, abre, piscar, olhaX, olhaY, arregala) {
   olhaY = olhaY || 0; const ar = 1 + (arregala || 0) * 0.25;
@@ -210,8 +226,9 @@ function layerDraw(inst, L, cam) {
 
 // ================================================================ DIRETOR 2D
 // Linha do tempo: shots (camera por batida) + eventos (entidades que se movem) + acoes (gestos dos personagens).
-let TL = {eventos: [], acoes: [], pov: false};
-window.setTimeline = tl => { TL = Object.assign({eventos: [], acoes: [], pov: false}, tl || {}); };
+let TL = {eventos: [], acoes: [], pov: false, presenca: null};
+window.setTimeline = tl => { TL = Object.assign({eventos: [], acoes: [], pov: false, presenca: null}, tl || {}); };
+const DUR_CHEGADA = 1.1;   // segundos que um personagem leva entrando no quadro
 const ENTS = {};          // entidades desenhaveis (ptero, etc.): ENTS[nome] = {draw(g, sx, sy, esc, t, info), chao: bool}
 
 function shotEm(t) { for (let i = 0; i < shots.length; i++) if (t >= shots[i].t0 && t < shots[i].t1) return i; return shots.length - 1; }
@@ -300,6 +317,9 @@ function camDoShot(i, t, inst, elencoPos) {
   } else if (mov === 'zoom') { cam = {cx: A.cx, cy: A.cy, z: A.z * lerp(0.86, 1.08, ease(u))}; }
   else if (mov === 'recua') { cam = {cx: A.cx, cy: A.cy, z: A.z * lerp(1.3, 0.92, ease(u))}; }
   else if (mov === 'segue') { cam = {cx: A.cx, cy: A.cy, z: A.z}; }
+  else if (mov === 'caminha') {   // voce anda (1a pessoa): avanca para o alvo, com o balanco dos passos
+    cam = {cx: A.cx + Math.sin(t * 3.75) * 14, cy: A.cy + Math.abs(Math.sin(t * 7.5)) * 16 - 8, z: A.z * lerp(0.82, 1.18, ease(u))};
+  }
   else { cam = {cx: A.cx + lerp(-18, 18, u), cy: A.cy, z: A.z * lerp(1.0, 1.05, u)}; }   // corte: deriva lenta
   if (mov === 'tremor' || s.tremor) { const f = (s.tremor || 1) * 22 * Math.max(0.15, 1 - u); cam.cx += Math.sin(t * 47) * f; cam.cy += Math.cos(t * 41) * f; }
   if (s.pov) { cam.cy += Math.sin(t * 2.1) * 5; cam.cx += Math.sin(t * 1.3) * 4; }       // respiracao de quem esta olhando
@@ -395,14 +415,36 @@ window.frame = function (t, amp, fmt) {
   const elenco = [];
   if (!vazio) {
     elenco.push({id: 'prot', role: protRole, base: inst.slots.prot});
-    inst.slots.f.forEach((p, i) => { if (lista.length && i < lista.length) elenco.push({id: 'f' + i, role: lista[i], base: p}); });
+    const vistos = {};
+    inst.slots.f.forEach((p, i) => { if (lista.length && i < lista.length) { vistos[lista[i]] = (vistos[lista[i]] || 0) + 1; elenco.push({id: 'f' + i, role: lista[i], base: p, copia: vistos[lista[i]] - 1}); } });
   }
+  // entrada progressiva: so desenha quem ja entrou na historia (TL.presenca); quem chega, chega andando
+  const presentesAgora = elenco.filter(e => {
+    if (e.id === 'prot' || !TL.presenca) return true;
+    const ints = TL.presenca[e.id] || [];
+    const it = ints.find(i => i[2] === s.amb && i[0] <= t && t < i[1]);
+    if (!it) return false;
+    e.chegada = it[3] ? clamp((t - it[0]) / DUR_CHEGADA, 0, 1) : 1;
+    return true;
+  });
+  elenco.length = 0; presentesAgora.forEach(e => elenco.push(e));
   const elencoPos = {};
-  for (const e of elenco) { e.pos = posChar(inst, e.id, e.base, t); elencoPos[e.id] = e.pos; }
+  for (const e of elenco) {
+    e.pos = posChar(inst, e.id, e.base, t);
+    if (e.chegada !== undefined && e.chegada < 1) {      // vem de fora do quadro, do lado mais perto
+      const lado = e.base[0] < inst.WW / 2 ? -1 : 1, k = ease(e.chegada);
+      e.posDraw = [e.pos[0] + lado * (1 - k) * 1100, e.pos[1], e.pos[2]];
+    }
+    elencoPos[e.id] = e.pos;          // a camera enquadra onde a pessoa VAI ficar (ela entra no quadro)
+  }
   const cam = camDoShot(si, t, inst, elencoPos);
   if (!s.pov) { const sh = 3; cam.cx += Math.sin(t * 1.7) * sh; cam.cy += Math.sin(t * 2.3) * sh; }
   g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.globalCompositeOperation = 'source-over';
-  const u = clamp((t - s.t0) / Math.max(0.05, s.t1 - s.t0), 0, 1);
+  // efeitos de cena (decolagem, nave passando...) andam pelo TRECHO inteiro com o mesmo efeito, nao por plano:
+  // cortar de camera no meio da decolagem nao pode fazer o foguete voltar pra base (bug do longo da Apollo 8)
+  let r0 = si, r1 = si;
+  if (s.fx) { while (r0 > 0 && shots[r0 - 1].amb === s.amb && shots[r0 - 1].fx === s.fx) r0--; while (r1 < shots.length - 1 && shots[r1 + 1].amb === s.amb && shots[r1 + 1].fx === s.fx) r1++; }
+  const u = clamp((t - shots[r0].t0) / Math.max(0.05, shots[r1].t1 - shots[r0].t0), 0, 1);
   const ents = Object.keys(ENTS).map(n => [n, entEstado(inst, n, t, s.amb)]).filter(([, e]) => e);
   const desenhaEnt = ([n, e]) => { const sx = W / 2 + (e.x - cam.cx) * cam.z, sy = H / 2 + (e.y - cam.cy) * cam.z; g.save(); g.globalAlpha = e.alfa; ENTS[n].draw(g, sx, sy, e.esc * cam.z, t, e); g.restore(); };
   inst.draw(g, t, cam, {
@@ -417,10 +459,12 @@ window.frame = function (t, amp, fmt) {
       for (const it of itens) {
         if (it.tipo === 'e') { desenhaEnt(it.x); continue; }
         const e = it.e;
-        const o = papel2d(e.role); o.fase = e.id.length * 1.7 + e.id.charCodeAt(e.id.length - 1);
-        const sx = W / 2 + (e.pos[0] - cam.cx) * cam.z, sy = H / 2 + (e.pos[1] - cam.cy) * cam.z;
+        const o = variar2d(papel2d(e.role), e.copia || 0); o.fase = e.id.length * 1.7 + e.id.charCodeAt(e.id.length - 1);
+        const pd = e.posDraw || e.pos;
+        const sx = W / 2 + (pd[0] - cam.cx) * cam.z, sy = H / 2 + (pd[1] - cam.cy) * cam.z;
         const fala = falante === e.id;
         let [olha, st] = estadoChar(inst, e.id, t, sx, sy, cam, s, elencoPos);
+        if (e.chegada !== undefined && e.chegada < 1) { st.passo = t * 9; if (olha === null) olha = e.base[0] < inst.WW / 2 ? 0.8 : -0.8; }
         if (olha === null) {
           if (s.pov || falante === 'prot') olha = clamp((W / 2 - sx) / 500, -0.8, 0.8);             // olham para voce
           else if (falante && elencoPos[falante] && falante !== e.id) olha = elencoPos[falante][0] < e.pos[0] ? -0.8 : 0.8;

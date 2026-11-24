@@ -24,7 +24,7 @@ AMB_2D = {
     "lancamento": dict(mostra="base de lancamento (Kennedy, Florida): foguete Saturn V na plataforma, torre de servico, edificio de montagem",
                        formato="ambos", ceu=True, fx=["", "decolagem"], max_f=3, horas=["dia", "manha", "tarde", "noite"]),
     "nave-cabine": dict(mostra="interior do modulo de comando Odyssey: paineis, escotilhas com a Terra", formato="ambos", ceu=False,
-                        fx=["", "alarme", "escuro", "frio"], max_f=3),
+                        fx=["", "alarme", "escuro", "frio", "clarao"], max_f=3),
     "modulo-lunar": dict(mostra="interior apertado do modulo lunar Aquarius ou Eagle (paredes douradas, janelas triangulares com a Lua)", formato="ambos",
                          ceu=False, fx=["", "frio", "escuro", "alarme"], max_f=3),
     "espaco": dict(mostra="o espaco: Terra, Lua e a nave Apollo vista de fora (sem personagens)", formato="ambos", ceu=False,

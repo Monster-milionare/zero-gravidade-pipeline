@@ -154,16 +154,81 @@ def passos(rng, dur=1.6):
     return out
 
 
+def porta(rng, dur=1.1):
+    """Maçaneta (clique metalico) + rangido grave da porta abrindo."""
+    n = int(dur * SR)
+    t = np.arange(n) / SR
+    out = np.zeros(n, np.float32)
+    m = int(0.05 * SR)
+    out[:m] += _passa_banda(_ruido(m, rng), 2000, 7000) * _env(m, 0.001, 0.01) * 1.2
+    f = 180 + 60 * np.sin(2 * np.pi * 1.3 * t) + 25 * np.sin(2 * np.pi * 7 * t)
+    range_ = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.clip((t - 0.12) / 0.1, 0, 1) * np.exp(-np.clip(t - 0.12, 0, None) / 0.45)
+    out += (range_ * 0.35 + _passa_banda(_ruido(n, rng), 100, 900) * 0.15 * np.exp(-t / 0.5)).astype(np.float32)
+    return out
+
+
 def agua(rng, dur=1.2):
     n = int(dur * SR)
     t = np.arange(n) / SR
     return (_passa_banda(_ruido(n, rng), 300, 5000) * np.exp(-t / 0.25) * np.clip(t / 0.01, 0, 1) * 0.9).astype(np.float32)
 
 
+def sirene(rng, dur=3.0):
+    """Sirene de bombeiro antiga (sobe e desce)."""
+    n = int(dur * SR)
+    t = np.arange(n) / SR
+    f = 620 + 380 * (0.5 - 0.5 * np.cos(2 * np.pi * t / 1.5))
+    x = np.sin(2 * np.pi * np.cumsum(f) / SR) + 0.3 * np.sin(4 * np.pi * np.cumsum(f) / SR)
+    env = np.clip(t / 0.3, 0, 1) * np.clip((dur - t) / 0.6, 0, 1)
+    return (x * env * 0.28).astype(np.float32)
+
+
+def fogo(rng, dur=3.5):
+    """Crepitar de fogo: ronco grave + estalos."""
+    n = int(dur * SR)
+    t = np.arange(n) / SR
+    ronco = _passa_banda(_ruido(n, rng), 40, 500) * 1.4
+    estalos = np.zeros(n, np.float32)
+    for _ in range(int(dur * 22)):
+        i = rng.integers(0, n - 2000)
+        estalos[i:i + 2000] += _passa_banda(_ruido(2000, rng), 1500, 7000) * np.exp(-np.arange(2000) / SR / 0.004) * rng.uniform(0.2, 1.0)
+    env = np.clip(t / 0.5, 0, 1) * np.clip((dur - t) / 0.8, 0, 1)
+    return np.tanh((ronco + estalos * 1.5) * 0.8).astype(np.float32) * env
+
+
+def geiger(rng, dur=3.0):
+    """Contador Geiger: cliques aleatorios cada vez mais rapidos."""
+    n = int(dur * SR)
+    out = np.zeros(n, np.float32)
+    t = 0.0
+    while t < dur - 0.01:
+        i = int(t * SR)
+        m = min(300, n - i)
+        out[i:i + m] += (_ruido(m, rng) * np.exp(-np.arange(m) / SR / 0.0008)).astype(np.float32)
+        taxa = 6 + 60 * (t / dur) ** 1.5
+        t += rng.exponential(1 / taxa)
+    return out * 0.9
+
+
+def tambor(rng, dur=2.4):
+    """Tambor de guerra grave (3 batidas)."""
+    n = int(dur * SR)
+    out = np.zeros(n, np.float32)
+    for k, tt in enumerate((0.0, 0.5, 1.0)):
+        i = int(tt * SR)
+        m = min(int(0.9 * SR), n - i)
+        u = np.arange(m) / SR
+        out[i:i + m] += (np.sin(2 * np.pi * (60 - 20 * u) * u) * np.exp(-u / 0.25) * (1.0 if k < 2 else 1.3)).astype(np.float32)
+        out[i:i + m] += _passa_banda(_ruido(m, rng), 60, 1200) * np.exp(-u / 0.03) * 0.5
+    return out
+
+
 EFEITOS = {"whoosh": whoosh, "asas": asas, "impacto": impacto, "susto": susto, "rugido": rugido, "sino": sino,
-           "telefone": telefone, "gelo": gelo, "vento": vento, "trovao": trovao, "passos": passos, "agua": agua}
+           "telefone": telefone, "gelo": gelo, "vento": vento, "trovao": trovao, "passos": passos, "agua": agua,
+           "sirene": sirene, "fogo": fogo, "geiger": geiger, "tambor": tambor, "porta": porta}
 VOLUME = {"whoosh": 0.32, "asas": 0.55, "impacto": 0.6, "susto": 0.5, "rugido": 0.55, "sino": 0.5, "telefone": 0.35,
-          "gelo": 0.6, "vento": 0.3, "trovao": 0.55, "passos": 0.4, "agua": 0.45}
+          "gelo": 0.6, "vento": 0.3, "trovao": 0.55, "passos": 0.4, "agua": 0.45,
+          "sirene": 0.3, "fogo": 0.45, "geiger": 0.35, "tambor": 0.55, "porta": 0.5}
 
 
 def gerar_trilha(cues, total: float, saida: str, seed: int = 7) -> int:

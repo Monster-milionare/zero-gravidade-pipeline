@@ -20,9 +20,10 @@ PROIBIDOS = ("—", "–", "*", "#")
 
 PLANO = """Voce e roteirista de documentarios curtos de historia em portugues do Brasil para o canal "Zero Gravidade BR" (animacao de bonecos redondinhos, narracao em segunda pessoa: "voce acorda em...").
 Tema: {titulo}
-Planeje um video de 9 minutos com 8 capitulos em ordem cronologica. REGRAS DE VERDADE: so fatos reais e verificaveis (datas, nomes, numeros). Se nao tiver certeza, nao inclua. Nada inventado.
+Planeje um video de 9 minutos com 8 capitulos em ordem cronologica. Liste em "pessoas" as ate 4 pessoas REAIS principais (o espectador e a primeira, papel "prot"); se nao tiver certeza de um dado, deixe fora. REGRAS DE VERDADE: so fatos reais e verificaveis (datas, nomes, numeros). Se nao tiver certeza, nao inclua. Nada inventado.
 Responda SOMENTE com JSON: {{"titulo": "...", "titulo_youtube": "ate 95 caracteres, com numero ou nome concreto e curiosidade, sem clickbait falso", "titulo_curto": "ate 28 caracteres MAIUSCULAS", "thumb_texto": "2 a 4 palavras MAIUSCULAS", "descricao": "2 a 3 frases", "comentario_fixado": "1 frase que pergunta a opiniao e repete a votacao A ou B", "tags": ["..."],
 "opcao_a": "decisao concreta A do espectador no fim", "opcao_b": "decisao concreta B",
+"pessoas": [{{"nome": "nome real completo", "papel": "prot (quem o espectador e) ou f0/f1/f2", "cargo": "cargo/funcao curta", "info": ["2 fatos curtos REAIS: datas de vida, feito marcante"], "selo": "missao/evento em ate 14 letras"}}],
 "capitulos": [{{"nome": "...", "ano": "ano ou data curta, ex.: 79 d.C.", "hora": "{horas}", "cenario": "UM destes: {amb}", "fatos": ["3 a 5 fatos REAIS deste capitulo"]}}]}}"""
 
 CAP = """Voce e roteirista de documentarios de historia em portugues do Brasil (canal "Zero Gravidade BR"). Escreva o capitulo {i} de {n} do video "{titulo}".
@@ -30,6 +31,7 @@ Capitulo: {nome} ({ano}). Cenario: {cenario}. Fatos reais permitidos (use SO est
 {contexto}
 ESTILO: narracao em segunda pessoa ("voce"), ritmo de suspense, frases curtas, gancho ao fim do capitulo. Numeros por extenso na fala. Sem tracos longos, emojis, asteriscos, hashtags. A parte hipotetica deve vir marcada ("imagine", "talvez").
 CENAS: 8 a 10 cenas, 130 a 220 palavras no total. Cada cena: "falas": lista de {{"quem": "narrador"|"prot"|"f0"|"f1"|"f2", "texto": "..."}} (o narrador conta; personagens falam em primeira pessoa com ate 12 palavras; pelo menos 3 cenas com dialogo de personagem), "emocao" (neutro|feliz|surpreso|preocupado|misterioso), "destaques" (1 a 3 palavras da fala) e opcional "hora" ({horas}) quando mudar. CONTINUIDADE: lugar, hora, epoca e quem esta em cena tem que bater com a fala; ninguem usa objeto que ainda nao existia; quem morreu nao fala.
+HISTORIA CONSTRUIDA: em cada capitulo voce chega ao lugar e os personagens ENTRAM um a um quando falam ou sao citados pelo nome (nunca todos de uma vez). Pessoas reais deste video: {pessoas}. Quando citar alguem, use o NOME e o "quem" dele (f0/f1/f2) nas falas dele. Pode usar "acao": "anda" (voce caminha ate outro ponto) ou "porta" (voce abre uma porta) numa cena. Um efeito visual opcional "fx" so se a fala descrever exatamente isso.
 {fecho}
 Responda SOMENTE com JSON: {{"cenas": [ ... ]}}"""
 
@@ -133,7 +135,7 @@ def gerar(titulo):
                 prompt = CAP.format(i=i, n=len(caps), titulo=plano.get("titulo", titulo), nome=cap.get("nome", ""), ano=cap.get("ano", ""),
                                     cenario=amb, fatos="; ".join(map(str, cap.get("fatos", []))),
                                     contexto=(f"Resumo do que ja foi contado: {resumo}\n" if resumo else "Este e o INICIO: a primeira cena e um gancho de ate 14 palavras que prende em 2 segundos.\n"),
-                                    horas=HORAS, fecho=(FECHO_FINAL.format(a=plano["opcao_a"], b=plano["opcao_b"]) if ultimo else "A ultima cena deixa um gancho para o proximo capitulo."))
+                                    horas=HORAS, pessoas=json.dumps(plano.get("pessoas") or [], ensure_ascii=False)[:500], fecho=(FECHO_FINAL.format(a=plano["opcao_a"], b=plano["opcao_b"]) if ultimo else "A ultima cena deixa um gancho para o proximo capitulo."))
                 d = _pedir(prompt)
                 err = validar_cap(d.get("cenas"), ultimo)
                 if err:
@@ -160,7 +162,8 @@ def gerar(titulo):
          "titulo": plano.get("titulo", titulo), "titulo_youtube": str(plano.get("titulo_youtube") or titulo)[:99],
          "titulo_curto": str(plano.get("titulo_curto") or titulo)[:28].upper(), "thumb_texto": str(plano.get("thumb_texto") or titulo).upper(),
          "descricao": plano.get("descricao", titulo), "comentario_fixado": plano.get("comentario_fixado", ""),
-         "tags": plano.get("tags", []), "cenas": cenas}
+         "tags": plano.get("tags", []), "cenas": cenas,
+         "pessoas": [p for p in (plano.get("pessoas") or []) if isinstance(p, dict) and p.get("nome")][:4]}
     (config.CONTEUDO_DIR / f"{c['id']}.json").write_text(json.dumps(c, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"[longo-roteirista] novo roteiro longo: {c['id']} ({len(cenas)} cenas, {sum(len(x['fala'].split()) for x in cenas)} palavras)")
     return c["id"]

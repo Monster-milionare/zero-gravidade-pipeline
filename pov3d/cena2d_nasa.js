@@ -223,7 +223,7 @@ scenes['lancamento'] = {
         } else {
           api.layer(base); api.layer(chao);
         }
-        api.personagens();
+        if (fx !== 'decolagem') api.personagens();     // na decolagem a tripulacao esta DENTRO do foguete
         g.fillStyle = P.tom; g.fillRect(0, 0, W, H);
       },
     };
@@ -280,6 +280,12 @@ scenes['nave-cabine'] = {
           g.fillStyle = 'rgba(4,6,16,0.62)'; g.fillRect(0, 0, W, H);
         } else if (fx === 'frio') {
           g.fillStyle = 'rgba(120,170,255,0.18)'; g.fillRect(0, 0, W, H);
+        } else if (fx === 'clarao') {      // luz BRANCA entrando pelas escotilhas (sol / nascer da Terra)
+          const k = clamp(api.u * 3, 0, 1) * (0.85 + 0.15 * Math.sin(t * 2));
+          g.save(); g.globalCompositeOperation = 'lighter';
+          for (const [px, py] of [[0.30, 0.28], [0.5, 0.22], [0.70, 0.28]]) { const [lx, ly, z] = aTela(fundo, fundo.c.width * px, H * py, cam); glow(g, lx, ly, 420 * z, '#ffffff', 0.55 * k); }
+          g.restore();
+          g.fillStyle = `rgba(255,255,255,${0.16 * k})`; g.fillRect(0, 0, W, H);
         }
         g.fillStyle = 'rgba(255,240,200,0.05)'; g.fillRect(0, 0, W, H);
       },

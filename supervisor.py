@@ -60,6 +60,23 @@ def auditar() -> tuple:
             alertas.append(f"ESTOQUE baixo de Shorts {m.upper()} liberados: {est[m]} (meta >= 3).")
             tarefas.append(f"Escrever mais Shorts {m.upper()} (temas novos, cenarios novos).")
     tem_est = Counter(diversidade.tema(c) for c in ok)
+    # direcao do filme (qualidade.py): o que o espectador vai VER em cada roteiro da fila
+    import qualidade
+    for c in ok[:20]:
+        try:
+            q = qualidade.simular(c)
+        except Exception:
+            continue
+        for e in q["erros"]:
+            alertas.append(f"QUALIDADE {c['id']}: {e} (barrado ate corrigir)")
+            tarefas.append(f"Corrigir a direcao de {c['id']}: {e}")
+        for a in q["avisos"]:
+            alertas.append(f"direcao {c['id']}: {a}")
+    for c in ok:
+        r = coerencia.validar(c)
+        for a in r["avisos"]:
+            if "o texto diz" in a:
+                alertas.append(f"luz/efeito {c['id']}: {a}")
     # elenco suspeito: perfil generico no 3D, ou cenario antigo com protagonista cientista/internet
     for d in pubs[-12:]:
         c = por_id.get(d.get("id"))

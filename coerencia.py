@@ -183,7 +183,25 @@ def validar(conteudo: dict) -> dict:
                 E(i, f"o texto diz '{h_txt}' mas o ceu esta '{cena['hora']}' (dia x noite)")
             else:
                 A(i, f"o texto diz '{h_txt}' e o ceu esta '{cena['hora']}' (horario proximo)")
+        # 7. LUZ/EFEITO: a cor e o efeito que o texto descreve tem que ser os da tela ("luz branca" com alarme vermelho = erro)
+        if "luz" not in liberado:
+            for rx, proibe, exige, msg in LUZES:
+                if re.search(rx, txt):
+                    if fx in proibe:
+                        E(i, f"o texto diz '{msg}' mas o efeito da cena e '{fx}'")
+                    elif exige and info2 and fx not in exige and any(e in info2["fx"] for e in exige):
+                        A(i, f"o texto diz '{msg}' e a cena podia usar o efeito {sorted(e for e in exige if e in info2['fx'])} (esta '{fx or 'nenhum'}')")
     return {"erros": erros, "avisos": avisos}
+
+
+# (regex no texto, efeitos que CONTRADIZEM o texto, efeitos que o mostram, o que o texto diz)
+LUZES = [
+    (r"\b(luz|luzes|clarao|brilho) (branc\w*|forte|do sol)\b|\bclarao\b|\bluz invade\b", {"alarme", "escuro"}, {"clarao"}, "luz branca"),
+    (r"\b(luz|luzes|alarme|alerta) (vermelh\w*)\b|\balarme\w*\b|\bsirene\w*\b", {"clarao"}, {"alarme"}, "alarme/luz vermelha"),
+    (r"\b(escurid\w*|apag\w+|sem luz|tudo escuro|breu)\b", {"clarao", "alarme"}, {"escuro"}, "escuridao"),
+    (r"\b(decola\w*|motores acendem|o gigante sobe|ignicao|lift ?off)\b", set(), {"decolagem"}, "decolagem"),
+    (r"\b(congela\w*|gelad\w*|frio)\b", {"clarao"}, {"frio"}, "frio"),
+]
 
 
 def exigir(conteudo: dict, quem: str = "") -> None:

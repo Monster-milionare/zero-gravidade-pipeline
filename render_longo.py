@@ -55,55 +55,49 @@ def preparar(id_: str, fake_tts: bool = False) -> dict:
     if fake_tts:
         import tts_fake
         sintetizar = tts_fake.synthesize_sentences
+    import diretor
+    import sfx as SFX
     import vozes
-    elenco_vozes = vozes.Elenco(conteudo.get("elenco") or {})
-
-    segs_por_cena, spans_ref = [], []
-    for i, c in enumerate(cenas):
-        linhas = c.get("falas") or [{"quem": "narrador", "texto": c["fala"]}]
-        ss_cena, refs = [], []
-        for j, ln in enumerate(linhas):
-            quem = ln.get("quem") or "narrador"
-            voz, tom = elenco_vozes.voz(quem, c)
-            ss = sintetizar(ln["texto"], work / f"voz{i:03d}_{j}", voz=voz, tom=tom if quem != "narrador" else None)
-            ss_cena.extend(ss)
-            refs.append((len(ss_cena) - len(ss), len(ss_cena), quem))
-        segs_por_cena.append(ss_cena)
-        spans_ref.append(refs)
-    todos = [s for ss in segs_por_cena for s in ss]
-    inicios, env, dur_voz = R._montar_audio(todos, work / "voz.wav")
-
-    tempos_cena, k, spans_por_cena = [], 0, {}
-    for ci, ss in enumerate(segs_por_cena):
-        a = inicios[k]
-        base = k
-        spans = []
-        for (i0, i1, quem) in spans_ref[ci]:
-            sa = inicios[base + i0]
-            sb = inicios[base + i1] if base + i1 < len(inicios) else dur_voz
-            spans.append((sa, sb, quem))
-        spans_por_cena[ci] = spans
-        k += len(ss)
-        b = inicios[k] if k < len(inicios) else dur_voz
-        tempos_cena.append((a, b))
-    palavras = R._palavras_abs(todos, inicios)
+    try:   # narrador/narradora em rodizio, como nos Shorts
+        n_pub = len(json.loads((config.STATE_DIR / "videos.json").read_text(encoding="utf-8")))
+    except Exception:
+        n_pub = R.hash_seed(conteudo["id"], 1, 1)
+    feminino = conteudo.get("narradora") if conteudo.get("narradora") is not None else bool(n_pub % 2)
+    elenco_vozes = vozes.Elenco(conteudo.get("elenco") or {}, semente=conteudo["id"], feminino=feminino, n_pub=n_pub)
+    # o longo usa o MESMO diretor dos Shorts: batidas, camera no que e falado, entrada progressiva do elenco,
+    # eventos com tempo absoluto (nada se repete a cada corte) e legenda por frase
+    P = diretor.planejar(conteudo, sintetizar, elenco_vozes, work)
+    import qualidade
+    Q = qualidade.avaliar(conteudo, P)
+    for a in Q["avisos"]:
+        print(f"[qualidade] aviso: {a}", flush=True)
+    if Q["erros"]:
+        raise SystemExit("[qualidade] longo barrado antes do render: " + " | ".join(Q["erros"]))
+    dur_voz, tempos_cena, shots = P["dur_voz"], P["tempos_cena"], P["shots"]
     total = dur_voz + 1.6
-    shots = R3._linha_do_tempo(cenas, tempos_cena, spans_por_cena)
+    import dossie
+    bloqueios = [(0.0, 3.6)] + [(tempos_cena[i][0], tempos_cena[i][0] + 2.7) for i, c in enumerate(cenas) if c.get("ano")]
+    fichas = dossie.fichas(conteudo, P, bloqueios)
 
-    segmentos = musica_real.plano_por_cenas(cenas, tempos_cena, estilo.musica)
+    segmentos = musica_real.plano_por_cenas([c for c, _ in P["climas"]], [t for _, t in P["climas"]], estilo.musica)
     music_wav = work / "musica.wav"
     faixas = musica_real.gerar(total + 1, segmentos, str(music_wav), seed=R.hash_seed(conteudo["id"], 9, 9))
     if faixas is None:
         musica.gerar(total + 2, estilo.musica, str(music_wav), seed=R.hash_seed(conteudo["id"], 9, 9))
+    SFX.gerar_trilha(P["sfx"], total, str(work / "sfx.wav"), seed=R.hash_seed(conteudo["id"], 3, 3))
+    env = P["env"]
+    legendas = [{"palavras": [[w[0], w[1], w[2]] for w in L["palavras"]], "t0": L["t0"], "t1": L["t1"]} for L in P["legendas"]]
 
     plano = {
         "id": conteudo["id"], "total": total, "nframes": int(total * LFPS),
-        "shots": shots, "palavras": [[p[0], p[1], p[2]] for p in palavras],
+        "shots": shots, "legendas": legendas, "fichas": fichas,
+        "timeline": {"eventos": P["eventos"], "acoes": P["acoes"], "pov": P["pov"], "presenca": P.get("presenca"),
+                     "maosCor": conteudo.get("maos_cor")},
         "tempos_cena": tempos_cena, "env": [float(x) for x in env],
         "cenas": [{"ano": c.get("ano"), "ui": c.get("ui")} for c in cenas],
         "elenco": conteudo.get("elenco"), "formato": conteudo.get("formato"), "motor": conteudo.get("motor", "3d"),
         "titulo": conteudo.get("titulo_curto") or conteudo["titulo"], "episodio": conteudo.get("episodio"),
-        "estilo": estilo.nome,
+        "estilo": estilo.nome, "faixas": [list(f) if isinstance(f, tuple) else f for f in (faixas or [])],
         "capitulos": [(c.get("capitulo"), tempos_cena[i][0]) for i, c in enumerate(cenas) if c.get("capitulo")],
     }
     (work / "plano.json").write_text(json.dumps(plano, ensure_ascii=False), encoding="utf-8")
@@ -123,8 +117,13 @@ def trecho(id_: str, i: int, n: int, ate_quadro: int | None = None) -> Path:
     work = _work(id_)
     p = json.loads((work / "plano.json").read_text(encoding="utf-8"))
     nframes, shots, env = p["nframes"], p["shots"], p["env"]
-    palavras = [(a, b, c) for a, b, c in p["palavras"]]
-    blocos = R._blocos_legenda(palavras)
+    import diretor
+    import dossie
+    legendas = p.get("legendas")
+    if legendas is None:                                  # plano antigo (antes do diretor no longo)
+        legendas = [{"palavras": bl, "t0": bl[0][1] - 0.05, "t1": bl[-1][2] + 0.3}
+                    for bl in R._blocos_legenda([(a, b, c) for a, b, c in p["palavras"]])]
+    fichas = [(f, dossie.cartao(f)) for f in (p.get("fichas") or [])]
     tempos_cena = [tuple(x) for x in p["tempos_cena"]]
     cenas = p["cenas"]
     f0, f1 = _faixas_do_trecho(nframes, i, n)
@@ -147,7 +146,6 @@ def trecho(id_: str, i: int, n: int, ate_quadro: int | None = None) -> Path:
          "-i", "-", "-c:v", "libx264", "-preset", "veryfast", "-crf", "21", "-pix_fmt", "yuv420p", "-g", str(LFPS * 2),
          "-an", str(saida)], stdin=subprocess.PIPE)
 
-    bloco_idx = 0
     with sync_playwright() as pw:
         br = pw.chromium.launch(args=R3.FLAGS)
         dw, dh = (1920, 1080) if p.get("motor") == "2d" else (LW, LH)      # o motor 2D desenha em 1920x1080 e o quadro e reduzido
@@ -158,6 +156,9 @@ def trecho(id_: str, i: int, n: int, ate_quadro: int | None = None) -> Path:
         if p.get("elenco"):
             pg.evaluate("e => window.setElenco(e)", p["elenco"])
         pg.evaluate("s => window.setShots(s)", shots)
+        if p.get("timeline"):
+            pg.evaluate("tl => window.setTimeline && window.setTimeline(tl)", p["timeline"])
+        leg_idx = 0
         for fi in range(f0, f1):
             t = fi / LFPS
             ei = int(t * TAXA_ENV)
@@ -169,10 +170,12 @@ def trecho(id_: str, i: int, n: int, ate_quadro: int | None = None) -> Path:
                 frame = cv2.resize(frame, (LW, LH))
             frame = cv2.multiply(frame, vig, scale=1 / 255.0)
 
-            for s in shots:   # soco leve no corte
-                if s["t0"] <= t < s["t0"] + 0.12 and s["t0"] > 0.1:
-                    fl = 0.12 * (1 - (t - s["t0"]) / 0.12)
-                    frame = cv2.addWeighted(frame, 1 - fl, np.full_like(frame, 255), fl, 0)
+            for s in shots:   # chicote de camera: borrao de movimento no comeco do plano
+                if s["t0"] <= t < s["t1"]:
+                    if s.get("mov") == "chicote" and t - s["t0"] < 0.22 and s["t0"] > 0.1:
+                        frame = R3._borrao(frame, 1 - (t - s["t0"]) / 0.22)
+                    if s.get("transicao") == "porta" and t - s["t0"] < 0.75:
+                        frame = R.porta_abrindo(frame.copy(), (t - s["t0"]) / 0.75)
                     break
 
             for ci, (cena, (a0, b0)) in enumerate(zip(cenas, tempos_cena)):   # carimbo de ano
@@ -190,18 +193,28 @@ def trecho(id_: str, i: int, n: int, ate_quadro: int | None = None) -> Path:
                 sai = min(1.0, (3.5 - t) / 0.35)
                 R._blit(frame, barra, (LW - barra.width) // 2, int(LH * 0.05) + int((1 - ent) * -60), opac=min(ent, sai))
 
-            while bloco_idx < len(blocos) - 1 and t >= blocos[bloco_idx][-1][2] + 0.05 and t >= blocos[bloco_idx + 1][0][1] - 0.02:
-                bloco_idx += 1
-            bl = blocos[bloco_idx]
-            if bl[0][1] - 0.05 <= t <= bl[-1][2] + 0.35:
+            for f, im_f in fichas:     # ficha-dossie da pessoa real (zoom no personagem + cartao com nome/cargo)
+                if f["t0"] <= t <= f["t1"]:
+                    ent = min(1.0, (t - f["t0"]) / 0.3)
+                    sai = min(1.0, (f["t1"] - t) / 0.3)
+                    k = 0.62 * (0.9 + 0.1 * (1 - (1 - ent) ** 3))
+                    im = im_f.resize((int(im_f.width * k), int(im_f.height * k)), Image.BILINEAR)
+                    x = int(LW * (0.04 if f.get("lado", "esq") == "esq" else 0.96) - (0 if f.get("lado", "esq") == "esq" else im.width))
+                    R._blit(frame, im, x + int((1 - ent) * -80), int(LH * 0.22), opac=min(ent, sai))
+                    break
+
+            leg_idx, bl = diretor.legenda_em(legendas, t, leg_idx)
+            if bl is not None:
+                ws = bl["palavras"]
                 ativa = 0
-                for j, w in enumerate(bl):
+                for j, w in enumerate(ws):
                     if t >= w[1] - 0.02:
                         ativa = j
-                spr = R._chunk_sprite(tuple(x[0] for x in bl), ativa, (255, 214, 10), None, 58)
-                pop = 1.0 + 0.10 * max(0.0, 1 - (t - bl[ativa][1]) / 0.12)
+                spr = R._chunk_sprite(tuple(x[0] for x in ws), ativa, (255, 214, 10), None, 58)
+                pop = 1.0 + 0.10 * max(0.0, 1 - (t - ws[ativa][1]) / 0.12)
+                sai = min(1.0, (bl["t1"] - t) / 0.08)
                 im = spr if pop < 1.01 else spr.resize((int(spr.width * pop), int(spr.height * pop)), Image.BILINEAR)
-                R._blit(frame, im, (LW - im.width) // 2, int(LH * 0.86) - im.height // 2)
+                R._blit(frame, im, (LW - im.width) // 2, int(LH * 0.86) - im.height // 2, opac=max(0.0, sai))
 
             cv2.rectangle(frame, (0, 0), (int(LW * fi / nframes), 6), (255, 214, 10), -1)
             if t > 3.5:
@@ -229,11 +242,14 @@ def montar(id_: str, n: int, saida: Path) -> dict:
     video = work / "video.mp4"
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(lista), "-c", "copy", str(video)], check=True)
     subprocess.run(
-        ["ffmpeg", "-y", "-loglevel", "error", "-i", str(video), "-i", str(work / "voz.wav"), "-i", str(work / "musica.wav"),
-         "-filter_complex",
-         "[1:a]aresample=44100,aformat=channel_layouts=stereo,loudnorm=I=-15:TP=-1.5:LRA=9,apad[v];"
-         f"[2:a]aresample=44100,aformat=channel_layouts=stereo,loudnorm=I=-15:TP=-1.5:LRA=9,volume={R3.MUSICA_VOL}[m];"
-         "[v][m]amix=inputs=2:duration=first:normalize=0,alimiter=limit=0.95[a]",
+        ["ffmpeg", "-y", "-loglevel", "error", "-i", str(video), "-i", str(work / "voz.wav"), "-i", str(work / "musica.wav")]
+        + (["-i", str(work / "sfx.wav")] if (work / "sfx.wav").exists() else [])
+        + ["-filter_complex",
+         "[1:a]aresample=44100,aformat=channel_layouts=stereo,loudnorm=I=-15:TP=-1.5:LRA=9,apad,asplit=2[v][vk];"
+         f"[2:a]aresample=44100,aformat=channel_layouts=stereo,loudnorm=I=-15:TP=-1.5:LRA=9,volume={R3.MUSICA_VOL * 1.25:.3f}[m0];"
+         "[m0][vk]sidechaincompress=threshold=0.04:ratio=4:attack=15:release=350[m];"
+         + ("[3:a]aresample=44100,aformat=channel_layouts=stereo,volume=0.8[s];[v][m][s]amix=inputs=3:duration=first:normalize=0,alimiter=limit=0.95[a]"
+            if (work / "sfx.wav").exists() else "[v][m]amix=inputs=2:duration=first:normalize=0,alimiter=limit=0.95[a]"),
          "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart",
          "-t", f"{p['total']:.2f}", str(saida)], check=True)
     return {"duracao": p["total"], "capitulos": p.get("capitulos", [])}

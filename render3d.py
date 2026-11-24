@@ -167,9 +167,15 @@ def render_pov3d(conteudo: dict, out_path: Path, estilo_nome: str | None = None,
     except Exception:
         n_pub = R.hash_seed(conteudo["id"], 1, 1)
     feminino = conteudo.get("narradora") if conteudo.get("narradora") is not None else bool(n_pub % 2)
-    elenco_vozes = vozes.Elenco(conteudo.get("elenco") or {}, semente=conteudo["id"], feminino=feminino)
+    elenco_vozes = vozes.Elenco(conteudo.get("elenco") or {}, semente=conteudo["id"], feminino=feminino, n_pub=n_pub)
     print(f"[render3d] narracao: voz {'feminina' if feminino else 'masculina'} ({elenco_vozes.narrador[0]})", flush=True)
     P = diretor.planejar(conteudo, sintetizar, elenco_vozes, work)
+    import qualidade
+    Q = qualidade.avaliar(conteudo, P)
+    for a in Q["avisos"]:
+        print(f"[qualidade] aviso: {a}", flush=True)
+    if Q["erros"] and not os.environ.get("PLANOB_IGNORAR_QUALIDADE"):
+        raise SystemExit("[qualidade] video barrado antes do render: " + " | ".join(Q["erros"]))
     env, dur_voz, tempos_cena = P["env"], P["dur_voz"], P["tempos_cena"]
     shots, legendas = P["shots"], P["legendas"]
     longo = chamada_longo.info(conteudo)
@@ -209,7 +215,8 @@ def render_pov3d(conteudo: dict, out_path: Path, estilo_nome: str | None = None,
             pg.evaluate("e => window.setElenco(e)", conteudo["elenco"])
         pg.evaluate("s => window.setShots(s)", shots)
         pg.evaluate("tl => window.setTimeline && window.setTimeline(tl)",
-                    {"eventos": P["eventos"], "acoes": P["acoes"], "pov": P["pov"], "maosCor": conteudo.get("maos_cor")})
+                    {"eventos": P["eventos"], "acoes": P["acoes"], "pov": P["pov"], "maosCor": conteudo.get("maos_cor"),
+                     "presenca": P.get("presenca")})
         for fi in range(nframes):
             t = fi / FPS
             amp = float(env[min(fi, len(env) - 1)]) if fi < len(env) else 0.0
@@ -225,6 +232,8 @@ def render_pov3d(conteudo: dict, out_path: Path, estilo_nome: str | None = None,
                 if s["t0"] <= t < s["t1"]:
                     if s.get("mov") == "chicote" and t - s["t0"] < 0.22 and s["t0"] > 0.1:
                         frame = _borrao(frame, 1 - (t - s["t0"]) / 0.22)
+                    if s.get("transicao") == "porta" and t - s["t0"] < 0.75:
+                        frame = R.porta_abrindo(frame.copy(), (t - s["t0"]) / 0.75)
                     break
 
             # carta (UI dentro da cena)

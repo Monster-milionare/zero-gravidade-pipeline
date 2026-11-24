@@ -64,6 +64,14 @@ def _fila_valida():
         if r["erros"]:
             print(f"[programador] {c['id']} bloqueado pela coerencia (fica na fila): {r['erros'][0]}")
             continue
+        try:                       # inspetor de direcao (legenda, camera, historia construida) com voz falsa
+            import qualidade
+            q = qualidade.simular(c)
+            if q["erros"]:
+                print(f"[programador] {c['id']} bloqueado pela qualidade (fica na fila): {q['erros'][0]}")
+                continue
+        except Exception as exc:
+            print(f"[programador] qualidade de {c['id']} nao simulou ({str(exc)[:80]}); segue")
         ok.append(c)
     try:
         import diversidade
