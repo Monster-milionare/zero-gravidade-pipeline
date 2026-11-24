@@ -1,0 +1,105 @@
+name: Programar o dia (agenda todos os videos no YouTube)
+
+on:
+  schedule:
+    - cron: "10 8 * * *"    # 05h10 Brasilia: logo depois que a cota diaria do YouTube zera (meia-noite do Pacifico)
+    - cron: "45 8 * * *"    # reforco (o GitHub atrasa/pula agendados): so faz o que faltar
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: programar-dia
+  cancel-in-progress: false
+
+env:
+  TZ: America/Sao_Paulo
+
+jobs:
+  plano:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      shorts: ${{ steps.p.outputs.shorts }}
+      tem_shorts: ${{ steps.p.outputs.tem_shorts }}
+      longo: ${{ steps.p.outputs.longo }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Escolher os videos e os horarios do dia
+        id: p
+        run: python programador.py
+      - name: Salvar a agenda
+        run: |
+          git config user.name "canal-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -f state/agenda.json
+          git diff --cached --quiet || git commit -m "chore: agenda do dia"
+          for i in 1 2 3 4 5; do
+            if git push; then break; fi
+            git pull --rebase --autostash origin main || { python3 state_merge.py && GIT_EDITOR=true git rebase --continue; } || git rebase --abort
+            sleep 5
+          done
+
+  shorts:
+    needs: plano
+    if: needs.plano.outputs.tem_shorts == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        item: ${{ fromJson(needs.plano.outputs.shorts) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Garantir ffmpeg
+        run: |
+          which ffmpeg >/dev/null 2>&1 || (sudo apt-get update -y -qq && sudo apt-get install -y -qq ffmpeg)
+      - run: pip install -r requirements.txt
+      - name: Motor 2D/3D (Chromium headless + three.js)
+        run: |
+          python -m playwright install --with-deps chromium
+          (cd pov3d && npm install three@0.160.0 --no-audit --no-fund)
+      - name: Renderizar e agendar no YouTube
+        env:
+          YOUTUBE_TOKEN_JSON: ${{ secrets.YOUTUBE_TOKEN_JSON }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          printf '%s' "$YOUTUBE_TOKEN_JSON" > token.json
+          set +e
+          python publish.py --id "${{ matrix.item.id }}" --publicar-em "${{ matrix.item.quando }}"
+          COD=$?
+          rm -f token.json
+          git config user.name "canal-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -f state/*.json 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "chore: video agendado ${{ matrix.item.id }}"
+          for i in 1 2 3 4 5 6; do
+            if git push; then break; fi
+            git pull --rebase --autostash origin main || { python3 state_merge.py && GIT_EDITOR=true git rebase --continue; } || git rebase --abort
+            sleep $((RANDOM % 9 + 3))
+          done
+          exit $COD
+
+  longo:
+    needs: plano
+    if: needs.plano.outputs.longo != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disparar o render do longo (ele sobe agendado pela agenda do dia)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run longo.yml -R "${{ github.repository }}" -f id="${{ needs.plano.outputs.longo }}" -f publicar=true
