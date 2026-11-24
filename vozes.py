@@ -1,22 +1,39 @@
-"""Vozes: narrador + uma voz fixa por personagem (edge-tts, gratis).
+"""Vozes: narrador + uma voz fixa por personagem (edge-tts, gratis), com MAIS variedade entre videos.
 
-Cada papel (cabral, rei, cidada...) recebe UMA voz e UM tom, o mesmo em todas as cenas do video.
+- O narrador muda de video pra video (sorteio estavel pelo id): Macerio, Thalita, Antonio ou Francisca.
+- Cada papel (cabral, exploradora, guia...) recebe UMA voz e UM tom, o mesmo em todas as cenas do video,
+  diferente da do narrador. SO vozes com sotaque brasileiro (Antonio, Macerio, Francisca, Thalita); a variedade
+  entre personagens vem do tom.
 Se uma voz sumir do catalogo, tts.py cai sozinho para a voz padrao (o video nunca para).
 """
-FEMININOS = {"rainha", "cidada", "cleopatra", "isabel", "cidada-berlim", "cidada-berlim2", "exploradora", "bebe-tricera"}
-GRAVES = {"rei", "imperador", "cabral", "general-romano", "faraoh", "viking", "napoleao"}   # tom mais grave
-AGUDOS = {"cidadao2", "marujo2", "nativo3", "newton"}                                       # tom mais agudo
+import hashlib
 
-NARRADOR = ("pt-BR-MacerioMultilingualNeural", "-1Hz")
-MASCULINAS = [("pt-BR-AntonioNeural", "+0Hz"), ("pt-PT-DuarteNeural", "+0Hz"), ("pt-BR-AntonioNeural", "-6Hz"),
-              ("pt-PT-DuarteNeural", "+8Hz"), ("pt-BR-AntonioNeural", "+7Hz")]
-FEMININAS = [("pt-BR-FranciscaNeural", "+0Hz"), ("pt-BR-ThalitaMultilingualNeural", "+0Hz"), ("pt-PT-RaquelNeural", "+0Hz"),
-             ("pt-BR-FranciscaNeural", "+6Hz")]
+FEMININOS = {"rainha", "cidada", "cleopatra", "isabel", "cidada-berlim", "cidada-berlim2", "exploradora", "bebe-tricera",
+             "passageira", "telefonista"}
+GRAVES = {"rei", "imperador", "cabral", "general-romano", "faraoh", "viking", "napoleao", "guia", "oficial", "capitao"}
+AGUDOS = {"cidadao2", "marujo2", "nativo3", "newton", "bebe-tricera", "menino"}
+
+NARRADORES = [("pt-BR-MacerioMultilingualNeural", "-1Hz"), ("pt-BR-ThalitaMultilingualNeural", "+0Hz"),
+              ("pt-BR-MacerioMultilingualNeural", "-3Hz"), ("pt-BR-AntonioNeural", "-2Hz"), ("pt-BR-FranciscaNeural", "+0Hz")]
+NARRADOR = NARRADORES[0]
+NARRADORES_M = [("pt-BR-MacerioMultilingualNeural", "-1Hz"), ("pt-BR-AntonioNeural", "-2Hz"), ("pt-BR-MacerioMultilingualNeural", "-3Hz")]
+NARRADORES_F = [("pt-BR-ThalitaMultilingualNeural", "+0Hz"), ("pt-BR-FranciscaNeural", "+0Hz")]
+# SO sotaque brasileiro (pedido do Andre): as vozes "Multilingual" estrangeiras e a de Portugal saiam com sotaque.
+# A variedade entre personagens vem do tom (Hz) de cada um.
+MASCULINAS = [("pt-BR-AntonioNeural", "+0Hz"), ("pt-BR-MacerioMultilingualNeural", "+4Hz"), ("pt-BR-AntonioNeural", "-6Hz"),
+              ("pt-BR-MacerioMultilingualNeural", "-5Hz"), ("pt-BR-AntonioNeural", "+7Hz")]
+FEMININAS = [("pt-BR-FranciscaNeural", "+0Hz"), ("pt-BR-ThalitaMultilingualNeural", "+3Hz"), ("pt-BR-FranciscaNeural", "+6Hz"),
+             ("pt-BR-ThalitaMultilingualNeural", "-4Hz")]
+PORTUGUESES = set()       # todos com sotaque brasileiro
 
 
 def _hz(base: str, extra: int) -> str:
     n = int(base.replace("Hz", "")) + extra
     return f"{n:+d}Hz"
+
+
+def _h(txt: str) -> int:
+    return int(hashlib.md5(txt.encode()).hexdigest()[:8], 16)
 
 
 def papel_de(quem: str, cena: dict, elenco: dict) -> str:
@@ -32,23 +49,38 @@ def papel_de(quem: str, cena: dict, elenco: dict) -> str:
 
 
 class Elenco:
-    def __init__(self, elenco: dict):
+    def __init__(self, elenco: dict, semente: str = "", feminino=None):
+        """feminino: True/False alterna narradora/narrador entre videos (pedido do Andre); None = sorteio pelo id."""
         self.elenco = elenco
         self.por_papel = {}
+        self.semente = semente or "planob"
+        lista = NARRADORES if feminino is None else (NARRADORES_F if feminino else NARRADORES_M)
+        self.narrador = (elenco.get("narrador_voz") and (elenco["narrador_voz"], "+0Hz")) or lista[_h(self.semente) % len(lista)]
+        k = _h(self.semente + "m")
+        self.masc = MASCULINAS[k % len(MASCULINAS):] + MASCULINAS[:k % len(MASCULINAS)]
+        k = _h(self.semente + "f")
+        self.fem = FEMININAS[k % len(FEMININAS):] + FEMININAS[:k % len(FEMININAS)]
         self.nm = self.nf = 0
+
+    def _proxima(self, lista, idx):
+        """proxima voz da lista, de preferencia diferente da do narrador (e se for a mesma, com tom bem diferente)."""
+        for k in range(len(lista)):
+            v = lista[(idx + k) % len(lista)]
+            if v[0] != self.narrador[0]:
+                return v, idx + k + 1
+        v = lista[idx % len(lista)]
+        return (v[0], _hz(v[1], 6)), idx + 1
 
     def voz(self, quem: str, cena: dict):
         """-> (voz, tom_Hz) para quem fala nessa cena."""
         if quem in ("", "narrador", None):
-            return NARRADOR
+            return self.narrador
         papel = papel_de(quem, cena, self.elenco).replace("-traje", "")     # mesma pessoa = mesma voz, com ou sem traje
         if papel not in self.por_papel:
             if papel in FEMININOS:
-                v = FEMININAS[self.nf % len(FEMININAS)]
-                self.nf += 1
+                v, self.nf = self._proxima(self.fem, self.nf)
             else:
-                v = MASCULINAS[self.nm % len(MASCULINAS)]
-                self.nm += 1
-            extra = -4 if papel in GRAVES else 5 if papel in AGUDOS else 0
+                v, self.nm = self._proxima(self.masc, self.nm)
+            extra = -4 if papel in GRAVES else 6 if papel in AGUDOS else 0
             self.por_papel[papel] = (v[0], _hz(v[1], extra))
         return self.por_papel[papel]

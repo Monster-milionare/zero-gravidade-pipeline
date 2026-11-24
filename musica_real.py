@@ -15,8 +15,10 @@ import numpy as np
 import config
 
 SR = 44100
-CLIMAS = ("triste", "epica", "animada", "tensa")
-EMOCAO_CLIMA = {"feliz": "animada", "preocupado": "triste", "surpreso": "epica"}
+CLIMAS = ("triste", "epica", "animada", "tensa", "misterio", "aventura")
+EMOCAO_CLIMA = {"feliz": "animada", "preocupado": "triste", "surpreso": "epica", "misterioso": "misterio", "tenso": "tensa"}
+# clima sem faixa disponivel cai no vizinho mais parecido
+VIZINHO = {"misterio": ["tensa", "triste"], "aventura": ["epica", "animada"], "tensa": ["misterio", "epica"], "epica": ["aventura"], "triste": ["misterio"], "animada": ["aventura"]}
 BASE_DO_ESTILO = {"epica": "epica", "misteriosa": "tensa", "tensa": "tensa", "leve": "animada"}
 UA = "ZeroGravidadeBR/1.0 (canal educativo de YouTube; contato.luard@gmail.com)"
 PASTA = config.CACHE_DIR / "musica"
@@ -40,20 +42,29 @@ def _locais(clima: str):
             for p in sorted(pasta.iterdir()) if p.suffix.lower() in (".mp3", ".ogg", ".wav", ".flac", ".m4a")]
 
 
+_HOSTS_RUINS = set()     # host que falhou nesta execucao nao e tentado de novo (evita esperar timeout em cada faixa)
+
+
 def _baixar(item: dict) -> Path | None:
     if item.get("local"):
         return Path(item["arquivo"])
+    from urllib.parse import urlparse
+    host = urlparse(item.get("url") or "https://commons.wikimedia.org").netloc
+    if host in _HOSTS_RUINS:
+        return None
     PASTA.mkdir(parents=True, exist_ok=True)
     nome = hashlib.md5(item["arquivo"].encode()).hexdigest()[:12] + Path(item["arquivo"]).suffix.lower()
     destino = PASTA / nome
     if destino.exists() and destino.stat().st_size > 100_000:
         return destino
     import requests
-    url = "https://commons.wikimedia.org/wiki/Special:FilePath/" + quote(item["arquivo"])
+    url = item.get("url") or ("https://commons.wikimedia.org/wiki/Special:FilePath/" + quote(item["arquivo"]))
     try:
-        with requests.get(url, headers={"User-Agent": UA}, stream=True, timeout=60, allow_redirects=True) as r:
+        with requests.get(url, headers={"User-Agent": UA}, stream=True, timeout=25, allow_redirects=True) as r:
             if r.status_code != 200:
                 print(f"[musica] {item['titulo']}: HTTP {r.status_code}", flush=True)
+                if r.status_code in (403, 429) or r.status_code >= 500:
+                    _HOSTS_RUINS.add(host)
                 return None
             tmp = destino.with_suffix(destino.suffix + ".part")
             with open(tmp, "wb") as f:
@@ -66,6 +77,7 @@ def _baixar(item: dict) -> Path | None:
         return destino
     except Exception as exc:
         print(f"[musica] {item['titulo']}: falhou ({str(exc)[:80]})", flush=True)
+        _HOSTS_RUINS.add(host)
         return None
 
 
@@ -141,8 +153,10 @@ def gerar(total: float, segmentos, saida: str, seed: int = 0):
         fim = min(total + 1, t1 + CROSSFADE * 0.65) if t1 < total else total + 1
         dur = fim - ini
         opcoes = _locais(clima) + [dict(x) for x in cat.get(clima, [])]
+        for viz in VIZINHO.get(clima, []):
+            opcoes += [dict(x, _viz=True) for x in _locais(viz) + cat.get(viz, [])]
         rng.shuffle(opcoes)
-        opcoes.sort(key=lambda x: (x["arquivo"] in usadas, not x.get("local", False)))
+        opcoes.sort(key=lambda x: (x["arquivo"] in usadas, x.get("_viz", False), not x.get("local", False), not x.get("url")))
         audio, escolhido = None, None
         for item in opcoes:
             arq = _baixar(item)
@@ -178,7 +192,7 @@ def gerar(total: float, segmentos, saida: str, seed: int = 0):
         i0 = int(ini * SR)
         i1 = min(n_total, i0 + n)
         mix[i0:i1] += trecho[: i1 - i0] * env[: i1 - i0, None]
-        resultado.append((clima, escolhido["titulo"]))
+        resultado.append((clima, escolhido["titulo"], escolhido.get("credito", "")))
         print(f"[musica] {ini:5.1f}-{fim:5.1f}s {clima:8s} <- {escolhido['titulo']}", flush=True)
     if not resultado:
         return None

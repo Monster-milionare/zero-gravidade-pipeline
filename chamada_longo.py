@@ -17,7 +17,15 @@ def info(c: dict):
         pubs = json.loads((config.STATE_DIR / "publicados.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return None
-    vid = next((d.get("video_id") for d in pubs if d.get("id") == lid and d.get("video_id")), None)
+    from datetime import datetime, timezone
+    ref = datetime.fromisoformat(c["_publicar_em"]) if c.get("_publicar_em") else datetime.now(timezone.utc)
+
+    def no_ar(d):   # longo agendado so conta se ja estiver publico quando este Short for ao ar
+        try:
+            return datetime.fromisoformat(d["publicado_em"]) <= ref
+        except Exception:
+            return True
+    vid = next((d.get("video_id") for d in pubs if d.get("id") == lid and d.get("video_id") and no_ar(d)), None)
     if not vid:
         return None
     chamada = c.get("longo_chamada")

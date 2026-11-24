@@ -1,31 +1,419 @@
 {
- "_nota": "Gravacoes de dominio publico ou CC0 do Wikimedia Commons (nome do arquivo no Commons). Para usar suas proprias faixas, coloque mp3/ogg/wav em assets/musica/<clima>/ - elas tem prioridade.",
+ "_nota": "Faixas: (1) suas, em assets/musica/<clima>/ (prioridade maxima); (2) Kevin MacLeod (incompetech.com), licenca Creative Commons BY 4.0 - o credito entra sozinho na descricao do video; (3) gravacoes de dominio publico/CC0 do Wikimedia Commons.",
  "triste": [
-  {"arquivo": "Gymnopedie No. 1..ogg", "titulo": "Satie - Gymnopedie No. 1"},
-  {"arquivo": "Moonlight Sonata.ogg", "titulo": "Beethoven - Sonata ao Luar"},
-  {"arquivo": "Ludwig van Beethoven - sonata no. 14 in c sharp minor 'moonlight', op. 27 no. 2 - i. adagio sostenuto.ogg", "titulo": "Beethoven - Sonata ao Luar, 1o mov."},
-  {"arquivo": "Chopin - Nocturne No. 7 in C-sharp minor, Op. 27 No. 1 (Luke Faulkner).flac", "titulo": "Chopin - Noturno Op. 27 No. 1"},
-  {"arquivo": "Mozart - Requiem (Krips) - VIII. Lacrimosa.flac", "titulo": "Mozart - Lacrimosa (Requiem)"},
-  {"arquivo": "Air (Bach).ogg", "titulo": "Bach - Air"},
-  {"arquivo": "Funeral March Chopin Op 72 2.ogg", "titulo": "Chopin - Marcha Funebre"}
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Sad%20Trio.mp3",
+   "arquivo": "incompetech-Sad Trio.mp3",
+   "titulo": "Sad Trio - Kevin MacLeod",
+   "credito": "\"Sad Trio\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Heartbreaking.mp3",
+   "arquivo": "incompetech-Heartbreaking.mp3",
+   "titulo": "Heartbreaking - Kevin MacLeod",
+   "credito": "\"Heartbreaking\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Despair%20and%20Triumph.mp3",
+   "arquivo": "incompetech-Despair and Triumph.mp3",
+   "titulo": "Despair and Triumph - Kevin MacLeod",
+   "credito": "\"Despair and Triumph\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/At%20Rest.mp3",
+   "arquivo": "incompetech-At Rest.mp3",
+   "titulo": "At Rest - Kevin MacLeod",
+   "credito": "\"At Rest\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Bittersweet.mp3",
+   "arquivo": "incompetech-Bittersweet.mp3",
+   "titulo": "Bittersweet - Kevin MacLeod",
+   "credito": "\"Bittersweet\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Dreams%20Become%20Real.mp3",
+   "arquivo": "incompetech-Dreams Become Real.mp3",
+   "titulo": "Dreams Become Real - Kevin MacLeod",
+   "credito": "\"Dreams Become Real\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Lasting%20Hope.mp3",
+   "arquivo": "incompetech-Lasting Hope.mp3",
+   "titulo": "Lasting Hope - Kevin MacLeod",
+   "credito": "\"Lasting Hope\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Healing.mp3",
+   "arquivo": "incompetech-Healing.mp3",
+   "titulo": "Healing - Kevin MacLeod",
+   "credito": "\"Healing\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Dreamer.mp3",
+   "arquivo": "incompetech-Dreamer.mp3",
+   "titulo": "Dreamer - Kevin MacLeod",
+   "credito": "\"Dreamer\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "arquivo": "Gymnopedie No. 1..ogg",
+   "titulo": "Satie - Gymnopedie No. 1"
+  },
+  {
+   "arquivo": "Moonlight Sonata.ogg",
+   "titulo": "Beethoven - Sonata ao Luar"
+  },
+  {
+   "arquivo": "Ludwig van Beethoven - sonata no. 14 in c sharp minor 'moonlight', op. 27 no. 2 - i. adagio sostenuto.ogg",
+   "titulo": "Beethoven - Sonata ao Luar, 1o mov."
+  },
+  {
+   "arquivo": "Chopin - Nocturne No. 7 in C-sharp minor, Op. 27 No. 1 (Luke Faulkner).flac",
+   "titulo": "Chopin - Noturno Op. 27 No. 1"
+  },
+  {
+   "arquivo": "Mozart - Requiem (Krips) - VIII. Lacrimosa.flac",
+   "titulo": "Mozart - Lacrimosa (Requiem)"
+  },
+  {
+   "arquivo": "Air (Bach).ogg",
+   "titulo": "Bach - Air"
+  },
+  {
+   "arquivo": "Funeral March Chopin Op 72 2.ogg",
+   "titulo": "Chopin - Marcha Funebre"
+  }
  ],
  "epica": [
-  {"arquivo": "Holst- mars.ogg", "titulo": "Holst - Marte, o Portador da Guerra"},
-  {"arquivo": "Pyotr Ilyich Tchaikovsky - 1812 overture.ogg", "titulo": "Tchaikovsky - Abertura 1812"},
-  {"arquivo": "Ludwig van Beethoven - Symphonie 5 c-moll - 1. Allegro con brio.ogg", "titulo": "Beethoven - Sinfonia no 5"},
-  {"arquivo": "Richard Wagner - Ride of the Valkyries.ogg", "titulo": "Wagner - Cavalgada das Valquirias"}
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Heroic%20Age.mp3",
+   "arquivo": "incompetech-Heroic Age.mp3",
+   "titulo": "Heroic Age - Kevin MacLeod",
+   "credito": "\"Heroic Age\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Five%20Armies.mp3",
+   "arquivo": "incompetech-Five Armies.mp3",
+   "titulo": "Five Armies - Kevin MacLeod",
+   "credito": "\"Five Armies\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Clash%20Defiant.mp3",
+   "arquivo": "incompetech-Clash Defiant.mp3",
+   "titulo": "Clash Defiant - Kevin MacLeod",
+   "credito": "\"Clash Defiant\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Curse%20of%20the%20Scarab.mp3",
+   "arquivo": "incompetech-Curse of the Scarab.mp3",
+   "titulo": "Curse of the Scarab - Kevin MacLeod",
+   "credito": "\"Curse of the Scarab\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Achilles.mp3",
+   "arquivo": "incompetech-Achilles.mp3",
+   "titulo": "Achilles - Kevin MacLeod",
+   "credito": "\"Achilles\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Prelude%20and%20Action.mp3",
+   "arquivo": "incompetech-Prelude and Action.mp3",
+   "titulo": "Prelude and Action - Kevin MacLeod",
+   "credito": "\"Prelude and Action\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Stormfront.mp3",
+   "arquivo": "incompetech-Stormfront.mp3",
+   "titulo": "Stormfront - Kevin MacLeod",
+   "credito": "\"Stormfront\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Grim%20Idol.mp3",
+   "arquivo": "incompetech-Grim Idol.mp3",
+   "titulo": "Grim Idol - Kevin MacLeod",
+   "credito": "\"Grim Idol\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Exhilarate.mp3",
+   "arquivo": "incompetech-Exhilarate.mp3",
+   "titulo": "Exhilarate - Kevin MacLeod",
+   "credito": "\"Exhilarate\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Hero%20Down.mp3",
+   "arquivo": "incompetech-Hero Down.mp3",
+   "titulo": "Hero Down - Kevin MacLeod",
+   "credito": "\"Hero Down\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "arquivo": "Holst- mars.ogg",
+   "titulo": "Holst - Marte, o Portador da Guerra"
+  },
+  {
+   "arquivo": "Pyotr Ilyich Tchaikovsky - 1812 overture.ogg",
+   "titulo": "Tchaikovsky - Abertura 1812"
+  },
+  {
+   "arquivo": "Ludwig van Beethoven - Symphonie 5 c-moll - 1. Allegro con brio.ogg",
+   "titulo": "Beethoven - Sinfonia no 5"
+  },
+  {
+   "arquivo": "Richard Wagner - Ride of the Valkyries.ogg",
+   "titulo": "Wagner - Cavalgada das Valquirias"
+  }
  ],
  "animada": [
-  {"arquivo": "Free Tim - Vivaldos Spring from the Four Seasons-Allegro.ogg", "titulo": "Vivaldi - Primavera"},
-  {"arquivo": "Gioachino Rossini, William Tell Overture (military band version, 2000).ogg", "titulo": "Rossini - Guilherme Tell"},
-  {"arquivo": "Jacques Offenbach - Galop Infernal from Orpheus in the Underworld (Can Can) (1858).ogg", "titulo": "Offenbach - Can-Can"},
-  {"arquivo": "Radetzky March.ogg", "titulo": "Strauss - Marcha Radetzky"},
-  {"arquivo": "Rondo Alla Turka.ogg", "titulo": "Mozart - Marcha Turca"}
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Carefree.mp3",
+   "arquivo": "incompetech-Carefree.mp3",
+   "titulo": "Carefree - Kevin MacLeod",
+   "credito": "\"Carefree\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Monkeys%20Spinning%20Monkeys.mp3",
+   "arquivo": "incompetech-Monkeys Spinning Monkeys.mp3",
+   "titulo": "Monkeys Spinning Monkeys - Kevin MacLeod",
+   "credito": "\"Monkeys Spinning Monkeys\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Fluffing%20a%20Duck.mp3",
+   "arquivo": "incompetech-Fluffing a Duck.mp3",
+   "titulo": "Fluffing a Duck - Kevin MacLeod",
+   "credito": "\"Fluffing a Duck\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Sneaky%20Snitch.mp3",
+   "arquivo": "incompetech-Sneaky Snitch.mp3",
+   "titulo": "Sneaky Snitch - Kevin MacLeod",
+   "credito": "\"Sneaky Snitch\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Wallpaper.mp3",
+   "arquivo": "incompetech-Wallpaper.mp3",
+   "titulo": "Wallpaper - Kevin MacLeod",
+   "credito": "\"Wallpaper\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Bumbly%20March.mp3",
+   "arquivo": "incompetech-Bumbly March.mp3",
+   "titulo": "Bumbly March - Kevin MacLeod",
+   "credito": "\"Bumbly March\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "arquivo": "Free Tim - Vivaldos Spring from the Four Seasons-Allegro.ogg",
+   "titulo": "Vivaldi - Primavera"
+  },
+  {
+   "arquivo": "Gioachino Rossini, William Tell Overture (military band version, 2000).ogg",
+   "titulo": "Rossini - Guilherme Tell"
+  },
+  {
+   "arquivo": "Jacques Offenbach - Galop Infernal from Orpheus in the Underworld (Can Can) (1858).ogg",
+   "titulo": "Offenbach - Can-Can"
+  },
+  {
+   "arquivo": "Radetzky March.ogg",
+   "titulo": "Strauss - Marcha Radetzky"
+  },
+  {
+   "arquivo": "Rondo Alla Turka.ogg",
+   "titulo": "Mozart - Marcha Turca"
+  }
  ],
  "tensa": [
-  {"arquivo": "Toccata et Fugue BWV565.ogg", "titulo": "Bach - Tocata e Fuga"},
-  {"arquivo": "Modest Mussorgsky - night on bald mountain.ogg", "titulo": "Mussorgsky - Noite no Monte Calvo"},
-  {"arquivo": "Grieg - Peer Gynt Suite No. 1, Op. 46 - IV. In the Hall of the Mountain King (Musopen Symphony).flac", "titulo": "Grieg - Na Gruta do Rei da Montanha"},
-  {"arquivo": "Saint-Saëns - Danse macabre (Fourestier, 1953).flac", "titulo": "Saint-Saens - Danca Macabra"}
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Darkling.mp3",
+   "arquivo": "incompetech-Darkling.mp3",
+   "titulo": "Darkling - Kevin MacLeod",
+   "credito": "\"Darkling\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Dark%20Fog.mp3",
+   "arquivo": "incompetech-Dark Fog.mp3",
+   "titulo": "Dark Fog - Kevin MacLeod",
+   "credito": "\"Dark Fog\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Gathering%20Darkness.mp3",
+   "arquivo": "incompetech-Gathering Darkness.mp3",
+   "titulo": "Gathering Darkness - Kevin MacLeod",
+   "credito": "\"Gathering Darkness\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Unseen%20Horrors.mp3",
+   "arquivo": "incompetech-Unseen Horrors.mp3",
+   "titulo": "Unseen Horrors - Kevin MacLeod",
+   "credito": "\"Unseen Horrors\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Volatile%20Reaction.mp3",
+   "arquivo": "incompetech-Volatile Reaction.mp3",
+   "titulo": "Volatile Reaction - Kevin MacLeod",
+   "credito": "\"Volatile Reaction\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Long%20Note%20Four.mp3",
+   "arquivo": "incompetech-Long Note Four.mp3",
+   "titulo": "Long Note Four - Kevin MacLeod",
+   "credito": "\"Long Note Four\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Oppressive%20Gloom.mp3",
+   "arquivo": "incompetech-Oppressive Gloom.mp3",
+   "titulo": "Oppressive Gloom - Kevin MacLeod",
+   "credito": "\"Oppressive Gloom\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Lightless%20Dawn.mp3",
+   "arquivo": "incompetech-Lightless Dawn.mp3",
+   "titulo": "Lightless Dawn - Kevin MacLeod",
+   "credito": "\"Lightless Dawn\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Hitman.mp3",
+   "arquivo": "incompetech-Hitman.mp3",
+   "titulo": "Hitman - Kevin MacLeod",
+   "credito": "\"Hitman\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Echoes%20of%20Time%20v2.mp3",
+   "arquivo": "incompetech-Echoes of Time v2.mp3",
+   "titulo": "Echoes of Time v2 - Kevin MacLeod",
+   "credito": "\"Echoes of Time v2\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Crypto.mp3",
+   "arquivo": "incompetech-Crypto.mp3",
+   "titulo": "Crypto - Kevin MacLeod",
+   "credito": "\"Crypto\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "arquivo": "Toccata et Fugue BWV565.ogg",
+   "titulo": "Bach - Tocata e Fuga"
+  },
+  {
+   "arquivo": "Modest Mussorgsky - night on bald mountain.ogg",
+   "titulo": "Mussorgsky - Noite no Monte Calvo"
+  },
+  {
+   "arquivo": "Grieg - Peer Gynt Suite No. 1, Op. 46 - IV. In the Hall of the Mountain King (Musopen Symphony).flac",
+   "titulo": "Grieg - Na Gruta do Rei da Montanha"
+  },
+  {
+   "arquivo": "Saint-Saëns - Danse macabre (Fourestier, 1953).flac",
+   "titulo": "Saint-Saens - Danca Macabra"
+  }
+ ],
+ "misterio": [
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Comfortable%20Mystery.mp3",
+   "arquivo": "incompetech-Comfortable Mystery.mp3",
+   "titulo": "Comfortable Mystery - Kevin MacLeod",
+   "credito": "\"Comfortable Mystery\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Investigations.mp3",
+   "arquivo": "incompetech-Investigations.mp3",
+   "titulo": "Investigations - Kevin MacLeod",
+   "credito": "\"Investigations\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Spy%20Glass.mp3",
+   "arquivo": "incompetech-Spy Glass.mp3",
+   "titulo": "Spy Glass - Kevin MacLeod",
+   "credito": "\"Spy Glass\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Cipher.mp3",
+   "arquivo": "incompetech-Cipher.mp3",
+   "titulo": "Cipher - Kevin MacLeod",
+   "credito": "\"Cipher\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Ghost%20Story.mp3",
+   "arquivo": "incompetech-Ghost Story.mp3",
+   "titulo": "Ghost Story - Kevin MacLeod",
+   "credito": "\"Ghost Story\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Floating%20Cities.mp3",
+   "arquivo": "incompetech-Floating Cities.mp3",
+   "titulo": "Floating Cities - Kevin MacLeod",
+   "credito": "\"Floating Cities\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Mesmerize.mp3",
+   "arquivo": "incompetech-Mesmerize.mp3",
+   "titulo": "Mesmerize - Kevin MacLeod",
+   "credito": "\"Mesmerize\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Infinite%20Perspective.mp3",
+   "arquivo": "incompetech-Infinite Perspective.mp3",
+   "titulo": "Infinite Perspective - Kevin MacLeod",
+   "credito": "\"Infinite Perspective\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Lost%20Frontier.mp3",
+   "arquivo": "incompetech-Lost Frontier.mp3",
+   "titulo": "Lost Frontier - Kevin MacLeod",
+   "credito": "\"Lost Frontier\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Night%20Cave.mp3",
+   "arquivo": "incompetech-Night Cave.mp3",
+   "titulo": "Night Cave - Kevin MacLeod",
+   "credito": "\"Night Cave\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  }
+ ],
+ "aventura": [
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Crossing%20the%20Chasm.mp3",
+   "arquivo": "incompetech-Crossing the Chasm.mp3",
+   "titulo": "Crossing the Chasm - Kevin MacLeod",
+   "credito": "\"Crossing the Chasm\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Adventure%20Meme.mp3",
+   "arquivo": "incompetech-Adventure Meme.mp3",
+   "titulo": "Adventure Meme - Kevin MacLeod",
+   "credito": "\"Adventure Meme\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Rhinoceros.mp3",
+   "arquivo": "incompetech-Rhinoceros.mp3",
+   "titulo": "Rhinoceros - Kevin MacLeod",
+   "credito": "\"Rhinoceros\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Thatched%20Villagers.mp3",
+   "arquivo": "incompetech-Thatched Villagers.mp3",
+   "titulo": "Thatched Villagers - Kevin MacLeod",
+   "credito": "\"Thatched Villagers\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Master%20of%20the%20Feast.mp3",
+   "arquivo": "incompetech-Master of the Feast.mp3",
+   "titulo": "Master of the Feast - Kevin MacLeod",
+   "credito": "\"Master of the Feast\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Bumbly%20March.mp3",
+   "arquivo": "incompetech-Bumbly March.mp3",
+   "titulo": "Bumbly March - Kevin MacLeod",
+   "credito": "\"Bumbly March\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Achilles.mp3",
+   "arquivo": "incompetech-Achilles.mp3",
+   "titulo": "Achilles - Kevin MacLeod",
+   "credito": "\"Achilles\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Curse%20of%20the%20Scarab.mp3",
+   "arquivo": "incompetech-Curse of the Scarab.mp3",
+   "titulo": "Curse of the Scarab - Kevin MacLeod",
+   "credito": "\"Curse of the Scarab\" Kevin MacLeod (incompetech.com) - Licensed under Creative Commons: By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/"
+  }
  ]
 }

@@ -47,8 +47,15 @@ PAPEIS_ESPACO = {"astronauta", "cientista"}
 HORAS_EQ = {"amanhecer": "manha", "madrugada": "noite", "entardecer": "tarde", "manha": "manha", "dia": "dia", "tarde": "tarde", "noite": "noite"}
 
 
+def _falas(c):
+    """falas da cena: as do formato novo (beats) ou as antigas."""
+    if c.get("beats"):
+        return [{"quem": b.get("quem") or "narrador", "texto": b.get("texto", "")} for b in c["beats"] if (b.get("texto") or "").strip()]
+    return c.get("falas") or []
+
+
 def _texto_cena(c):
-    t = " ".join(l.get("texto", "") for l in (c.get("falas") or []))
+    t = " ".join(l.get("texto", "") for l in _falas(c))
     return cenografo._norm(t or c.get("fala", ""))
 
 
@@ -88,7 +95,7 @@ def validar(conteudo: dict) -> dict:
     for i, cena in enumerate(c["cenas"]):
         amb = cena.get("amb")
         txt = _texto_cena(cena)
-        if not (cena.get("fala") or cena.get("falas")):
+        if not (cena.get("fala") or _falas(cena)):
             E(i, "cena sem fala")
         # 1. existencia do cenario / efeito
         if not _amb_valido(amb, motor):
@@ -114,7 +121,7 @@ def validar(conteudo: dict) -> dict:
         if motor == "2d":
             n_f = 0 if info2.get("vazio") else min(len(lista_f(amb)), info2["max_f"])
             presentes = set() if info2.get("vazio") else {"prot"} | {f"f{k}" for k in range(n_f)}
-            for ln in cena.get("falas") or []:
+            for ln in _falas(cena):
                 q = ln.get("quem") or "narrador"
                 if q in ("narrador", "radio"):
                     continue
@@ -128,6 +135,30 @@ def validar(conteudo: dict) -> dict:
                     E(i, f"camera '{cam}' sem protagonista em '{amb}'")
             if fx and info2.get("vazio") and cena.get("falante") not in (None, "", "narrador"):
                 E(i, f"'{amb}' nao tem personagens e a cena tem falante '{cena.get('falante')}'")
+        # 3b. direcao (formato novo): alvo de camera, trajetorias e gestos tem que existir no cenario
+        if cena.get("beats"):
+            pontos = cat.PONTOS.get(amb, set())
+            ents = cat.ENTIDADES.get(amb, set())
+            n_f = len(lista_f(amb))
+            pessoas = {"prot"} | {f"f{k}" for k in range(n_f)}
+            for bi, b in enumerate(cena["beats"]):
+                alvo = b.get("cam") or "ampla"
+                if alvo not in pontos | ents | pessoas | cat.ALVOS_GERAIS and not re.fullmatch(r"(eu-\w+|f\dc|pov[\w-]*|alto)", alvo):
+                    E(i, f"batida {bi}: camera para '{alvo}', que nao existe em '{amb}'")
+                if not (b.get("texto") or "").strip() and not b.get("dur"):
+                    A(i, f"batida {bi}: batida muda sem 'dur' (usa 1.4 s)")
+                for ev in (b.get("evento") if isinstance(b.get("evento"), list) else [b["evento"]] if b.get("evento") else []):
+                    if ev.get("ent") not in ents:
+                        E(i, f"batida {bi}: entidade '{ev.get('ent')}' nao existe em '{amb}' (existem: {sorted(ents) or 'nenhuma'})")
+                    for k in ("de", "para"):
+                        if ev.get(k) and ev[k] not in pontos | {"fora"}:
+                            E(i, f"batida {bi}: trajetoria {k} '{ev[k]}' nao e ponto de '{amb}'")
+                for ac in b.get("acoes") or []:
+                    q = ac.get("quem", "todos")
+                    if q != "todos" and q not in pessoas:
+                        E(i, f"batida {bi}: acao de '{q}', que nao esta em cena")
+                    if ac.get("para") and ac["para"] not in pontos | ents | pessoas | cat.ALVOS_GERAIS:
+                        E(i, f"batida {bi}: '{q}' {ac.get('faz')} para '{ac['para']}', que nao existe em '{amb}'")
         # 4. lugar
         liberado = set(cena.get("permite") or [])      # excecao deliberada e revisada: "permite": ["hora", "lugar", "epoca"]
         for nome, rx, ok, msg in LUGARES:
@@ -145,7 +176,7 @@ def validar(conteudo: dict) -> dict:
                 A(i, "figurino 'marujo' e de caravela, nao de navio a vapor (Titanic)")
         # 6. hora (so cenarios com ceu)
         ceu = (info2 or {}).get("ceu", motor == "3d" and amb in ("conves", "terra", "campo", "cidade", "cidade-antiga", "deserto", "selva", "aerodromo", "vapor", "arena", "muro"))
-        h_txt = cenografo.hora_do_texto(" ".join(l.get("texto", "") for l in (cena.get("falas") or [])) or cena.get("fala", ""))
+        h_txt = cenografo.hora_do_texto(" ".join(l.get("texto", "") for l in _falas(cena)) or cena.get("fala", ""))
         if ceu and h_txt and cena.get("hora") and "hora" not in liberado and HORAS_EQ.get(h_txt) != HORAS_EQ.get(cena["hora"], cena["hora"]):
             noite = lambda h: h in ("noite", "madrugada")
             if noite(h_txt) != noite(cena["hora"]):

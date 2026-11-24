@@ -56,7 +56,18 @@ AMB_3D = {
     "selva": dict(era="natureza", mostra="floresta tropical"),
     "vapor": dict(era="1900", mostra="navio a vapor de aco (Titanic), icebergs"),
     "muro": dict(era="1900", mostra="Muro de Berlim"),
+    "gavea": dict(era="1900", mostra="cesto da gavea do Titanic, noite sem lua, iceberg"),
 }
+
+# DIRECAO: pontos de interesse (alvos de camera e de trajetoria) e entidades que cada cenario sabe desenhar.
+PONTOS = {
+    "selva-cretaceo": {"ampla", "ceu", "ceu-esq", "ceu-dir", "alto", "lago", "lago-ceu", "mata", "ninho", "vulcao", "trilha", "dinos",
+                       "trex", "chao", "perto", "margem", "margem2", "beira"},
+    "gavea": {"proa", "mar", "horizonte", "frente", "ceu", "estrelas", "sino", "telefone", "ponte", "chamine", "baixo", "lado",
+              "ice-longe", "ice-frente", "ice-perto", "ice-lado", "ice-passou", "ext-proa", "ext-lado", "ext-alto"},
+}
+ENTIDADES = {"selva-cretaceo": {"ptero", "sombra"}, "gavea": {"iceberg"}}
+ALVOS_GERAIS = {"grupo", "ampla", "panoramica", "prot", "camera", "voce", "todos", "fora", "fora-esq", "fora-dir"}
 
 ERAS_ANTIGAS = {"vela", "antigo", "medieval"}
 

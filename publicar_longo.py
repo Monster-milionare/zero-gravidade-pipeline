@@ -53,8 +53,10 @@ def main() -> int:
         print(titulo, "\n", desc)
         return 0
     import upload
-    vid = upload.upload_video(video, titulo, desc, c.get("tags", []), None, False)
-    print(f"[longo] YouTube OK: https://youtu.be/{vid}", flush=True)
+    import programador
+    quando = programador.publicar_em_de(id_)        # longo da agenda do dia: sobe AGENDADO
+    vid = upload.upload_video(video, titulo, desc, c.get("tags", []), quando, False)
+    print(f"[longo] YouTube OK: https://youtu.be/{vid}" + (f" (agendado para {quando})" if quando else ""), flush=True)
     try:
         import thumb
         th = thumb.gerar(c, c.get("estilo") or "sepia", config.OUT_DIR / f"{id_}_thumb.jpg", video=video)
@@ -62,7 +64,7 @@ def main() -> int:
         print("[longo] thumbnail customizada enviada", flush=True)
     except Exception as exc:
         print(f"[longo] thumbnail pulada: {str(exc)[:160]}", flush=True)
-    publish.registrar(c, vid, c.get("estilo") or "sepia", datetime.now(timezone.utc).isoformat(timespec="seconds"), None)
+    publish.registrar(c, vid, c.get("estilo") or "sepia", quando or datetime.now(timezone.utc).isoformat(timespec="seconds"), None, agendado=bool(quando))
     return 0
 
 

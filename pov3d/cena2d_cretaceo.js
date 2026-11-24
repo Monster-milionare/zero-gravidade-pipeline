@@ -232,3 +232,152 @@ scenes['selva-cretaceo'] = {
     };
   },
 };
+
+// ================================================================ DIRECAO: pontos de interesse + entidades
+// Quetzalcoatlus (pterossauro gigante): em voo (3/4 por baixo, batendo asas) e no chao (quadrupede, asas dobradas).
+const PTERO_COR = {corpo: '#6a5a52', corpo2: '#3e3430', asa: '#8a6a5a', asa2: '#5a443a', crista: '#d8482a', bico: '#e8d8b0', bico2: '#b8a070', olho: '#ffcf3a'};
+function pteroVoo(c, x, y, s, t, dir, plana) {
+  c.save(); c.translate(x, y); c.scale(s * dir, s);
+  const K = PTERO_COR;
+  const f = plana ? 0.15 + Math.sin(t * 1.5) * 0.08 : Math.sin(t * 5.2);   // batida de asa
+  const asa = (tipx, tipy, cor, cor2, atras) => {
+    c.fillStyle = lg(c, 0, 0, tipx, tipy, [[0, cor], [1, cor2]]);
+    c.beginPath(); c.moveTo(-40, -6);
+    c.quadraticCurveTo(tipx * 0.45 + 30, tipy * 0.6 - 20, tipx, tipy);            // bordo de ataque (braco + dedo)
+    c.quadraticCurveTo(tipx * 0.35 - 40, tipy * 0.3 + 60, -90, 24);              // membrana ate a perna
+    c.closePath(); c.fill();
+    c.strokeStyle = mix(cor2, '#000000', 0.3); c.lineWidth = 7; c.lineCap = 'round';
+    c.beginPath(); c.moveTo(-30, -6); c.quadraticCurveTo(tipx * 0.45 + 30, tipy * 0.6 - 20, tipx, tipy); c.stroke();
+    c.strokeStyle = hex('#000000', 0.12); c.lineWidth = 3;
+    for (let k = 1; k <= 3; k++) { c.beginPath(); c.moveTo(-40 + k * 8, 0); c.quadraticCurveTo(tipx * 0.3 * k / 3, tipy * 0.5 * k / 3 + 40, tipx * 0.8 * k / 3.4, tipy * 0.75 * k / 3.4 + 20); c.stroke(); }
+  };
+  // asa de tras (mais escura)
+  asa(-160 + f * 40, -300 * f - 80, mix(K.asa2, '#000000', 0.2), mix(K.asa2, '#000000', 0.35), true);
+  // corpo
+  c.fillStyle = lg(c, 0, -40, 0, 40, [[0, K.corpo], [1, K.corpo2]]); ell(c, -10, 0, 110, 42); c.fill();
+  c.fillStyle = mix(K.corpo, '#ffffff', 0.15); ell(c, -10, 14, 80, 18); c.fill();
+  // pernas para tras
+  c.strokeStyle = K.corpo2; c.lineWidth = 16; c.lineCap = 'round';
+  c.beginPath(); c.moveTo(-90, 10); c.lineTo(-190, 30); c.stroke(); c.beginPath(); c.moveTo(-80, 16); c.lineTo(-180, 48); c.stroke();
+  // pescoco longo e cabeca enorme
+  c.strokeStyle = K.corpo; c.lineWidth = 34; c.beginPath(); c.moveTo(80, -10); c.quadraticCurveTo(170, -40, 250, -36); c.stroke();
+  c.save(); c.translate(262, -36); c.rotate(0.05 + Math.sin(t * 1.2) * 0.04);
+  c.fillStyle = K.crista; c.beginPath(); c.moveTo(-10, -20); c.quadraticCurveTo(-60, -110, -120, -120); c.quadraticCurveTo(-40, -60, -6, 10); c.closePath(); c.fill();
+  c.fillStyle = K.corpo; ell(c, 0, 0, 46, 32); c.fill();
+  c.fillStyle = lg(c, 0, -20, 0, 20, [[0, K.bico], [1, K.bico2]]);
+  c.beginPath(); c.moveTo(20, -24); c.lineTo(300, -2); c.lineTo(296, 4); c.lineTo(20, 26); c.closePath(); c.fill();
+  c.strokeStyle = hex('#000000', 0.25); c.lineWidth = 3; c.beginPath(); c.moveTo(28, 2); c.lineTo(292, 2); c.stroke();
+  c.fillStyle = K.olho; ell(c, 8, -8, 9, 8); c.fill(); c.fillStyle = '#101008'; ell(c, 10, -8, 4, 6); c.fill();
+  c.restore();
+  // asa da frente (mais clara, por cima do corpo)
+  asa(-120 + f * 60, -420 * f + 40, K.asa, mix(K.asa, '#000000', 0.25), false);
+  c.restore();
+}
+function membro(c, pts, w0, w1, cor) {   // membro afinando (coxa -> pe), com articulacoes redondas
+  c.fillStyle = cor;
+  for (let k = 0; k < pts.length - 1; k++) {
+    const [x0, y0] = pts[k], [x1, y1] = pts[k + 1], u0 = k / (pts.length - 1), u1 = (k + 1) / (pts.length - 1);
+    const a = lerp(w0, w1, u0) / 2, b = lerp(w0, w1, u1) / 2, ang = Math.atan2(y1 - y0, x1 - x0), nx = -Math.sin(ang), ny = Math.cos(ang);
+    c.beginPath(); c.moveTo(x0 + nx * a, y0 + ny * a); c.lineTo(x1 + nx * b, y1 + ny * b); c.lineTo(x1 - nx * b, y1 - ny * b); c.lineTo(x0 - nx * a, y0 - ny * a); c.closePath(); c.fill();
+    ell(c, x1, y1, b * 1.05, b * 1.05); c.fill();
+  }
+  ell(c, pts[0][0], pts[0][1], w0 / 2, w0 / 2); c.fill();
+}
+function pteroChao(c, x, y, s, t, dir, passo, asasAbertas) {
+  c.save(); c.translate(x, y); c.scale(s * dir, s);
+  const K = PTERO_COR, ab = asasAbertas || 0;
+  const pp = passo === null ? 0 : Math.sin(passo), pq = passo === null ? 0 : Math.sin(passo + Math.PI);
+  const escuro = mix(K.corpo2, '#000000', 0.25);
+  c.fillStyle = 'rgba(0,0,0,0.25)'; ell(c, 20, 6, 360, 40); c.fill();
+  // bracos/asas do lado de LA (mais escuros)
+  membro(c, [[150, -520], [250 + pq * 30, -330], [215 + pq * 50, -40], [250 + pq * 50, 0]], 46, 22, escuro);
+  membro(c, [[-120, -360], [-90 - pq * 20, -190], [-115 - pq * 30, -10]], 40, 20, escuro);
+  // asa dobrada de la (membrana em pe, como guarda-chuva fechado)
+  c.fillStyle = mix(K.asa2, '#000000', 0.35);
+  c.beginPath(); c.moveTo(130, -520); c.quadraticCurveTo(170 + ab * 300, -760 - ab * 260, 120 + ab * 420, -930 - ab * 250); c.quadraticCurveTo(60, -700, 0, -420); c.closePath(); c.fill();
+  // corpo inclinado com "pelo" (picnofibras)
+  c.save(); c.translate(0, -430); c.rotate(-0.62);
+  c.fillStyle = lg(c, 0, -90, 0, 90, [[0, mix(K.corpo, '#ffffff', 0.12)], [1, K.corpo2]]); ell(c, 0, 0, 175, 95); c.fill();
+  c.strokeStyle = hex('#000000', 0.12); c.lineWidth = 4;
+  for (let k = 0; k < 26; k++) { const a = k / 26 * Math.PI * 2, rx = Math.cos(a) * 170, ry = Math.sin(a) * 90; c.beginPath(); c.moveTo(rx * 0.9, ry * 0.9); c.lineTo(rx * 1.04, ry * 1.06); c.stroke(); }
+  c.restore();
+  // pernas de tras (mais curtas) e bracos da frente (longos: o animal "anda de muletas")
+  membro(c, [[-80, -360], [-40 + pp * 20, -200], [-60 + pp * 30, -12]], 52, 26, K.corpo2);
+  c.fillStyle = K.corpo2; ell(c, -48 + pp * 30, -6, 42, 14); c.fill();
+  membro(c, [[120, -520], [235 - pp * 30, -320], [200 - pp * 50, -30]], 58, 26, mix(K.corpo2, K.corpo, 0.3));
+  c.fillStyle = K.corpo2; ell(c, 214 - pp * 50, -8, 36, 13); c.fill();
+  // asa dobrada da frente
+  c.fillStyle = lg(c, 100, -900, 200, -400, [[0, mix(K.asa, '#000000', 0.15)], [1, K.asa]]);
+  c.beginPath(); c.moveTo(118, -520); c.quadraticCurveTo(210 + ab * 340, -760 - ab * 300, 175 + ab * 480, -980 - ab * 280); c.quadraticCurveTo(120, -720, 30, -440); c.closePath(); c.fill();
+  c.strokeStyle = mix(K.asa2, '#000000', 0.3); c.lineWidth = 9; c.lineCap = 'round';
+  c.beginPath(); c.moveTo(235 - pp * 30, -320); c.quadraticCurveTo(220 + ab * 300, -640 - ab * 250, 175 + ab * 480, -980 - ab * 280); c.stroke();
+  // pescoco longo e rigido para o alto
+  const nx = 200 + Math.sin(t * 1.1) * 14, ny = -1010;
+  c.strokeStyle = K.corpo; c.lineWidth = 58; c.lineCap = 'round';
+  c.beginPath(); c.moveTo(110, -520); c.quadraticCurveTo(150, -800, nx, ny); c.stroke();
+  c.strokeStyle = mix(K.corpo, '#ffffff', 0.12); c.lineWidth = 20;
+  c.beginPath(); c.moveTo(128, -540); c.quadraticCurveTo(166, -800, nx + 10, ny + 10); c.stroke();
+  // cabeca enorme, crista e bico de lanca
+  c.save(); c.translate(nx + 10, ny - 10); c.rotate(0.42 + Math.sin(t * 0.9) * 0.08);
+  c.fillStyle = K.crista; c.beginPath(); c.moveTo(-14, -30); c.quadraticCurveTo(-90, -170, -200, -170); c.quadraticCurveTo(-70, -90, -10, 16); c.closePath(); c.fill();
+  c.fillStyle = mix(K.crista, '#ffffff', 0.25); c.beginPath(); c.moveTo(-20, -36); c.quadraticCurveTo(-90, -150, -170, -158); c.quadraticCurveTo(-80, -120, -24, -10); c.closePath(); c.fill();
+  c.fillStyle = K.corpo; ell(c, 0, 0, 70, 50); c.fill();
+  c.fillStyle = lg(c, 0, -34, 0, 34, [[0, K.bico], [1, K.bico2]]);
+  c.beginPath(); c.moveTo(30, -36); c.quadraticCurveTo(250, -22, 470, 0); c.lineTo(462, 6); c.quadraticCurveTo(250, 30, 30, 38); c.closePath(); c.fill();
+  c.strokeStyle = hex('#000000', 0.3); c.lineWidth = 4; c.beginPath(); c.moveTo(36, 3); c.lineTo(456, 3); c.stroke();
+  c.fillStyle = '#1a0e08'; ell(c, 20, -12, 15, 14); c.fill();
+  c.fillStyle = K.olho; ell(c, 20, -12, 12, 11); c.fill(); c.fillStyle = '#101008'; ell(c, 23, -12, 5, 9); c.fill(); c.fillStyle = '#ffffff'; ell(c, 17, -16, 3, 3); c.fill();
+  c.restore();
+  c.restore();
+}
+ENTS.ptero = {draw(g, sx, sy, esc, t, e) {
+  if (e.chao || (e.faz === 'pousa' && e.u > 0.82)) {
+    const ab = e.faz === 'pousa' ? clamp((1 - e.u) / 0.18, 0, 1) : 0;
+    pteroChao(g, sx, sy, esc * 0.9, t, e.dir, e.faz === 'anda' ? (t - e.ev.t0) * 6 : null, ab);
+  } else pteroVoo(g, sx, sy, esc, t, e.dir, e.faz === 'plana');
+}};
+// sombra do pterossauro passando pelo chao (o "uma sombra gigante passa por cima de voce")
+ENTS['sombra'] = {chao: true, sob: true, draw(g, sx, sy, esc, t, e) { g.save(); g.fillStyle = 'rgba(0,0,0,0.32)'; g.translate(sx, sy); g.scale(esc, esc * 0.22); g.beginPath(); g.moveTo(-700, 0); g.quadraticCurveTo(-200, -240, 0, -60); g.quadraticCurveTo(200, -240, 700, 0); g.quadraticCurveTo(200, 120, 0, 80); g.quadraticCurveTo(-200, 120, -700, 0); g.fill(); g.restore(); }};
+
+// moita densa (onde da pra se esconder), desenhada na frente dos personagens
+function moita(g, sx, sy, z, t, cor, cor2) {
+  _s = 777;
+  for (let i = 0; i < 9; i++) samambaia(g, sx + rr(-260, 260) * z, sy + rr(-30, 40) * z, rr(240, 380) * z, i % 2 ? cor : cor2, mix(cor, '#ffffff', 0.1), 10);
+}
+(function () {
+  const base = scenes['selva-cretaceo'].build;
+  scenes['selva-cretaceo'].build = function (horaIn) {
+    const inst = base(horaIn);
+    const C = inst.WW / 2;
+    inst.pontos = {
+      'ampla':    {cx: C, cy: 960, z: 1.0},
+      'ceu':      {cx: C, cy: 540, z: 1.0, pos: [C, 380], esc: 1.1},
+      'ceu-esq':  {cx: C - 700, cy: 560, z: 1.0, pos: [-500, 330], esc: 1.0},
+      'ceu-dir':  {cx: C + 700, cy: 560, z: 1.0, pos: [inst.WW + 500, 360], esc: 1.0},
+      'alto':     {cx: C, cy: 560, z: 1.0, pos: [C + 200, 240], esc: 0.9},
+      'lago':     {cx: C - 740, cy: 1080, z: 1.32, pos: [C - 760, 1335], esc: 0.5},
+      'lago-ceu': {cx: C - 700, cy: 700, z: 1.12, pos: [C - 820, 760], esc: 0.75},
+      'mata':     {cx: C + 840, cy: 1260, z: 1.36, pos: [C + 880, 1520], esc: 1},
+      'ninho':    {cx: 1463, cy: 1500, z: 1.75, pos: [1463, 1650]},
+      'vulcao':   {cx: C, cy: 560, z: 1.14},
+      'trilha':   {cx: C - 300, cy: 1450, z: 1.45, pos: [C - 300, 1560]},
+      'dinos':    {cx: C, cy: 720, z: 1.22},
+      'trex':     {cx: C - 760, cy: 900, z: 1.3},
+      'chao':     {cx: C, cy: 1300, z: 1.3, pos: [C, 1560], esc: 1},
+      'perto':    {cx: C + 60, cy: 1100, z: 1.25, pos: [C + 80, 1290], esc: 0.75},
+      'margem':   {cx: C - 560, cy: 860, z: 1.0, pos: [C - 600, 1330], esc: 1.15},
+      'margem2':  {cx: C - 420, cy: 870, z: 1.0, pos: [C - 420, 1345], esc: 1.2},
+      'beira':    {cx: C - 220, cy: 1000, z: 1.0, pos: [C + 170, 1470]},
+    };
+    const drawBase = inst.draw;
+    inst.draw = function (g, t, cam, api) {
+      const api2 = Object.assign({}, api, {personagens: () => {
+        api.personagens();
+        const mx = W / 2 + (C + 880 - cam.cx) * cam.z, my = H / 2 + (1560 - cam.cy) * cam.z;
+        if (mx > -700 && mx < W + 700) moita(g, mx, my, cam.z, t, '#1f6a34', '#2e8a44');
+      }});
+      drawBase.call(inst, g, t, cam, api2);
+    };
+    return inst;
+  };
+})();

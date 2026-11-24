@@ -1,5 +1,5 @@
 """SO PARA TESTES LOCAIS (sem rede): gera 'fala' sintetica com o mesmo formato
-do tts.py. Nunca e usado em producao (CANAL_FAKE_TTS so existe em teste)."""
+do tts.py. Nunca e usado em producao (PLANOB_FAKE_TTS so existe em teste)."""
 import re
 import subprocess
 from pathlib import Path
