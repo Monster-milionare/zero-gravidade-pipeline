@@ -62,11 +62,11 @@
   {
    "falas": [
     {
-     "quem": "prot",
-     "texto": "Controle, meu cabo de segurança se soltou."
+     "quem": "narrador",
+     "texto": "Seu cabo de segurança se soltou. Você chama a nave pelo rádio."
     },
     {
-     "quem": "f0",
+     "quem": "radio",
      "texto": "Calma, comandante. O rádio funciona."
     }
    ],
@@ -75,7 +75,7 @@
     "cinematic scene"
    ],
    "amb": "espaco",
-   "fala": "Controle, meu cabo de segurança se soltou. Calma, comandante. O rádio funciona.",
+   "fala": "Seu cabo de segurança se soltou. Você chama a nave pelo rádio. Calma, comandante. O rádio funciona.",
    "destaques": [
     "cabo"
    ],
@@ -129,11 +129,11 @@
   {
    "falas": [
     {
-     "quem": "prot",
-     "texto": "Estou me afastando devagar. Tenho uns poucos minutos de oxigênio."
+     "quem": "narrador",
+     "texto": "Você está se afastando devagar, com poucos minutos de oxigênio."
     },
     {
-     "quem": "f0",
+     "quem": "radio",
      "texto": "Posso sair com a nave e te alcançar."
     }
    ],
@@ -141,15 +141,14 @@
    "visuais": [
     "cinematic scene"
    ],
-   "amb": "nave-cabine",
-   "fala": "Estou me afastando devagar. Tenho uns poucos minutos de oxigênio. Posso sair com a nave e te alcançar.",
+   "amb": "espaco",
+   "fala": "Você está se afastando devagar, com poucos minutos de oxigênio. Posso sair com a nave e te alcançar.",
    "destaques": [
     "oxigênio"
    ],
    "cams": [
     "ampla",
-    "eu-frente",
-    "f0"
+    "panoramica"
    ]
   },
   {
