@@ -2,8 +2,8 @@ name: Programar o dia (agenda todos os videos no YouTube)
 
 on:
   schedule:
-    - cron: "10 8 * * *"    # 05h10 Brasilia: logo depois que a cota diaria do YouTube zera (meia-noite do Pacifico)
-    - cron: "45 8 * * *"    # reforco (o GitHub atrasa/pula agendados): so faz o que faltar
+    - cron: "10,40 8-11 * * *"   # 05h10-08h40 Brasilia a cada 30 min: o GitHub atrasa/pula agendados; o programador e idempotente (so faz o que faltar)
+    - cron: "20 14,18 * * *"     # reforco a tarde para os horarios da noite
   workflow_dispatch:
 
 permissions:
