@@ -263,7 +263,7 @@ def main() -> int:
         try:
             import thumb
             import upload as _up
-            th = thumb.gerar(c, estilo, config.OUT_DIR / f"{c['id']}_thumb.jpg")
+            th = thumb.gerar(c, estilo, config.OUT_DIR / f"{c['id']}_thumb.jpg", video=saida)  # fundo = quadro do proprio video
             _up.set_thumbnail(vid, th)
             print("[publish] thumbnail customizada enviada", flush=True)
         except Exception as exc:
