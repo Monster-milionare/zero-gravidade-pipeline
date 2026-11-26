@@ -1,8 +1,12 @@
 {
- "estilos": {},
- "formatos": {},
- "amostra": 1,
- "media_views_dia": 2.7,
- "atualizado": "2026-11-25T09:46+00:00",
+ "estilos": {
+  "epico": 1.0
+ },
+ "formatos": {
+  "escolha": 1.0
+ },
+ "amostra": 5,
+ "media_views_dia": 1.7,
+ "atualizado": "2026-11-26T09:26+00:00",
  "fonte_views": "oauth"
 }

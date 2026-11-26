@@ -1,11 +1,16 @@
 {
- "atualizado": "25/11/2026 09:46 UTC",
- "tema_peso": {},
- "formato_peso": {},
+ "atualizado": "26/11/2026 09:26 UTC",
+ "tema_peso": {
+  "generico": 0.846,
+  "nasa": 1.123
+ },
+ "formato_peso": {
+  "escolha": 1.0
+ },
  "alertas": [
   "REPETICAO de tema: 'nasa' em 3 dos ultimos 5 Shorts.",
-  "MODELO repetido: 'piloto-traje' aparece em 4 dos ultimos 5 Shorts.",
   "MODELO repetido: 'comandante-traje' aparece em 4 dos ultimos 5 Shorts.",
+  "MODELO repetido: 'piloto-traje' aparece em 4 dos ultimos 5 Shorts.",
   "Rodizio 2D/3D quebrado nos ultimos 5 Shorts: {'2d': 5}.",
   "ESTOQUE baixo de Shorts 2D liberados: 0 (meta >= 3).",
   "ESTOQUE baixo de Shorts 3D liberados: 0 (meta >= 3)."

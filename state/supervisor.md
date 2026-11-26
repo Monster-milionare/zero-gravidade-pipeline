@@ -1,10 +1,10 @@
-# Supervisor geral - Zero Gravidade BR (25/11/2026 09:46 UTC)
+# Supervisor geral - Zero Gravidade BR (26/11/2026 09:26 UTC)
 
 ## Alertas
 
 - REPETICAO de tema: 'nasa' em 3 dos ultimos 5 Shorts.
-- MODELO repetido: 'piloto-traje' aparece em 4 dos ultimos 5 Shorts.
 - MODELO repetido: 'comandante-traje' aparece em 4 dos ultimos 5 Shorts.
+- MODELO repetido: 'piloto-traje' aparece em 4 dos ultimos 5 Shorts.
 - Rodizio 2D/3D quebrado nos ultimos 5 Shorts: {'2d': 5}.
 - ESTOQUE baixo de Shorts 2D liberados: 0 (meta >= 3).
 - ESTOQUE baixo de Shorts 3D liberados: 0 (meta >= 3).
@@ -20,4 +20,15 @@
 - 2D: 0 | 3D: 0
 - Por tema: vazio
 
-Amostra de views ainda pequena para definir foco (minimo 5 videos com 20h+).
+## Foco por tema (views/dia, peso 0.5-2.0)
+
+| tema | videos | views/dia | peso |
+|---|---|---|---|
+| nasa | 3 | 2 | 1.123 |
+| generico | 2 | 1 | 0.846 |
+
+## Foco por formato
+
+| formato | videos | views/dia | peso |
+|---|---|---|---|
+| escolha | 5 | 2 | 1.0 |
