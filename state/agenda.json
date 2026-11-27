@@ -1,25 +1,25 @@
 {
- "data": "2026-11-26",
+ "data": "2026-11-27",
  "shorts": [
   {
    "slot": 1,
-   "id": "07-marte-resposta-demora",
+   "id": "12-controle-sinal-sumiu",
    "motor": "2d",
-   "publicar_em": "2026-11-26T15:10:00Z"
+   "publicar_em": "2026-11-27T19:10:00Z"
   },
   {
    "slot": 2,
-   "id": "06-espaco-agua-solta",
+   "id": "09-europa-gelo-estalando",
    "motor": "2d",
-   "publicar_em": "2026-11-26T21:05:00Z"
+   "publicar_em": "2026-11-27T21:05:00Z"
   },
   {
    "slot": 3,
-   "id": "08-volta-a-terra-paraquedas",
+   "id": "11-asteroide-um-pulo",
    "motor": "2d",
-   "publicar_em": "2026-11-26T23:15:00Z"
+   "publicar_em": "2026-11-27T23:15:00Z"
   }
  ],
  "longo": null,
- "gerado_em": "2026-11-26T23:02:16+00:00"
+ "gerado_em": "2026-11-27T14:25:17+00:00"
 }
