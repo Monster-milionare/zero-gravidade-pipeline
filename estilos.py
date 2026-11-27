@@ -57,7 +57,7 @@ def sortear(seed: str, evitar: str | None = None, preferido: str | None = None) 
     if preferido and preferido in ESTILOS:
         return preferido
     pe = ler_pesos().get("estilos", {})
-    rng = random.Random(f"zerogravidade-{seed}")
+    rng = random.Random(f"planob-{seed}")
     pool = [n for n in ESTILOS if n != evitar] or list(ESTILOS)
     pesos = []
     for n in pool:

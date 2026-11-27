@@ -9,7 +9,10 @@ import re
 import unicodedata
 
 CENARIOS = ["conves", "terra", "cabine", "palacio", "cidade", "cidade-antiga", "campo", "laboratorio", "lua", "arena",
-            "deserto", "aerodromo", "selva", "vapor"]
+            "deserto", "aerodromo", "selva", "vapor", "cidade-medieval", "cidade-colonial", "cidade-vitoriana", "cidade-futuro",
+            "cidade-oriental", "restaurante", "escritorio", "casamento", "elevador"]   # NFI:cenarios
+# Protagonistas "viajantes no tempo" (o VOCE dos formatos em que o espectador acorda em outra epoca): rodizio pelo id
+VIAJANTES = ["viajante", "viajante-f", "estudante"]
 
 PERFIS = {
     "cabral": dict(kw=["cabral", "1500", "descobrimento", "frota", "caravela", "pau-brasil", "pero vaz"], prot="cabral",
@@ -21,35 +24,44 @@ PERFIS = {
                  ambientes=["cidade-antiga", "arena", "palacio", "campo"]),
     "napoleao": dict(kw=["napoleao", "waterloo", "wellington", "frances", "franca"], prot="napoleao", f=["soldado-frances", "soldado-ingles", "soldado-frances"],
                      amb={"palacio": ["rei", "soldado-frances", "cidada"]}, ambientes=["campo", "palacio", "cidade"]),
-    "dompedro": dict(kw=["dom pedro", "ipiranga", "1822", "independencia"], prot="dompedro", f=["cidadao", "cidada", "cidadao2"],
-                     amb={"palacio": ["rei", "cidada", "cidadao"]}, ambientes=["campo", "cidade", "palacio"]),
+    "dompedro": dict(kw=["dom pedro", "ipiranga", "1822", "independencia"], prot="dompedro", f=["tropeiro", "senhora-colonial", "soldado-colonial"],
+                     amb={"palacio": ["rei", "cidada", "cidadao"], "cidade-colonial": ["tropeiro", "senhora-colonial", "soldado-colonial"]}, ambientes=["campo", "cidade-colonial", "palacio"]),
     "ciencia": dict(kw=["einstein", "newton", "gravidade", "relatividade", "cientista", "fisica"], prot="einstein", f=["newton", "cientista", "cidadao2"],
-                    ambientes=["laboratorio", "cidade", "campo"]),
+                    amb={"cidade-vitoriana": ["cavalheiro", "dama-vitoriana", "jornaleiro"]}, ambientes=["laboratorio", "cidade-vitoriana", "campo"]),
     "apollo": dict(quadro=["HOUSTON: APOLLO 11", "T-00:03:00", "ALARME 1202", "COMBUSTIVEL BAIXO"], kw=["apollo", "lua", "astronauta", "armstrong", "foguete", "1969", "nasa"], prot="astronauta", f=["astronauta", "cientista", "astronauta"],
                    amb={"laboratorio": ["cientista", "cientista", "cidadao2"], "cidade": ["cidadao", "cidada", "cidadao2"]}, ambientes=["lua", "laboratorio", "cidade"]),
-    "dumont": dict(kw=["santos dumont", "14-bis", "aviao", "aviador", "voo"], prot="aviador", f=["cidadao", "cidada", "cidadao2"], ambientes=["aerodromo", "cidade", "campo"]),
+    "dumont": dict(kw=["santos dumont", "14-bis", "aviao", "aviador", "voo"], prot="aviador", f=["cavalheiro", "dama-vitoriana", "jornaleiro"], amb={"cidade-vitoriana": ["cavalheiro", "dama-vitoriana", "jornaleiro"]}, ambientes=["aerodromo", "cidade-vitoriana", "campo"]),
     "holandes": dict(kw=["holand", "nassau", "mauricio de nassau"], prot="soldado-holandes", f=["marujo", "nativo", "soldado-holandes"],
-                     amb={"terra": ["nativo", "nativo2", "soldado-holandes"], "cidade": ["soldado-holandes", "cidadao", "cidada"], "palacio": ["rei", "soldado-holandes", "cidada"]},
-                     ambientes=["conves", "terra", "cidade", "palacio"]),
+                     amb={"terra": ["nativo", "nativo2", "soldado-holandes"], "cidade-colonial": ["soldado-holandes", "senhora-colonial", "quitandeira"], "palacio": ["rei", "soldado-holandes", "cidada"]},
+                     ambientes=["conves", "terra", "cidade-colonial", "palacio"]),
     "ingles": dict(kw=["ingles", "ingleses", "britanic", "inglaterra"], prot="soldado-ingles", f=["marujo", "nativo", "soldado-ingles"],
                    amb={"terra": ["nativo", "nativo2", "soldado-ingles"], "cidade": ["soldado-ingles", "cidadao", "cidada"], "palacio": ["rei", "soldado-ingles", "cidada"]},
                    ambientes=["conves", "terra", "cidade", "palacio"]),
-    "internet": dict(kw=["internet", "telegrafo", "computador", "1900", "rede"], prot="cientista", f=["cidadao", "cidada", "cidadao2"], ambientes=["laboratorio", "cidade"]),
+    "internet": dict(kw=["internet", "telegrafo", "computador", "1900", "rede"], prot="cientista", f=["jornaleiro", "dama-vitoriana", "operario"], amb={"cidade-vitoriana": ["jornaleiro", "dama-vitoriana", "cavalheiro"]}, ambientes=["laboratorio", "cidade-vitoriana"]),
     "egito": dict(kw=["egito", "cleopatra", "fara", "piramide", "alexandria"], prot="cleopatra", f=["egipcio", "faraoh", "soldado-romano"],
                   ambientes=["deserto", "palacio", "cidade-antiga"]),
     "dino": dict(kw=["dinossauro", "dinossauros", "jurassico", "extincao", "meteoro"], prot="cientista", f=["dino", "dino2", "dino3"], ambientes=["selva", "campo"]),
     "viking": dict(kw=["viking", "vikings"], prot="viking", f=["viking", "nativo", "marujo"], ambientes=["conves", "terra", "campo"]),
     "titanic": dict(kw=["titanic"], prot="marujo", f=["cidadao", "cidada", "marujo2"], ambientes=["vapor", "palacio"]),
-    "medieval": dict(kw=["medieval", "cavaleiro", "castelo", "idade media", "mongol", "gengis"], prot="cavaleiro", f=["rei", "rainha", "cavaleiro"], ambientes=["campo", "palacio", "cidade"]),
+    "mongol": dict(kw=["mongol", "mongois", "gengis", "khan", "estepe"], prot="gengis", f=["mongol", "mongol2", "mongol"],
+                   amb={"palacio": ["mongol", "rei", "mongol2"], "cidade-oriental": ["mercador-oriental", "monge-budista", "mongol"]}, ambientes=["campo", "palacio", "cidade-oriental"]),
+    "peste": dict(kw=["peste negra", "peste bubonica", "1348", "medico da peste", "pestilencia"], prot="campones", f=["camponesa", "medico-peste", "monge"],
+                  amb={"cidade-medieval": ["camponesa", "medico-peste", "mercador"]}, ambientes=["cidade-medieval", "campo"]),
+    "medieval": dict(kw=["medieval", "cavaleiro", "castelo", "idade media", "cruzada", "templario"], prot="cavaleiro", f=["rei", "rainha", "nobre-medieval"],
+                     amb={"cidade-medieval": ["mercador", "aldea", "ferreiro"]}, ambientes=["cidade-medieval", "palacio", "campo"]),
     "asteca": dict(kw=["asteca", "tenochtitlan", "espanhol", "cortes", "maia", "inca"], prot="asteca", f=["asteca", "cavaleiro", "nativo"], ambientes=["selva", "cidade-antiga", "deserto"]),
-    "guerra": dict(kw=["guerra mundial", "segunda guerra", "trincheira"], prot="soldado-ingles", f=["soldado-frances", "cidadao", "cidada"], ambientes=["campo", "cidade"]),
-    "tiradentes": dict(kw=["tiradentes", "inconfidencia", "forca"], prot="tiradentes", f=["cidadao", "soldado-ingles", "cidada"], ambientes=["cidade", "campo", "palacio"]),
-    "isabel": dict(kw=["princesa isabel", "lei aurea", "escravidao", "escravid", "abolicao"], prot="isabel", f=["cidadao", "cidada", "dompedro"], ambientes=["palacio", "cidade", "campo"]),
-    "joao": dict(kw=["dom joao", "1808", "corte portuguesa", "joao vi"], prot="rei", f=["cidadao", "cidada", "marujo"], ambientes=["conves", "terra", "cidade", "palacio"]),
-    "samurai": dict(kw=["samurai", "japao", "japones"], prot="samurai", f=["samurai", "cidadao", "cidada"], ambientes=["campo", "cidade", "palacio"]),
+    "guerra": dict(kw=["guerra mundial", "segunda guerra", "trincheira"], prot="soldado-ingles", f=["soldado-frances", "operario", "dama-vitoriana"], amb={"cidade-vitoriana": ["operario", "dama-vitoriana", "jornaleiro"]}, ambientes=["campo", "cidade-vitoriana"]),
+    "tiradentes": dict(kw=["tiradentes", "inconfidencia", "forca", "ouro preto", "vila rica"], prot="tiradentes", f=["tropeiro", "soldado-colonial", "senhora-colonial"],
+                       amb={"cidade-colonial": ["tropeiro", "soldado-colonial", "senhora-colonial"]}, ambientes=["cidade-colonial", "campo", "palacio"]),
+    "isabel": dict(kw=["princesa isabel", "lei aurea", "escravidao", "escravid", "abolicao"], prot="isabel", f=["padre", "senhora-colonial", "quitandeira"],
+                   amb={"cidade-colonial": ["padre", "senhora-colonial", "quitandeira"]}, ambientes=["palacio", "cidade-colonial", "campo"]),
+    "joao": dict(kw=["dom joao", "1808", "corte portuguesa", "joao vi"], prot="rei", f=["senhora-colonial", "padre", "marujo"],
+                 amb={"cidade-colonial": ["senhora-colonial", "padre", "soldado-colonial"]}, ambientes=["conves", "terra", "cidade-colonial", "palacio"]),
+    "samurai": dict(kw=["samurai", "japao", "japones", "xogum", "edo", "kyoto", "china", "chines", "dinastia", "muralha da china"], prot="samurai", f=["dama-japonesa", "monge-budista", "mercador-oriental"],
+                    amb={"cidade-oriental": ["dama-japonesa", "monge-budista", "mercador-oriental"]}, ambientes=["cidade-oriental", "campo", "palacio"]),
     "alexandre": dict(kw=["alexandre", "gaugamela", "macedonia", "persia"], prot="general-romano", f=["soldado-romano", "egipcio", "cidadao"], ambientes=["campo", "deserto", "palacio"]),
-    "futuro": dict(kw=["2100", "2050", "2200", "futuro", "robo", "robos", "inteligencia artificial", "marte", "ciborgue", "daqui a"], prot="cientista",
-                   f=["cidadao2", "cidada", "astronauta"], amb={"laboratorio": ["cientista", "cidada", "astronauta"]}, ambientes=["cidade", "laboratorio", "lua"]),
+    "futuro": dict(kw=["2100", "2050", "2200", "futuro", "robo", "robos", "inteligencia artificial", "marte", "ciborgue", "daqui a"], prot="viajante-f",
+                   f=["cidada-futuro", "robo", "entregador"], amb={"laboratorio": ["cientista", "robo", "cidada-futuro"], "cidade-futuro": ["cidada-futuro", "robo", "entregador"]}, ambientes=["cidade-futuro", "laboratorio", "lua"]),
     "generico": dict(kw=[], prot="cidadao", f=["cidadao2", "cidada", "marujo"], ambientes=["cidade", "campo", "palacio"]),
 }
 
@@ -113,6 +125,9 @@ def escolher_perfil(c: dict) -> str:
         return c["perfil"]
     titulo, resto = _norm(c.get("titulo", "")), _texto(c)
     melhor, pontos = "generico", 0
+    import re as _re
+    if c.get("formato") == "futuro" or any(2030 <= int(a) <= 2999 for a in _re.findall(r"\b(2\d{3})\b", titulo)):
+        melhor, pontos = "futuro", 3          # "voce acorda em 2150": qualquer ano futuro e o cenario do futuro
     for nome, p in PERFIS.items():
         s = 0
         for k in p["kw"]:
@@ -122,12 +137,17 @@ def escolher_perfil(c: dict) -> str:
     return melhor
 
 
+def cidade_do_perfil(perfil: dict):
+    """A cidade DA EPOCA do perfil (medieval, colonial, vitoriana, futuro, oriental, antiga) - nunca a rua generica."""
+    return next((a for a in perfil["ambientes"] if a.startswith("cidade-")), None)
+
+
 def _ambiente_da_cena(cena: dict, perfil: dict, era_antiga: bool):
     txt = _norm(cena.get("fala", "") + " " + " ".join(cena.get("visuais", [])))
     hits = [amb for amb, rx in CHAVES_AMB if re.search(rx, txt)]
     for h in hits:
-        if h == "cidade" and era_antiga and "cidade-antiga" in perfil["ambientes"]:
-            h = "cidade-antiga"
+        if h == "cidade":
+            h = cidade_do_perfil(perfil) or h
         if h in perfil["ambientes"]:
             return h
     return None
@@ -147,7 +167,11 @@ def preparar(c: dict, semente: str | None = None) -> dict:
     era_antiga = nome_perfil in ("roma", "egito", "alexandre", "asteca")
 
     if "elenco" not in c:
-        c["elenco"] = {"prot": perfil["prot"], "f": perfil["f"], "amb": perfil.get("amb", {})}
+        prot = perfil["prot"]
+        if formato in ("voce-acorda", "futuro") and nome_perfil in ("generico", "futuro", "internet", "ciencia", "dumont"):
+            # o espectador ACORDA em outra epoca: o "voce" e um viajante no tempo (3 protagonistas em rodizio)
+            prot = VIAJANTES[sum(map(ord, c.get("id", "x"))) % len(VIAJANTES)]
+        c["elenco"] = {"prot": prot, "f": perfil["f"], "amb": perfil.get("amb", {})}
         if perfil.get("quadro"):
             c["elenco"]["quadro"] = perfil["quadro"]
 
@@ -162,6 +186,8 @@ def preparar(c: dict, semente: str | None = None) -> dict:
             if amb == anterior and seguidos >= 2 and len(pool) > 1:
                 amb = next(a for a in pool if a != anterior)
             cena["amb"] = amb
+        if cena["amb"] == "cidade" and cidade_do_perfil(perfil) and c.get("motor") != "2d":
+            cena["amb"] = cidade_do_perfil(perfil)        # rua generica -> a cidade da epoca (fim da cidade repetida)
         seguidos = seguidos + 1 if cena["amb"] == anterior else 1
         anterior = cena["amb"]
         if not cena.get("hora"):
@@ -189,3 +215,15 @@ def preparar(c: dict, semente: str | None = None) -> dict:
                 cams = [x for x in cams if not (re.match(r"^f(\d)c?$", x) and int(re.match(r"^f(\d)", x).group(1)) >= n_f)] or ["ampla"]
             cena["cams"] = cams
     return c
+
+# NFI: perfis do canal de humor (o Jorginho passa vergonha em situacoes do dia a dia)
+PERFIS.update({
+    "encontro": dict(kw=["encontro", "date", "crush", "jantar", "restaurante", "namorada", "namoro", "garcom"], prot="jorginho",
+                     f=["crush", "garcom"], amb={"restaurante": ["crush", "garcom"]}, ambientes=["restaurante"]),
+    "entrevista": dict(kw=["entrevista", "emprego", "chefe", "trabalho", "escritorio", "reuniao", "estagio", "curriculo"], prot="jorginho",
+                       f=["chefe"], amb={"escritorio": ["chefe", "chefa"]}, ambientes=["escritorio"]),
+    "casamento": dict(kw=["casamento", "noiva", "noivo", "padre", "altar", "igreja", "padrinho", "madrinha"], prot="jorginho",
+                      f=["noiva", "noivo", "padre"], amb={"casamento": ["noiva", "noivo", "padre"]}, ambientes=["casamento"]),
+    "elevador": dict(kw=["elevador", "predio", "condominio", "vizinho"], prot="jorginho",
+                     f=["chefa", "seguranca"], amb={"elevador": ["chefa", "seguranca"]}, ambientes=["elevador"]),
+})

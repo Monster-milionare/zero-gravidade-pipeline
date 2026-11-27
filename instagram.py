@@ -17,18 +17,19 @@ def _erro(resp) -> str:
         return f"HTTP {resp.status_code}: {resp.text[:200]}"
 
 
-def _normalizar(video: Path) -> Path:
+def _normalizar(video: Path, leve: bool = False) -> Path:
     """Re-encoda num perfil conservador que o Instagram aceita sempre.
 
     Alguns arquivos do motor de render eram recusados no upload (erro
     ProcessingFailedError); o mesmo video, re-encodado assim, passa."""
-    saida = video.with_name(video.stem + "_ig.mp4")
+    saida = video.with_name(video.stem + ("_ig_leve.mp4" if leve else "_ig.mp4"))
+    taxa, buf, crf = ("3500k", "7M", "25") if leve else ("8M", "16M", "23")
     cmd = ["ffmpeg", "-y", "-v", "error", "-i", str(video),
-           "-c:v", "libx264", "-preset", "veryfast", "-profile:v", "high", "-level", "4.1",
-           "-crf", "23", "-maxrate", "8M", "-bufsize", "16M", "-pix_fmt", "yuv420p",
+           "-c:v", "libx264", "-preset", "veryfast", "-profile:v", "main" if leve else "high", "-level", "4.0" if leve else "4.1",
+           "-crf", crf, "-maxrate", taxa, "-bufsize", buf, "-pix_fmt", "yuv420p",
            "-r", "30", "-g", "60",
-           "-c:a", "aac", "-b:a", "128k", "-ar", "44100", "-ac", "2",
-           "-movflags", "+faststart", str(saida)]
+           "-c:a", "aac", "-b:a", "128k", "-ar", "48000" if leve else "44100", "-ac", "2",
+           "-movflags", "+faststart", *(["-use_editlist", "0"] if leve else []), str(saida)]
     try:
         r = subprocess.run(cmd, capture_output=True, timeout=600)
         if r.returncode == 0 and saida.exists() and saida.stat().st_size > 50_000:
@@ -82,6 +83,11 @@ def postar_reel(token: str, ig_id: str, video: Path, legenda: str) -> str:
     arquivo = _normalizar(video)
     ultimo = None
     for tentativa in range(1, 6):
+        if tentativa == 3:      # a Meta recusa mais os arquivos longos/pesados: da 3a vez em diante vai uma versao leve
+            leve = _normalizar(video, leve=True)
+            if leve != video:
+                arquivo = leve
+                print("[instagram] tentando com a versao leve do video", flush=True)
         try:
             container = _enviar(token, ig_id, arquivo, legenda)
             break

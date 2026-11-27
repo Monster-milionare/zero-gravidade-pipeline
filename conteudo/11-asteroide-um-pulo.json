@@ -1,1 +1,187 @@
-{"id":"11-asteroide-um-pulo","ordem":11,"formato":"escolha","estilo":"noir","motor":"2d","tema":"asteroide","titulo":"Sua ferramenta sai flutuando num asteroide. Pular atrás ou deixar ir? A ou B?","titulo_youtube":"Num asteroide, um pulo pode não ter volta. Você pega a ferramenta? A ou B","titulo_curto":"UM PULO SEM VOLTA","thumb_texto":"PULA OU DEIXA?","descricao":"Em asteroides pequenos a gravidade é tão fraca que um impulso leve já pode lançar uma pessoa para o espaço. No asteroide Bennu, visitado pela sonda OSIRIS-REx, bastam cerca de 20 centímetros por segundo para escapar. A missão com astronautas deste vídeo é ficção. A mais votada vira o próximo vídeo.","comentario_fixado":"A: pular atrás preso ao cabo. B: deixar a ferramenta ir embora. Qual a sua escolha?","tags":["asteroide","bennu","gravidade","espaco","voce decide","ciencia"],"elenco":{"prot":"piloto-traje","f":["cientista-traje"]},"perfil":"generico","cenas":[{"falas":[{"quem":"narrador","texto":"Você anda num asteroide pequeno e a sua ferramenta escapa da mão."}],"emocao":"surpreso","visuais":["cinematic scene"],"amb":"asteroide","fala":"Você anda num asteroide pequeno e a sua ferramenta escapa da mão.","destaques":["escapa"],"cams":["ampla","eu-frente","f0"]},{"falas":[{"quem":"prot","texto":"Ela está bem ali, subindo devagar. Um pulinho e eu pego!"}],"emocao":"feliz","visuais":["cinematic scene"],"amb":"asteroide","fala":"Ela está bem ali, subindo devagar. Um pulinho e eu pego!","destaques":["pulinho"],"cams":["eu-frente","ampla","f0"]},{"falas":[{"quem":"f0","texto":"Não pula! Aqui a gravidade quase não puxa você de volta."}],"emocao":"preocupado","visuais":["cinematic scene"],"amb":"asteroide","fala":"Não pula! Aqui a gravidade quase não puxa você de volta.","destaques":["Não pula"],"cams":["f0","ampla","eu-frente"]},{"falas":[{"quem":"narrador","texto":"Num corpo desse tamanho, o impulso de um passo já pode levar você embora."}],"emocao":"misterioso","visuais":["cinematic scene"],"amb":"asteroide","fala":"Num corpo desse tamanho, o impulso de um passo já pode levar você embora.","destaques":["embora"],"cams":["ampla","eu-frente","f0"]},{"falas":[{"quem":"prot","texto":"Mas é a única chave que abre o painel da nave."}],"emocao":"preocupado","visuais":["cinematic scene"],"amb":"asteroide","fala":"Mas é a única chave que abre o painel da nave.","destaques":["única chave"],"cams":["eu-frente","ampla","f0"]},{"falas":[{"quem":"f0","texto":"Seu cabo tem quinze metros. Depois disso eu não alcanço."}],"emocao":"preocupado","visuais":["cinematic scene"],"amb":"asteroide","fala":"Seu cabo tem quinze metros. Depois disso eu não alcanço.","destaques":["cabo"],"cams":["f0","ampla","eu-frente"]},{"falas":[{"quem":"narrador","texto":"Comenta A para pular preso ao cabo, ou B para deixar a ferramenta ir. A mais votada vira o próximo vídeo."}],"emocao":"neutro","visuais":["cinematic scene"],"amb":"asteroide","fala":"Comenta A para pular preso ao cabo, ou B para deixar a ferramenta ir. A mais votada vira o próximo vídeo.","destaques":["escolha"],"cams":["ampla","eu-frente","f0"]}]}
+{
+ "id": "11-asteroide-um-pulo",
+ "ordem": 11,
+ "formato": "escolha",
+ "estilo": "noir",
+ "motor": "2d",
+ "tema": "asteroide",
+ "titulo": "Sua ferramenta sai flutuando num asteroide. Pular atrás ou deixar ir? A ou B?",
+ "titulo_youtube": "Num asteroide, um pulo pode não ter volta. Você pega a ferramenta? A ou B",
+ "titulo_curto": "UM PULO SEM VOLTA",
+ "thumb_texto": "PULA OU DEIXA?",
+ "descricao": "Em asteroides pequenos a gravidade é tão fraca que um impulso leve já pode lançar uma pessoa para o espaço. No asteroide Bennu, visitado pela sonda OSIRIS-REx, bastam cerca de 20 centímetros por segundo para escapar. A missão com astronautas deste vídeo é ficção. A mais votada vira o próximo vídeo.",
+ "comentario_fixado": "A: pular atrás preso ao cabo. B: deixar a ferramenta ir embora. Qual a sua escolha?",
+ "tags": [
+  "asteroide",
+  "bennu",
+  "gravidade",
+  "espaco",
+  "voce decide",
+  "ciencia"
+ ],
+ "elenco": {
+  "prot": "piloto-traje",
+  "f": [
+   "cientista-traje"
+  ]
+ },
+ "perfil": "generico",
+ "cenas": [
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Você anda num asteroide pequeno e a sua ferramenta escapa da mão."
+    }
+   ],
+   "emocao": "surpreso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "asteroide",
+   "fala": "Você anda num asteroide pequeno e a sua ferramenta escapa da mão.",
+   "destaques": [
+    "escapa"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "prot",
+     "texto": "Ela está bem ali, subindo devagar. Um pulinho e eu pego!"
+    }
+   ],
+   "emocao": "feliz",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "asteroide",
+   "fala": "Ela está bem ali, subindo devagar. Um pulinho e eu pego!",
+   "destaques": [
+    "pulinho"
+   ],
+   "cams": [
+    "eu-frente",
+    "ampla",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "f0",
+     "texto": "Não pula! Aqui a gravidade quase não puxa você de volta."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "asteroide",
+   "fala": "Não pula! Aqui a gravidade quase não puxa você de volta.",
+   "destaques": [
+    "Não pula"
+   ],
+   "cams": [
+    "f0",
+    "ampla",
+    "eu-frente"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Num corpo desse tamanho, o impulso de um passo já pode levar você embora."
+    }
+   ],
+   "emocao": "misterioso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "asteroide",
+   "fala": "Num corpo desse tamanho, o impulso de um passo já pode levar você embora.",
+   "destaques": [
+    "embora"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "prot",
+     "texto": "Mas é a única chave que abre o painel da nave."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "asteroide",
+   "fala": "Mas é a única chave que abre o painel da nave.",
+   "destaques": [
+    "única chave"
+   ],
+   "cams": [
+    "eu-frente",
+    "ampla",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "f0",
+     "texto": "Seu cabo tem quinze metros. Depois disso eu não alcanço."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "asteroide",
+   "fala": "Seu cabo tem quinze metros. Depois disso eu não alcanço.",
+   "destaques": [
+    "cabo"
+   ],
+   "cams": [
+    "f0",
+    "ampla",
+    "eu-frente"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Comenta A para pular preso ao cabo, ou B para deixar a ferramenta ir. A mais votada vira o próximo vídeo."
+    }
+   ],
+   "emocao": "neutro",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "asteroide",
+   "fala": "Comenta A para pular preso ao cabo, ou B para deixar a ferramenta ir. A mais votada vira o próximo vídeo.",
+   "destaques": [
+    "escolha"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  }
+ ],
+ "desativado": true,
+ "desativado_motivo": "o canal virou Nao Faca Isso (humor) em 27/11/2026; roteiro guardado, nao apagado"
+}

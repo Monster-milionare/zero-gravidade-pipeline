@@ -1,0 +1,229 @@
+{
+ "id": "02-nao-faca-entrevista-de-emprego",
+ "ordem": 2,
+ "formato": "nao-faca",
+ "motor": "3d",
+ "estilo": "aquarela",
+ "titulo": "O que NÃO fazer na entrevista de emprego",
+ "titulo_youtube": "O que NUNCA fazer na entrevista de emprego",
+ "titulo_curto": "ENTREVISTA",
+ "thumb_texto": "PERDEU A VAGA",
+ "descricao": "Como perder uma vaga em trinta segundos: o Jorginho foi na entrevista e quebrou as três regras.",
+ "comentario_fixado": "Qual o maior mico que você já pagou numa entrevista de emprego?",
+ "tags": [
+  "entrevista de emprego",
+  "emprego",
+  "trabalho",
+  "rh",
+  "humor",
+  "comedia",
+  "nao faca isso",
+  "jorginho",
+  "zoeira"
+ ],
+ "elenco": {
+  "prot": "jorginho",
+  "f": [
+   "chefe"
+  ],
+  "amb": {
+   "escritorio": [
+    "chefe"
+   ]
+  }
+ },
+ "cenas": [
+  {
+   "amb": "escritorio",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Entrevista de emprego? O Jorginho mostra como perder a vaga em trinta segundos.",
+     "cam": "ampla"
+    },
+    {
+     "quem": "f0",
+     "texto": "Bom dia. Pode sentar.",
+     "cam": "f0c"
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Entrevista de emprego? O Jorginho mostra como perder a vaga em trinta segundos. Bom dia. Pode sentar.",
+   "presentes": [
+    "f0"
+   ]
+  },
+  {
+   "amb": "escritorio",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Regra número um: quando perguntarem seu maior defeito, não diz que é gostoso demais.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 1"
+    },
+    {
+     "quem": "prot",
+     "texto": "Meu defeito? Eu sou gostoso demais, chefe.",
+     "cam": "eu-frente",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "rebola",
+       "dur": 1.6
+      }
+     ]
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Regra número um: quando perguntarem seu maior defeito, não diz que é gostoso demais. Meu defeito? Eu sou gostoso demais, chefe."
+  },
+  {
+   "amb": "escritorio",
+   "beats": [
+    {
+     "quem": "f0",
+     "texto": "Oi?",
+     "cam": "f0c",
+     "carimbo": true,
+     "sfx": "scratch",
+     "acoes": [
+      {
+       "quem": "f0",
+       "faz": "susto"
+      }
+     ]
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Oi?"
+  },
+  {
+   "amb": "escritorio",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Regra número dois: não pergunta o salário dele.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 2"
+    },
+    {
+     "quem": "prot",
+     "texto": "Quanto o senhor ganha? Eu quero o dobro.",
+     "cam": "eu-frente",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "aponta",
+       "para": "f0"
+      }
+     ]
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Regra número dois: não pergunta o salário dele. Quanto o senhor ganha? Eu quero o dobro."
+  },
+  {
+   "amb": "escritorio",
+   "beats": [
+    {
+     "quem": "f0",
+     "texto": "Você tá de sacanagem comigo.",
+     "cam": "f0",
+     "carimbo": true,
+     "sfx": "boing"
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Você tá de sacanagem comigo."
+  },
+  {
+   "amb": "escritorio",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "E a regra número três: nunca, jamais, sobe na mesa do chefe pra dançar funk.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 3"
+    },
+    {
+     "quem": "",
+     "texto": "",
+     "dur": 1.4,
+     "cam": "mesa",
+     "sfx": "boing",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "sobe",
+       "para": "mesa",
+       "dur": 1.0
+      }
+     ]
+    },
+    {
+     "quem": "",
+     "texto": "",
+     "dur": 2.4,
+     "cam": "mesa",
+     "sfx": "buzina",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "danca",
+       "dur": 2.4
+      }
+     ]
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "E a regra número três: nunca, jamais, sobe na mesa do chefe pra dançar funk."
+  },
+  {
+   "amb": "escritorio",
+   "beats": [
+    {
+     "quem": "f0",
+     "texto": "Segurança! Tira esse filho da puta daqui!",
+     "cam": "ampla",
+     "acoes": [
+      {
+       "quem": "f0",
+       "faz": "grita",
+       "dur": 1.8
+      }
+     ]
+    },
+    {
+     "quem": "narrador",
+     "texto": "O Jorginho continua desempregado.",
+     "cam": "mesa",
+     "carimbo": true,
+     "sfx": "risada"
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Segurança! Tira esse filho da puta daqui! O Jorginho continua desempregado."
+  },
+  {
+   "amb": "escritorio",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Comenta o maior mico que você já pagou numa entrevista. E segue, que o Jorginho ainda tá procurando emprego.",
+     "cam": "ampla"
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Comenta o maior mico que você já pagou numa entrevista. E segue, que o Jorginho ainda tá procurando emprego."
+  }
+ ]
+}

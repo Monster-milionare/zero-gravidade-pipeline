@@ -38,7 +38,7 @@ def capitulos_texto(caps: list) -> str:
 def descricao(c: dict, caps: list) -> str:
     cap = capitulos_texto(caps)
     return (f"{c['descricao']}\n\n" + (f"CAPÍTULOS\n{cap}\n\n" if cap else "") +
-            "Se inscreva no Zero Gravidade BR: toda semana, o pior dia da história contado em 3D. "
+            "Se inscreva no Plano B da História: toda semana, o pior dia da história contado em 3D. "
             "Comente o que você faria no lugar dele!\n\n"
             "Dramatização baseada em fatos históricos e relatos da época. Diálogos e cenas são recriações.\n\n" + HASHTAGS)
 

@@ -259,3 +259,49 @@ def gerar_trilha(cues, total: float, saida: str, seed: int = 7) -> int:
         w.setframerate(SR)
         w.writeframes((np.clip(mix, -1, 1) * 32767).astype("<i2").tobytes())
     return usados
+
+# NFI: efeitos de comedia (sintetizados, sem direitos autorais)
+def peido(rng, dur=0.9):
+    n = int(SR * dur); t = np.arange(n) / SR
+    f = 70 + 25 * np.sin(2 * np.pi * 9 * t) + 30 * np.exp(-t * 3)
+    s = np.sign(np.sin(2 * np.pi * np.cumsum(f) / SR)) * 0.5 + _ruido(n, rng) * 0.25
+    return _passa_banda(s, 40, 900) * _env(n, 0.01, 0.35)
+
+
+def scratch(rng, dur=0.5):
+    n = int(SR * dur); t = np.arange(n) / SR
+    f = 900 * (1 + 0.8 * np.sin(2 * np.pi * 7 * t))
+    s = _ruido(n, rng) * 0.6 + 0.4 * np.sin(2 * np.pi * np.cumsum(f) / SR)
+    return _passa_banda(s, 300, 4000) * _env(n, 0.005, 0.12)
+
+
+def boing(rng, dur=0.7):
+    n = int(SR * dur); t = np.arange(n) / SR
+    f = 180 + 260 * np.exp(-t * 6) + 40 * np.sin(2 * np.pi * 14 * t) * np.exp(-t * 3)
+    return np.sin(2 * np.pi * np.cumsum(f) / SR) * _env(n, 0.005, 0.25)
+
+
+def buzina(rng, dur=0.8):
+    n = int(SR * dur); t = np.arange(n) / SR
+    s = sum(np.sign(np.sin(2 * np.pi * f * t)) / k for k, f in enumerate((415, 523, 622), 1))
+    return _passa_banda(s, 200, 3000) * 0.5 * _env(n, 0.02, 0.6)
+
+
+def plim(rng, dur=0.9):
+    n = int(SR * dur); t = np.arange(n) / SR
+    return (np.sin(2 * np.pi * 1318 * t) + 0.5 * np.sin(2 * np.pi * 1975 * t)) * 0.5 * np.exp(-t * 5)
+
+
+def risada(rng, dur=2.2):
+    n = int(SR * dur); t = np.arange(n) / SR
+    s = np.zeros(n)
+    for _ in range(14):     # varias pessoas rindo ("ha-ha-ha") em ritmos diferentes
+        f0, rit, fase = rng.uniform(160, 320), rng.uniform(5, 8), rng.uniform(0, 6)
+        pulso = np.clip(np.sin(2 * np.pi * rit * t + fase), 0, 1) ** 2
+        s += np.sin(2 * np.pi * f0 * t + 3 * np.sin(2 * np.pi * 4 * t)) * pulso * rng.uniform(0.4, 1)
+    s = _passa_banda(s + _ruido(n, rng) * 0.4, 200, 3500)
+    return s / (np.abs(s).max() + 1e-6) * _env(n, 0.15, 0.9)
+
+
+EFEITOS.update({"peido": peido, "scratch": scratch, "boing": boing, "buzina": buzina, "plim": plim, "risada": risada})
+VOLUME.update({"peido": 0.7, "scratch": 0.45, "boing": 0.45, "buzina": 0.4, "plim": 0.35, "risada": 0.3})

@@ -72,6 +72,17 @@ def auditar() -> tuple:
             tarefas.append(f"Corrigir a direcao de {c['id']}: {e}")
         for a in q["avisos"]:
             alertas.append(f"direcao {c['id']}: {a}")
+    st = _ler(config.STATE_DIR / "respostas_status.json", {})
+    if False and st.get("precisa_autorizar"):     # Andre 26/11: nao precisa responder comentario, so fazer o video
+        alertas.append(f"COMENTARIOS: {st.get('pendentes', 0)} resposta(s) de voto esperando: o token do canal nao tem permissao de comentar.")
+        tarefas.append("Andre: rodar autorizar_youtube.py no PC e atualizar o secret YOUTUBE_TOKEN_JSON (libera as respostas aos votos).")
+    try:
+        import continuacao
+        pend = continuacao.pendentes()
+        if pend:
+            alertas.append(f"CONTINUACAO: {len(pend)} video(s) com voto vencedor ainda sem episodio seguinte: " + ", ".join(o["id"] for _, o in pend[:5]))
+    except Exception:
+        pass
     for c in ok:
         r = coerencia.validar(c)
         for a in r["avisos"]:
@@ -127,7 +138,7 @@ def main() -> int:
     alertas, tarefas, est, tem_est = auditar()
     tp, fp, med = foco()
     agora = datetime.now(timezone.utc).strftime("%d/%m/%Y %H:%M UTC")
-    L = [f"# Supervisor geral - Zero Gravidade BR ({agora})", ""]
+    L = [f"# Supervisor geral - Plano B ({agora})", ""]
     L += ["## Alertas", ""] + ([f"- {a}" for a in alertas] or ["- Nenhum alerta de repeticao ou estoque."]) + [""]
     L += ["## O que fazer", ""] + ([f"- {t}" for t in dict.fromkeys(tarefas)] or ["- Nada urgente."]) + [""]
     L += ["## Estoque liberado (fila)", "", f"- 2D: {est['2d']} | 3D: {est['3d']}",

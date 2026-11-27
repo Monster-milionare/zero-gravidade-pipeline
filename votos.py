@@ -62,11 +62,33 @@ def _variantes(w: str) -> set:
     return v
 
 
+PARADAS = {"para", "voce", "voces", "com", "sua", "seu", "suas", "seus", "uma", "que", "pra", "por", "ele", "ela", "mais", "agora",
+           "comenta", "fazer", "faria", "quer", "ficar", "isso", "esse", "essa", "onde", "como", "todo", "toda", "nao"}
+
+
+def _opcao(letra: str, texto: str) -> dict:
+    texto = re.sub(r"\s+", " ", texto).strip(" .,;:!?")
+    pal = [w for w in re.findall(r"[a-zà-ÿ]{4,}", texto.lower()) if _norm(w) not in PARADAS][:6]
+    return {"rotulo": f"{letra}: {texto}"[:70], "palavras": pal}
+
+
 def votacao(c: dict) -> dict | None:
-    """Opcoes da votacao do roteiro: {"A": {"rotulo", "palavras"}, "B": {...}} ou None."""
+    """Opcoes da votacao do roteiro: {"A": {"rotulo", "palavras"}, "B": {...}} ou None.
+    Ordem: campo "votacao" > comentario fixado "A: ... B: ..." > a ultima cena ("Comenta A: ... Ou B: ...")."""
     if c.get("votacao"):
         return c["votacao"]
     fixo = c.get("comentario_fixado") or ""
+    falas = []
+    for cena in c.get("cenas", [])[-2:]:
+        falas += [b.get("texto", "") for b in (cena.get("beats") or cena.get("falas") or [])] or [cena.get("fala", "")]
+    for txt in (fixo, " ".join(falas)):
+        m = re.search(r"\bA\s*(?::|para|pra|=|-)\s*(.+?)(?:[.;!?]|,?\s+ou\b)\s*(?:ou\s+)?(?:comenta\s+)?\bB\s*(?::|para|pra|=|-)\s*(.+?)(?:[.;!?]|$)", txt, re.I | re.S)
+        if m:
+            oa, ob = _opcao("A", m.group(1)), _opcao("B", m.group(2))
+            comuns = {_norm(w) for w in oa["palavras"]} & {_norm(w) for w in ob["palavras"]}
+            for o in (oa, ob):                      # palavra que aparece nas duas opcoes nao decide voto
+                o["palavras"] = [w for w in o["palavras"] if _norm(w) not in comuns]
+            return {"A": oa, "B": ob}
     # "Vermelho: foge agora. Azul: fica e espera."  /  "A: continuar. B: abortar."
     rot = re.findall(r"(?:^|[.?!]\s+)([A-Za-zÀ-ÿ]{1,12}):", fixo)
     if len(rot) >= 2:

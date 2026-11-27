@@ -11,7 +11,7 @@ import requests
 
 import config
 
-PROMPT = """Voce e roteirista de Shorts virais em portugues do Brasil para o canal "Zero Gravidade BR" (POV no espaco: o que aconteceria com VOCE na Lua, em Marte, numa nave ou numa estacao espacial, com base em missoes e ciencia reais; animacao 2D ilustrada).
+PROMPT_PLANOB = """Voce e roteirista de Shorts virais em portugues do Brasil para o canal "Plano B da Historia" (historia alternativa e suspense historico, animacao 3D de bonecos redondinhos).
 Formato: {formato}. Tema: {titulo}
 
 OBJETIVO: o espectador precisa ESCOLHER ASSISTIR (nao deslizar) e ver ate o fim e REASSISTIR. Tudo abaixo existe pra isso.
@@ -29,7 +29,7 @@ REGRAS DE VERDADE (nao negociaveis):
 - Numeros falados por extenso na fala; o campo "ano" pode ter digitos.
 - Sem tracos longos, emojis, asteriscos, hashtags.
 
-CENAS: 7 a 9 cenas. Cada cena: "fala" (1 a 2 frases, o texto completo da cena), "emocao" (neutro|feliz|surpreso|preocupado|misterioso), opcional "ano", "destaques" (1 a 3 palavras da fala para enfatizar na legenda), "visuais" (lista com 1 descricao curta em INGLES). Opcional "cenario" com um destes: conves, terra, cabine, palacio, cidade, cidade-antiga, campo, laboratorio, lua, arena, deserto, aerodromo, selva (use quando o lugar for obvio). Opcional "hora" (dia, manha, amanhecer, tarde, entardecer, noite, madrugada): o CEU do video segue isso, entao se a fala diz "na manha seguinte" ou "a noite", ponha a hora certa (se a fala ja cita a hora, o sistema deduz sozinho).
+CENAS: 7 a 9 cenas. Cada cena: "fala" (1 a 2 frases, o texto completo da cena), "emocao" (neutro|feliz|surpreso|preocupado|misterioso), opcional "ano", "destaques" (1 a 3 palavras da fala para enfatizar na legenda), "visuais" (lista com 1 descricao curta em INGLES). Opcional "cenario" com um destes: conves, terra, cabine, palacio, cidade-antiga (Roma/Grecia/Egito), cidade-medieval (Europa 1300-1500), cidade-colonial (Brasil/Americas 1600-1850), cidade-vitoriana (1850-1930), cidade-futuro (2050+), cidade-oriental (Japao/China antigos), campo, laboratorio, lua, arena, deserto, aerodromo, selva (use quando o lugar for obvio; cidade SEMPRE a da epoca certa). Opcional "hora" (dia, manha, amanhecer, tarde, entardecer, noite, madrugada): o CEU do video segue isso, entao se a fala diz "na manha seguinte" ou "a noite", ponha a hora certa (se a fala ja cita a hora, o sistema deduz sozinho).
 - DIVISAO DE FALAS (obrigatorio): cada cena traz tambem "falas": lista de {{"quem": "narrador"|"prot"|"f0"|"f1"|"f2", "texto": "..."}}. O NARRADOR conta e contextualiza; os PERSONAGENS falam em primeira pessoa, com frases curtas de ate 10 palavras ("prot" = o protagonista, "f0/f1/f2" = os outros bonecos da cena). Pelo menos 3 cenas devem ter fala de personagem, alternando quem fala, como um mini dialogo. O campo "fala" tem que ser exatamente todos os "texto" juntos, em ordem. Cada voz e diferente, entao nao ponha duas falas seguidas do mesmo "quem" sem necessidade.
 - CONTINUIDADE (voce sera reprovado se errar): o lugar, a hora do dia, a epoca e quem esta na cena tem que bater com a fala. "Manha seguinte" nao pode ser de noite; ninguem usa objeto que ainda nao existia; quem morreu nao fala.
 - Se o formato for "escolha": o espectador decide o destino. A ultima cena apresenta DUAS opcoes concretas e opostas e pede o voto: "Comenta A para <opcao A> ou B para <opcao B>". O proximo episodio segue a opcao mais votada, entao diga isso ("a mais votada vira o proximo episodio"). Narre em primeira pessoa, com perigo ou decisao iminente.
@@ -59,30 +59,30 @@ Responda SOMENTE com JSON valido: {{"descricao": "...", "tags": ["..."], "thumb_
 # Temas que tem cenario no motor 2D ilustrado (o motor principal: 3 de cada 4 Shorts do dia).
 # Se o titulo bater com "rx", o roteiro e escrito para esse cenario 2D (amb fixo, hora da lista, elenco do menu).
 PRESETS_2D = {
-    "nave-cabine": dict(rx=r"\bnave\b|capsula|orbita|estacao espacial|lixo espacial|apollo 13|capacete no espaco|caminhada espacial|traje|sozinho na nave",
-                        horas=["dia"], nota="Interior de uma capsula/nave (paineis, escotilhas com a Terra). O ceu nao aparece: use sempre hora 'dia'.",
-                        comuns=["piloto", "cientista", "comandante"],
-                 papeis=["comandante", "piloto", "cientista", "lovell", "swigert", "haise"]),
-    "marte": dict(rx=r"marte|marciano|planeta vermelho|olympus|perseverance|curiosity",
-                  horas=["dia", "manha", "tarde", "noite", "tempestade"],
-                  nota="Superficie de Marte: chao vermelho, crateras, base com cupula e painel solar. Hora 'tempestade' = tempestade de poeira.",
-                  comuns=["piloto-traje", "cientista-traje", "comandante-traje"],
-                 papeis=["comandante-traje", "piloto-traje", "cientista-traje"]),
-    "superficie-lunar": dict(rx=r"\blua\b|lunar|armstrong|aldrin",
-                             horas=["dia"], nota="Superficie da Lua: chao cinza com crateras, modulo lunar, a Terra no ceu preto. Use sempre hora 'dia'.",
-                             comuns=["piloto-traje", "cientista-traje", "comandante-traje"],
-                 papeis=["comandante-traje", "piloto-traje", "cientista-traje", "armstrong-traje", "aldrin-traje"]),
-    "_padrao": "nave-cabine",
+    "roma": dict(rx=r"\broma\b|romano|marco aurelio|comodo|trajano|adriano|gladiador|coliseu|legiao|legionario|nero",
+                 horas=["manha", "dia", "tarde", "entardecer", "noite", "incendio"],
+                 nota="Forum Romano no seculo II com o Coliseu ao fundo (o Coliseu so ficou pronto em 80 d.C.: historia de antes disso usa SO a hora 'incendio', que mostra Roma em chamas no ano 64, sem o Coliseu)",
+                 comuns=["cidadao-romano", "cidada-romana", "legionario", "escravo", "senador"],
+                 papeis=["marco-aurelio", "comodo", "nero", "galeno", "senador", "legionario", "centuriao", "cidadao-romano", "cidada-romana", "escravo"]),
+    "chernobyl": dict(rx=r"chernobyl|tchernobyl|pripyat|reator nuclear|usina nuclear|radiacao",
+                      horas=["noite", "madrugada", "dia", "evacuacao"],
+                      nota="Usina de Chernobyl em 1986: bloco 4 destruido, chamine listrada, Pripyat ao fundo. Hora 'evacuacao' = 27/04 com os onibus.",
+                      comuns=["bombeiro2", "morador", "moradora", "bombeiro", "operador"],
+                 papeis=["bombeiro", "bombeiro2", "operador", "engenheiro-usina", "liquidador", "morador", "moradora", "oficial-sovietico"]),
+    "selva-cretaceo": dict(rx=r"dinossaur|cretaceo|t-?rex|pterossaur|jurassic|asteroide",
+                           horas=["manha", "dia", "tarde", "entardecer", "impacto", "noite"],
+                           nota="Selva do Cretaceo com vulcao, lago e dinossauros. Hora 'impacto' = o dia do asteroide.",
+                           comuns=["exploradora", "guia", "explorador"],
+                 papeis=["explorador", "exploradora", "guia", "bebe-tricera"]),
 }
 
 
 def preset_2d(titulo: str):
     t = unicodedata.normalize("NFKD", titulo).encode("ascii", "ignore").decode().lower()
     for amb, p in PRESETS_2D.items():
-        if amb != "_padrao" and re.search(p["rx"], t):
+        if re.search(p["rx"], t):
             return amb, p
-    pad = PRESETS_2D.get("_padrao")
-    return (pad, PRESETS_2D[pad]) if pad else (None, None)
+    return None, None
 
 
 def _bloco_2d(amb, p) -> str:
@@ -186,16 +186,37 @@ def _groq(prompt: str, temp: float = 0.8):
     return json.loads(r.json()["choices"][0]["message"]["content"])
 
 
-def gerar(fmt: str, titulo: str):
-    """Rascunho -> critico severo (reescreve se gancho/tensao/loop < 8 ou risco factual > 2) -> validacao."""
+def _quer_2d(titulo: str, motor_de=None):
+    """Motor do roteiro novo. Pente fino de 26/11: o 3D rende ~2x mais views, entao o 2D so e escrito para manter um
+    estoque minimo (1 Short 2D por dia) ou para continuar um episodio que ja era 2D."""
+    if motor_de is not None:
+        if motor_de.get("motor") != "2d":
+            return None, None
+        amb = motor_de.get("tema") or next((x.get("amb") for x in motor_de.get("cenas", []) if x.get("amb")), None)
+        return (amb, PRESETS_2D[amb]) if amb in PRESETS_2D else preset_2d(titulo)
+    return None, None          # Andre 27/11: roteiro novo e sempre 3D (o 2D so continua episodio que ja era 2D)
+    amb2d, p2d = preset_2d(titulo)
+    if not amb2d:
+        return None, None
+    try:
+        import publish
+        estoque_2d = sum(1 for c in publish.pendentes() if c.get("motor") == "2d")
+    except Exception:
+        estoque_2d = 0
+    return (amb2d, p2d) if estoque_2d < 3 else (None, None)
+
+
+def gerar(fmt: str, titulo: str, contexto: str = "", motor_de=None):
+    """Rascunho -> critico severo (reescreve se gancho/tensao/loop < 8 ou risco factual > 2) -> validacao.
+    contexto: instrucoes extras (ex.: continuacao pelo voto); motor_de: roteiro anterior (continua no mesmo motor/cenario)."""
     if not config.GROQ_API_KEY:
         print("[roteirista] GROQ_API_KEY ausente.")
         return None
     melhor = None
+    amb2d, p2d = _quer_2d(titulo, motor_de)
     for tentativa in range(4):
         try:
-            amb2d, p2d = preset_2d(titulo)
-            d = _groq(PROMPT.format(formato=fmt, titulo=titulo, bloco_2d=_bloco_2d(amb2d, p2d),
+            d = _groq(PROMPT.format(formato=fmt, titulo=titulo, bloco_2d=_bloco_2d(amb2d, p2d) + (contexto or ""),
                                     campo_elenco='"elenco": {"prot": "...", "f": ["...", "..."]}, ' if amb2d else ""))
             if amb2d and _validar_2d(d, amb2d, p2d):
                 print(f"[roteirista] tentativa {tentativa + 1}: {_validar_2d(d, amb2d, p2d)}")
@@ -231,7 +252,7 @@ def main() -> int:
     if "--se-fila-curta" in sys.argv:
         import publish
         escritos = 0
-        while len(publish.pendentes()) < FILA_ALVO and escritos < MAX_POR_DISPARO:
+        while sum(1 for c in publish.pendentes() if c.get("motor") != "2d") < FILA_ALVO and escritos < MAX_POR_DISPARO:   # estoque 3D
             if _um() is None:
                 break
             escritos += 1
@@ -251,12 +272,12 @@ def _um():
     d = gerar(fmt, titulo)
     if not d:
         return None
+    amb2d, p2d = _quer_2d(titulo)
     ordem = 1 + max([json.loads(p.read_text(encoding="utf-8")).get("ordem", 0) for p in config.CONTEUDO_DIR.glob("*.json")] or [0])
     c = {"id": f"{ordem:02d}-{_slug(titulo)}", "ordem": ordem, "formato": fmt, "titulo": titulo,
          "descricao": d.get("descricao", titulo), "tags": d.get("tags", []), "cenas": d["cenas"],
          "thumb_texto": d.get("thumb_texto", ""), "titulo_curto": d.get("titulo_curto", ""),
          "titulo_youtube": d.get("titulo_youtube", ""), "comentario_fixado": d.get("comentario_fixado", "")}
-    amb2d, p2d = preset_2d(titulo)
     if amb2d and d.get("elenco"):
         c["motor"], c["tema"] = "2d", amb2d
         c["elenco"] = {"prot": d["elenco"]["prot"], "f": list(d["elenco"]["f"])}
@@ -278,3 +299,58 @@ def _um():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+# NFI: roteirista do canal de humor "Nao Faca Isso"
+PROMPT = """Voce e roteirista de Shorts de HUMOR ABSURDO em portugues do Brasil para o canal "Nao Faca Isso" (animacao 3D de bonecos redondinhos).
+Formato: {formato}. Tema: {titulo}{bloco_2d}
+
+O CANAL: o manual do que NUNCA fazer na vida. O protagonista e sempre o JORGINHO ("prot"), um cara sem nocao que faz exatamente o que
+nao se deve, do jeito mais ABSURDO possivel, na frente de quem nao devia. O narrador e um brasileiro zoeiro que fala como amigo no bar:
+girias, palavrao liberado (porra, caralho, merda, cacete, puta que pariu, vai tomar no cu) quando a piada pede, ritmo rapido.
+O humor vem do ABSURDO e da reacao das pessoas (ex.: no primeiro encontro, o Jorginho sobe na mesa e caga na frente da crush).
+
+ESTRUTURA (35 a 50 segundos de fala, 90 a 130 palavras no total, 7 a 9 cenas):
+1. GANCHO (cena 1, ate 14 palavras): "Primeiro encontro? Presta atencao, porque o Jorginho fez TUDO errado." Ja com a crush/o chefe na cena.
+2. TRES REGRAS. Cada regra ocupa 2 cenas:
+   a) o narrador anuncia ("Regra numero um: nunca, em hipotese alguma, ...") e o Jorginho FAZ a besteira (batida muda com acao);
+   b) a REACAO: a outra pessoa xinga ou reage curto e grosso (ate 10 palavras) e entra o carimbo "NAO FACA ISSO".
+   A terceira regra e a MAIS absurda (escalada).
+3. FECHO (ultima cena): "Comenta a pior coisa que voce ja fez num <situacao>. E segue, que o Jorginho nao aprende nunca."
+
+USE "beats" (batidas) em cada cena: lista de {{"quem": "narrador|prot|f0|f1|f2", "texto": "...", "cam": "...", "acoes": [...], "sfx": "...",
+"dur": 1.6, "regra": "REGRA Nº 1", "carimbo": true, "censura": true}}. Batida muda (sem texto) com "dur" serve para a acao acontecer.
+- cam: ampla | grupo | mesa | alto | eu-frente (close do Jorginho) | eu-lado | f0 | f0c (close da outra pessoa) | f1 | f1c | f2 | f2c
+- acoes: {{"quem": "prot|f0|f1|todos", "faz": "sobe|agacha|danca|rebola|grita|treme|cai|vira|susto|comemora|aponta|olha", "para": "mesa|f0|camera"}}
+  ("sobe" com "para": "mesa" = sobe em cima da mesa e fica la; "cai" = cai duro no chao)
+- sfx: peido | scratch (disco arranhando, na hora da besteira) | boing | buzina | plim | risada | impacto | whoosh
+- "censura": true na batida da nojeira/pelada (o quadro fica pixelado com a tarja CENSURADO); "carimbo": true na batida da reacao.
+Cada cena tambem tem "amb" (o cenario, fixo no video), "fala" (todos os textos da cena juntos, em ordem) e "presentes": ["f0"] na cena 1.
+
+CENARIOS E ELENCO (escolha o que combina com o tema e use SO esses papeis):
+- restaurante (primeiro encontro, jantar): f0 = "crush" (ou "crush-m"), f1 = "garcom". Pontos: mesa, vela, balcao.
+- escritorio (entrevista de emprego, reuniao, primeiro dia): f0 = "chefe" (ou "chefa"). Pontos: mesa, computador, janela, planta.
+- casamento (casamento de amigo, padrinho): f0 = "noiva", f1 = "noivo", f2 = "padre". Pontos: altar, noiva, bancos, bolo.
+- elevador (elevador do trabalho, do predio): f0 = "chefa", f1 = "seguranca". Pontos: botoes, espelho, teto.
+
+LIMITES (o YouTube derruba o canal se passar disso): nada de sexo explicito, nada com crianca, nada de preconceito (raca, religiao,
+genero, deficiencia, orientacao), nada de violencia real ou drogas. Escatologico, vergonha alheia, mico e absurdo: pode tudo.
+Sem tracos longos, emojis, asteriscos ou hashtags na fala. Numeros por extenso.
+
+Inclua "thumb_texto" (2 a 4 palavras em MAIUSCULAS), "titulo_curto" (ate 24 caracteres), "titulo_youtube" (ate 60 caracteres, ex.:
+"O que NUNCA fazer no primeiro encontro") e "comentario_fixado" (pergunta pra galera contar o mico dela).
+Responda SOMENTE com JSON valido: {{"descricao": "...", "tags": ["..."], "thumb_texto": "...", "titulo_curto": "...", "titulo_youtube": "...",
+"comentario_fixado": "...", {campo_elenco}"elenco": {{"prot": "jorginho", "f": ["...", "..."]}}, "cenas": [ ... ]}}"""
+
+# NFI: o roteiro de humor sai sempre 3D e com o formato "nao-faca"
+def _quer_2d(titulo, motor_de=None):
+    return None, None
+
+
+_validar_planob = _validar
+
+
+def _validar(d):
+    for c in d.get("cenas", []) if isinstance(d, dict) else []:
+        if not c.get("fala") and c.get("beats"):
+            c["fala"] = " ".join(b.get("texto", "") for b in c["beats"] if b.get("texto")).strip() or "..."
+    return _validar_planob(d)

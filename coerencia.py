@@ -29,7 +29,7 @@ LUGARES = [
     ("kennedy", r"\b(kennedy|canaveral|plataforma de lancamento|base de lancamento|base espacial|centro espacial|contagem regressiva|saturn)\b",
      {"lancamento", "espaco"}, "o texto fala da base de lancamento/foguete (precisa do cenario 'lancamento')"),
     ("houston", r"\b(centro de controle|sala de controle|diretor de voo|kranz|controladores?|centro de missao)\b",
-     {"houston", "laboratorio"}, "o texto fala do centro de controle (precisa de 'houston')"),
+     {"houston", "laboratorio", "chernobyl"}, "o texto fala do centro de controle (precisa de 'houston')"),
     ("lado-lua", r"\b(lado escondido|lado oculto|lado escuro da lua|superficie da lua)\b",
      {"espaco", "modulo-lunar", "lua", "superficie-lunar", "descida-lunar"}, "o texto fala da Lua vista de perto"),
     ("oceano", r"\b(oceano pacifico|ilhas samoa|samoa|navio de resgate|amerissag\w*|caiu na agua|cai na agua)\b",

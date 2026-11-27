@@ -51,6 +51,24 @@ PONTOS_KW = {
         "dinos": r"dinossaur\w*|manada|braquiossaur\w*|pescoco",
         "trex": r"\bt-?rex\b|tiranossaur\w*|predador",
     },
+    "roma": {
+        "coliseu": r"coliseu|anfiteatro|gladiador\w*|arena",
+        "templo": r"templo\w*|deuses|sacrific\w*|altar",
+        "arco": r"\barco\b|triunfo",
+        "fogo": r"\bfogo\b|chamas?|incendi\w*|queima\w*|fumaca",
+        "cidade": r"\broma\b|cidade|forum|ruas?",
+        "escadaria": r"escada\w*|degraus",
+        "chao": r"\bchao\b|corpos?|mort[oa]s",
+    },
+    "chernobyl": {
+        "reator": r"reator\w*|bloco (quatro|4)|explos\w*|nucleo|telhado",
+        "coluna": r"\bazul\b|brilho|luz|coluna",
+        "chamine": r"chamine\w*|torre",
+        "cidade": r"pripyat|cidade|predios?|casa|familia",
+        "roda": r"roda.gigante|parque",
+        "caminhao": r"caminh\w*|bombeiros?|mangueira\w*|sirene\w*",
+        "grafite": r"grafite|pedras? pretas?|blocos? pretos?|\bchao\b|destrocos",
+    },
     "vapor": {
         "iceberg": r"iceberg|gelo|montanha de gelo",
         "mar": r"\bmar\b|oceano|\bagua\b|escuro",
@@ -69,6 +87,13 @@ NAO_NOMES = {"cidadao", "cidada", "marujo", "nativo", "soldado", "soldado romano
              "senador", "pretoriano", "escravo", "gladiador", "legionario", "plebeu", "plebeia", "menino", "menina", "dino",
              "bebe tricera", "viking", "egipcio", "samurai", "asteca", "cavaleiro", "engenheiro usina", "liquidador",
              "morador", "moradora", "oficial sovietico", "cidadao romano", "cidada romana", "medico"}
+PONTOS_KW.update({
+    "cidade-medieval": {"igreja": r"igreja\w*|catedral|sinos?|padre|missa", "poco": r"\bpoco\b|\bagua\b", "mercado": r"mercado|feira|barraca\w*|vende\w*"},
+    "cidade-colonial": {"igreja": r"igreja\w*|capela|sinos?|missa", "chafariz": r"chafariz|fonte|praca|\bagua\b"},
+    "cidade-vitoriana": {"relogio": r"relogio|torre|horas?\b", "bonde": r"bonde|eletric\w*|trilhos?", "banca": r"jorna\w*|noticia\w*|banca"},
+    "cidade-futuro": {"torre": r"torre|predios?|arranha", "carros": r"carros?|voador\w*|voando|drones?"},
+    "cidade-oriental": {"pagode": r"pagode|templo|santuario", "torii": r"portal|torii|portao"},
+})
 PONTOS_KW_GERAIS = {"ceu": r"\bceu\b|estrelas|\blua\b", "grupo": r"todos|voces|grupo|juntos"}
 
 
@@ -217,6 +242,7 @@ def planejar(conteudo: dict, sintetizar, elenco_vozes, work: Path):
     pov = conteudo.get("formato", "") in FORMATOS_POV or bool(conteudo.get("pov"))
     todos, bt, ultimo = [], [], None
     for ci, c in enumerate(cenas):
+        c = _quem_para_boneco(conteudo, c)
         if c.get("beats"):
             beats = [dict(b) for b in c["beats"]]
             pap = papeis_do_amb(conteudo, c.get("amb"), com_nomes=True)
@@ -468,6 +494,32 @@ def calcular_presenca(bt: list, conteudo: dict, pov: bool):
 
 def _entra_explicito(xs, fid) -> bool:
     return any(fid in _lista(x["b"].get("entra")) for x in xs)
+
+
+def _quem_para_boneco(conteudo: dict, cena: dict) -> dict:
+    """Roteiro que escreve o NOME do papel em "quem" (ex.: "camponesa") vira "f0/f1/f2" ou "prot". Sem isso a pessoa
+    nao entrava em cena, a camera nao ia nela e a voz saia como a do narrador (masculina ate para mulher)."""
+    el = conteudo.get("elenco") or {}
+    amb = cena.get("amb", "")
+    lista = ((el.get("amb") or {}).get(amb) or el.get("f") or [])[:3]
+    prot = (el.get("protAmb") or {}).get(amb) or el.get("prot")
+
+    def troca(x):
+        q = x.get("quem")
+        if not q or q in ("narrador", "radio", "prot") or re.match(r"^f\d$", q):
+            return x
+        if q in lista:
+            return dict(x, quem=f"f{lista.index(q)}")
+        if q == prot:
+            return dict(x, quem="prot")
+        print(f"[diretor] aviso: '{q}' fala em '{amb}' mas nao esta no elenco desse cenario", flush=True)
+        return x
+
+    cena = dict(cena)
+    for k in ("falas", "beats"):
+        if cena.get(k):
+            cena[k] = [troca(x) for x in cena[k]]
+    return cena
 
 
 def legenda_em(legendas, t, idx=0):

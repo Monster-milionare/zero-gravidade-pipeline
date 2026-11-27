@@ -1,4 +1,4 @@
-"""Motor de render do Zero Gravidade BR (Shorts/Reels 1080x1920).
+"""Motor de render do Plano B da Historia (Shorts/Reels 1080x1920).
 
 Por video: voz (edge-tts) -> imagens por cena -> profundidade -> camera 2.5D
 (parallax) com cortes rapidos -> grade de cor do estilo -> mascote Tic falando
@@ -30,7 +30,7 @@ import tts
 
 W, H, FPS = config.W, config.H, config.FPS
 FONTE = str(config.ASSETS_DIR / "fontes" / "Anton-Regular.ttf")
-HANDLE = "@zerogravidadebr"
+HANDLE = "@naofacaisso"   # NFI:handle
 
 
 @lru_cache(maxsize=64)
@@ -280,13 +280,13 @@ def render_video(conteudo: dict, out_path: Path, estilo_nome: str | None = None,
                  fim_cena_extra: float = 0.9):
     work = config.OUT_DIR / f"_work_{conteudo['id']}"
     work.mkdir(parents=True, exist_ok=True)
-    estilo = estilos.ESTILOS[estilo_nome or conteudo.get("estilo") or "epico"]
+    estilo = estilos.ESTILOS.get(estilo_nome or conteudo.get("estilo") or "epico") or estilos.ESTILOS["epico"]
     rng = random.Random(conteudo["id"])
     cenas = conteudo["cenas"]
 
     # 1) voz
     sintetizar = tts.synthesize_sentences
-    if fake_tts or os.environ.get("CANAL_FAKE_TTS") == "1":
+    if fake_tts or os.environ.get("PLANOB_FAKE_TTS") == "1":
         import tts_fake
         sintetizar = tts_fake.synthesize_sentences
     segs_por_cena = []
@@ -344,7 +344,7 @@ def render_video(conteudo: dict, out_path: Path, estilo_nome: str | None = None,
     ano_ate, ano_txt = -1.0, ""
     titulo_spr = _titulo_sprite(conteudo.get("titulo_curto") or conteudo["titulo"])
     formato = {"e-se": "E SE...?", "voce-acorda": "VOCÊ ACORDA EM...", "quem-venceria": "QUEM VENCERIA?", "pov": "POV"}.get(
-        conteudo.get("formato", "e-se"), "ZERO GRAVIDADE")
+        conteudo.get("formato", "e-se"), "PLANO B")
     chip = _chip(formato, (255, 214, 10))
 
     for fi in range(nframes):

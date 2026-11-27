@@ -16,7 +16,7 @@ import requests
 
 import config
 
-UA = {"User-Agent": "ZeroGravidadeBR/1.0 (canal educativo; contato.luard@gmail.com)"}
+UA = {"User-Agent": "PlanoBDaHistoria/1.0 (canal educativo; contato.luard@gmail.com)"}
 BASE_PROMPT = ("vertical composition, no text, no letters, no watermark, no logo, "
                "single clear subject in the foreground, depth, atmospheric perspective")
 

@@ -20,6 +20,7 @@ import chamada_longo
 import estilos
 import musica
 import musica_real
+import config   # NFI:config
 import render as R
 import tts
 
@@ -152,12 +153,12 @@ def render_pov3d(conteudo: dict, out_path: Path, estilo_nome: str | None = None,
     import sfx as SFX
     work = config.OUT_DIR / f"_work_{conteudo['id']}"
     work.mkdir(parents=True, exist_ok=True)
-    estilo = estilos.ESTILOS[estilo_nome or conteudo.get("estilo") or "sepia"]
+    estilo = estilos.ESTILOS.get(estilo_nome or conteudo.get("estilo") or "sepia") or estilos.ESTILOS["sepia"]
     conteudo = cenografo.preparar(conteudo)
     cenas = conteudo["cenas"]
 
     sintetizar = tts.synthesize_sentences
-    if fake_tts or os.environ.get("CANAL_FAKE_TTS") == "1":
+    if fake_tts or os.environ.get("PLANOB_FAKE_TTS") == "1":
         import tts_fake
         sintetizar = tts_fake.synthesize_sentences
     import vozes
@@ -200,7 +201,7 @@ def render_pov3d(conteudo: dict, out_path: Path, estilo_nome: str | None = None,
 
     vig = R._vinheta(0.55)
     ep = conteudo.get("episodio") or {"e-se": "E SE...?", "voce-acorda": "VOCÊ ACORDA EM...", "quem-venceria": "QUEM VENCERIA?", "debate": "QUEM TEM RAZÃO?",
-                                       "pov": "POV", "escolha": "VOCÊ ESCOLHE", "futuro": "VOCÊ ACORDA NO FUTURO"}.get(conteudo.get("formato", "e-se"), "ZERO GRAVIDADE")
+                                       "pov": "POV", "escolha": "VOCÊ ESCOLHE", "futuro": "VOCÊ ACORDA NO FUTURO", "nao-faca": "NÃO FAÇA ISSO"}.get(conteudo.get("formato", "e-se"), "PLANO B")
     barra = _barra_ep(ep, conteudo.get("titulo_curto") or conteudo["titulo"])
     uis = [(tempos_cena[i], c["ui"]) for i, c in enumerate(cenas) if c.get("ui")]
     leg_idx = 0
@@ -259,6 +260,10 @@ def render_pov3d(conteudo: dict, out_path: Path, estilo_nome: str | None = None,
                     R._blit(frame, im, (W - im.width) // 2, int(H * 0.52), opac=min(ent, sai))
                     break
 
+            # NFI:overlay - humor: faixa "REGRA No 1", carimbo "NAO FACA ISSO" e tarja "CENSURADO", por batida
+            if getattr(config, "CANAL_HUMOR", False):
+                frame = _humor_overlay(frame, t, P["beats"])
+
             # chip do episodio + titulo (primeiros 3 s)
             if t < 3.2:
                 ent = min(1.0, t / 0.3)
@@ -311,3 +316,63 @@ def render_pov3d(conteudo: dict, out_path: Path, estilo_nome: str | None = None,
         check=True)
     creditos = [f for f in (faixas or []) if isinstance(f, tuple)]
     return {"duracao": total, "estilo": estilo.nome, "faixas": faixas, "creditos": creditos}
+
+# NFI: sprites do canal de humor
+from functools import lru_cache as _lru
+
+
+@_lru(maxsize=16)
+def _faixa_regra(texto):
+    f = R._fonte(86)
+    bb = f.getbbox(texto)
+    w, h = bb[2] - bb[0] + 90, 150
+    im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.polygon([(18, 10), (w - 1, 0), (w - 18, h - 12), (0, h - 1)], fill=(255, 214, 10, 250), outline=(10, 8, 20, 255))
+    for x in range(-h, w, 46):
+        d.line([(x, h - 6), (x + 24, h - 6)], fill=(10, 8, 20, 255), width=8)
+    d.text((45 - bb[0], 22 - bb[1]), texto, font=f, fill=(15, 10, 30, 255))
+    return im.rotate(-3, expand=True, resample=Image.BICUBIC)
+
+
+@_lru(maxsize=8)
+def _carimbo_nao(texto):
+    f = R._fonte(150)
+    linhas = texto.split("|") if "|" in texto else ([texto] if len(texto) < 9 else [" ".join(texto.split()[:-1]), texto.split()[-1]])
+    larg = max(f.getbbox(x)[2] - f.getbbox(x)[0] for x in linhas)
+    w, h = larg + 130, 175 * len(linhas) + 80
+    im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    cor = (220, 20, 30, 235)
+    d.rounded_rectangle([6, 6, w - 7, h - 7], radius=26, outline=cor, width=14)
+    d.rounded_rectangle([22, 22, w - 23, h - 23], radius=18, outline=cor, width=5)
+    for i, x in enumerate(linhas):
+        bb = f.getbbox(x)
+        d.text(((w - (bb[2] - bb[0])) // 2 - bb[0], 42 + i * 175 - bb[1]), x, font=f, fill=cor)
+    return im.rotate(12, expand=True, resample=Image.BICUBIC)
+
+
+def _humor_overlay(frame, t, beats):
+    for x in beats:
+        b, a, t1 = x["b"], x["a"], x["t1"]
+        if b.get("censura") and a <= t < t1 + 0.15:          # tarja pixelada no meio do quadro (onde o Jorginho apronta)
+            y0, y1, x0, x1 = int(H * 0.40), int(H * 0.80), int(W * 0.12), int(W * 0.88)
+            reg = frame[y0:y1, x0:x1]
+            peq = cv2.resize(reg, (max(1, (x1 - x0) // 34), max(1, (y1 - y0) // 34)), interpolation=cv2.INTER_AREA)
+            frame[y0:y1, x0:x1] = cv2.resize(peq, (x1 - x0, y1 - y0), interpolation=cv2.INTER_NEAREST)
+            tag = R._texto_contorno("CENSURADO", 84, (255, 255, 255), 10)
+            fundo = Image.new("RGBA", (tag.width + 50, tag.height + 24), (10, 10, 12, 235))
+            fundo.alpha_composite(tag, (25, 12))
+            R._blit(frame, fundo, (W - fundo.width) // 2, (y0 + y1) // 2 - fundo.height // 2, opac=1.0)
+        if b.get("regra") and a <= t < a + 2.2:
+            im = _faixa_regra(str(b["regra"]).upper())
+            ent = min(1.0, (t - a) / 0.18)
+            sai = min(1.0, (a + 2.2 - t) / 0.25)
+            R._blit(frame, im, (W - im.width) // 2 + int((1 - ent) * -W), int(H * 0.30), opac=min(1.0, sai))
+        if b.get("carimbo") and a + 0.15 <= t < t1 + 0.6:
+            im = _carimbo_nao("NÃO FAÇA ISSO" if b["carimbo"] is True else str(b["carimbo"]).upper())
+            u = min(1.0, (t - a - 0.15) / 0.16)
+            k = 1.9 - 0.9 * u                                  # bate na tela: comeca grande e "carimba"
+            spr = im.resize((max(1, int(im.width * k * 0.92)), max(1, int(im.height * k * 0.92))), Image.BILINEAR)
+            R._blit(frame, spr, (W - spr.width) // 2, int(H * 0.5) - spr.height // 2, opac=min(1.0, 0.4 + u))
+    return frame

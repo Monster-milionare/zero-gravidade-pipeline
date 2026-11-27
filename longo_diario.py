@@ -24,7 +24,7 @@ def longos():
     for p in config.CONTEUDO_DIR.glob("*.json"):
         c = _ler(p, {})
         if c.get("formato") == "longo" and c.get("id") and not c["id"].startswith("00-") and not c.get("desativado") and c.get("revisado") is True:
-            out[c["id"]] = c        # so entra roteiro marcado "revisado": true (conferido com o quadro de contato) 
+            out[c["id"]] = c        # so entra roteiro marcado "revisado": true (conferido com o quadro de contato)
     return out
 
 
@@ -43,6 +43,9 @@ def escolher():
     feitos = {d["id"] for d in pubs}
     fila = sorted((c for i, c in todos.items() if i not in feitos), key=lambda c: (c.get("ordem", 999), c["id"]))
     if not fila:
+        if os.environ.get("AUTO_GERAR_LONGO") != "1":
+            print("[longo_diario] fila de longos vazia; geracao automatica desligada (roteiros precisam de revisao)")
+            return ""
         import roteirista_longo
         novo = roteirista_longo.main_gerar()
         return novo or ""

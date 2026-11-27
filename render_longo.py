@@ -1,4 +1,4 @@
-"""Video LONGO 16:9 (1280x720, 24 fps) do Zero Gravidade BR, renderizado em PARALELO.
+"""Video LONGO 16:9 (1280x720, 24 fps) do Plano B da Historia, renderizado em PARALELO.
 
 O render 3D (Chromium + SwiftShader, sem GPU) faz ~1-2 quadros por segundo. Um video de 9 min tem ~13 mil
 quadros, entao o trabalho e dividido em trechos que rodam em jobs separados do GitHub Actions:

@@ -190,7 +190,7 @@ def main() -> int:
     pesos["fonte_views"] = metodo
     estilos.PESOS_ARQ.write_text(json.dumps(pesos, ensure_ascii=False, indent=1), encoding="utf-8")
 
-    linhas = [f"# Placar do Zero Gravidade BR - {agora:%d/%m/%Y %H:%M} UTC", "",
+    linhas = [f"# Placar do Plano B - {agora:%d/%m/%Y %H:%M} UTC", "",
               f"Fonte das views: {metodo}. Videos medidos (20h+ no ar): {len(medidas)}. "
               f"Media geral: {media:.1f} views/dia (janela de {DIAS_JANELA} dias).", ""]
     if len(medidas) < MIN_AMOSTRA:

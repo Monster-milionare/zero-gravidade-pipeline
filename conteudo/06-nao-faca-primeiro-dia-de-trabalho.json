@@ -1,0 +1,233 @@
+{
+ "id": "06-nao-faca-primeiro-dia-de-trabalho",
+ "ordem": 6,
+ "formato": "nao-faca",
+ "motor": "3d",
+ "estilo": "aquarela",
+ "titulo": "O que NÃO fazer no primeiro dia de trabalho",
+ "titulo_youtube": "O que NUNCA fazer no primeiro dia de trabalho",
+ "titulo_curto": "PRIMEIRO DIA",
+ "thumb_texto": "DUROU 3 MINUTOS",
+ "descricao": "O Jorginho conseguiu um emprego. Durou exatamente três minutos.",
+ "comentario_fixado": "Quanto tempo você durou no seu pior emprego?",
+ "tags": [
+  "primeiro dia",
+  "trabalho",
+  "emprego",
+  "chefe",
+  "humor",
+  "comedia",
+  "nao faca isso",
+  "jorginho",
+  "zoeira"
+ ],
+ "elenco": {
+  "prot": "jorginho",
+  "f": [
+   "chefa"
+  ],
+  "amb": {
+   "escritorio": [
+    "chefa"
+   ]
+  }
+ },
+ "cenas": [
+  {
+   "amb": "escritorio",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Primeiro dia de trabalho? O Jorginho durou exatamente três minutos.",
+     "cam": "ampla"
+    },
+    {
+     "quem": "f0",
+     "texto": "Seja bem vindo, Jorginho.",
+     "cam": "f0c"
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Primeiro dia de trabalho? O Jorginho durou exatamente três minutos. Seja bem vindo, Jorginho.",
+   "presentes": [
+    "f0"
+   ]
+  },
+  {
+   "amb": "escritorio",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Regra número um: não chama a chefe de mozão.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 1"
+    },
+    {
+     "quem": "prot",
+     "texto": "Valeu, mozão!",
+     "cam": "eu-frente",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "comemora",
+       "dur": 1.2
+      }
+     ]
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Regra número um: não chama a chefe de mozão. Valeu, mozão!"
+  },
+  {
+   "amb": "escritorio",
+   "beats": [
+    {
+     "quem": "f0",
+     "texto": "Mozão é o caralho.",
+     "cam": "f0c",
+     "carimbo": true,
+     "sfx": "scratch"
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Mozão é o caralho."
+  },
+  {
+   "amb": "escritorio",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Regra número dois: não pergunta quando começam as férias.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 2"
+    },
+    {
+     "quem": "prot",
+     "texto": "E as férias, chefe? Começam amanhã?",
+     "cam": "eu-frente",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "aponta",
+       "para": "f0"
+      }
+     ]
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Regra número dois: não pergunta quando começam as férias. E as férias, chefe? Começam amanhã?"
+  },
+  {
+   "amb": "escritorio",
+   "beats": [
+    {
+     "quem": "f0",
+     "texto": "Você nem sentou direito!",
+     "cam": "f0",
+     "carimbo": true,
+     "sfx": "boing",
+     "acoes": [
+      {
+       "quem": "f0",
+       "faz": "susto"
+      }
+     ]
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Você nem sentou direito!"
+  },
+  {
+   "amb": "escritorio",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "E a regra número três: nunca tira um cochilo em cima da mesa da chefe.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 3"
+    },
+    {
+     "quem": "",
+     "texto": "",
+     "dur": 1.4,
+     "cam": "mesa",
+     "sfx": "boing",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "sobe",
+       "para": "mesa",
+       "dur": 1.0
+      }
+     ]
+    },
+    {
+     "quem": "",
+     "texto": "",
+     "dur": 1.2,
+     "cam": "mesa",
+     "sfx": "impacto",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "cai"
+      }
+     ]
+    },
+    {
+     "quem": "narrador",
+     "texto": "E ainda ronca.",
+     "cam": "mesa"
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "E a regra número três: nunca tira um cochilo em cima da mesa da chefe. E ainda ronca."
+  },
+  {
+   "amb": "escritorio",
+   "beats": [
+    {
+     "quem": "f0",
+     "texto": "Rua, Jorginho! Rua!",
+     "cam": "ampla",
+     "acoes": [
+      {
+       "quem": "f0",
+       "faz": "grita",
+       "dur": 1.5
+      }
+     ]
+    },
+    {
+     "quem": "narrador",
+     "texto": "Três minutos. Recorde da empresa.",
+     "cam": "ampla",
+     "carimbo": true,
+     "sfx": "risada"
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Rua, Jorginho! Rua! Três minutos. Recorde da empresa."
+  },
+  {
+   "amb": "escritorio",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Comenta quanto tempo você durou no seu pior emprego. E segue, que o Jorginho já tá mandando currículo.",
+     "cam": "ampla"
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Comenta quanto tempo você durou no seu pior emprego. E segue, que o Jorginho já tá mandando currículo."
+  }
+ ]
+}

@@ -208,7 +208,7 @@ def gerar(c: dict, estilo_nome: str, saida: Path, video=None) -> Path:
 
     # faixa de formato (canto superior esquerdo)
     rotulo = {"e-se": "E SE...?", "voce-acorda": "VOCÊ ACORDA EM...", "quem-venceria": "QUEM VENCERIA?", "pov": "POV",
-              "longo": c.get("thumb_selo") or "HISTÓRIA REAL", "escolha": "VOCÊ ESCOLHE"}.get(c.get("formato", ""), "ZERO GRAVIDADE")
+              "longo": c.get("thumb_selo") or "HISTÓRIA REAL", "escolha": "VOCÊ ESCOLHE"}.get(c.get("formato", ""), "PLANO B")
     f_r = _fonte(64)
     bb = d.textbbox((0, 0), rotulo, font=f_r)
     bx = 34 if not esquerda else TW - 34 - ((bb[2] - bb[0]) + 56)

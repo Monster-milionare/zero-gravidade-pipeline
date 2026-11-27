@@ -16,6 +16,8 @@ FOCO = config.STATE_DIR / "foco.json"
 FAMILIAS_2D = {
     "nasa": {"lancamento", "nave-cabine", "modulo-lunar", "espaco", "houston", "oceano", "superficie-lunar", "descida-lunar"},
     "cretaceo": {"selva-cretaceo"},
+    "roma": {"roma"},
+    "chernobyl": {"chernobyl"},
 }
 K_RECENTES = 6
 

@@ -18,10 +18,6 @@ POV = Path(config.BASE_DIR) / "pov3d"
 # ceu: o cenario mostra o ceu (a hora do dia importa) | fx: efeitos validos (a chave '' = padrao)
 # max_f: quantos figurantes o cenario comporta (alem do protagonista) | vazio: cenario sem personagens
 AMB_2D = {
-    "europa": dict(mostra="superficie de Europa, lua de Jupiter: gelo branco com rachaduras, picos de gelo, Jupiter gigante no ceu preto", formato="vertical", ceu=False, fx=[""], max_f=3),
-    "tita": dict(mostra="superficie de Tita, lua de Saturno: ceu laranja com neblina, lago escuro de metano, pedras", formato="vertical", ceu=False, fx=[""], max_f=3),
-    "asteroide": dict(mostra="superficie de um asteroide pequeno: rochas soltas, ceu preto com Sol e Terra distantes, nave parada perto", formato="vertical", ceu=False, fx=[""], max_f=3),
-    "marte": dict(mostra="superficie de Marte: chao vermelho com crateras, base com cupula e painel solar, ceu salmao (ou tempestade de poeira, ou noite estrelada)", formato="ambos", ceu=True, fx=[""], max_f=3, horas=["dia", "manha", "tarde", "noite", "tempestade"]),
     "selva-cretaceo": dict(mostra="selva do Cretaceo com vulcao, dinossauros e lago", formato="vertical", ceu=True, fx=[""], max_f=3,
                            horas=["manha", "dia", "tarde", "entardecer", "impacto", "noite"]),
     "lancamento": dict(mostra="base de lancamento (Kennedy, Florida): foguete Saturn V na plataforma, torre de servico, edificio de montagem",
@@ -40,6 +36,13 @@ AMB_2D = {
                              formato="ambos", ceu=False, fx=["", "bandeira"], max_f=3),
     "descida-lunar": dict(mostra="o modulo lunar Eagle visto de fora, descendo com o motor aceso ou ja pousado na Lua (sem personagens)",
                           formato="ambos", ceu=False, fx=["", "descida", "poeira", "pousado"], max_f=0, vazio=True),
+    "roma": dict(mostra="Forum Romano no seculo II: templos de colunas, arco do triunfo, pinheiros, o Coliseu ao fundo "
+                      "(hora 'incendio' = o Grande Incendio de 64 d.C., cidade em chamas e SEM o Coliseu, que so ficou pronto em 80 d.C.)",
+                 formato="vertical", ceu=True, fx=[""], max_f=3, horas=["manha", "dia", "tarde", "entardecer", "noite", "incendio"]),
+    "chernobyl": dict(mostra="usina nuclear de Chernobyl em 1986: bloco 4 destruido pegando fogo, chamine listrada, brilho azul subindo do "
+                           "reator, caminhoes de bombeiro, grafite no chao; ao fundo os predios de Pripyat e a roda-gigante amarela "
+                           "(hora 'dia' = 26/04 a tarde; 'evacuacao' = 27/04 com os onibus)",
+                      formato="vertical", ceu=True, fx=[""], max_f=3, horas=["noite", "madrugada", "dia", "evacuacao"]),
 }
 
 # cenarios 3D (motor three.js). 'era' = a que epoca/tema o cenario pertence (usado para barrar anacronismo).
@@ -60,19 +63,33 @@ AMB_3D = {
     "vapor": dict(era="1900", mostra="navio a vapor de aco (Titanic), icebergs"),
     "muro": dict(era="1900", mostra="Muro de Berlim"),
     "gavea": dict(era="1900", mostra="cesto da gavea do Titanic, noite sem lua, iceberg"),
+    "cidade-medieval": dict(era="medieval", mostra="rua medieval europeia (1300-1500): casas de enxaimel, catedral gotica, poco, feira"),
+    "cidade-colonial": dict(era="colonial", mostra="rua colonial brasileira (1600-1850): casario colorido, igreja barroca, chafariz, palmeiras"),
+    "cidade-vitoriana": dict(era="1900", mostra="rua de 1850-1930 (Londres/Paris/NY): predios de tijolo, chamines, lampioes a gas, torre do relogio, bonde"),
+    "cidade-futuro": dict(era="futuro", mostra="cidade do futuro (2050-2200): torres de vidro com neon, carros voadores, hologramas, robos"),
+    "cidade-oriental": dict(era="medieval", mostra="cidade oriental feudal (Japao/China): casas de madeira e papel, pagode, torii, lanternas, cerejeiras"),
 }
 
 # DIRECAO: pontos de interesse (alvos de camera e de trajetoria) e entidades que cada cenario sabe desenhar.
 PONTOS = {
     "selva-cretaceo": {"ampla", "ceu", "ceu-esq", "ceu-dir", "alto", "lago", "lago-ceu", "mata", "ninho", "vulcao", "trilha", "dinos",
                        "trex", "chao", "perto", "margem", "margem2", "beira"},
+    "roma": {"ampla", "ceu", "coliseu", "cidade", "templo", "arco", "fogo", "chao", "perto", "escadaria", "fora-esq", "fora-dir"},
+    "chernobyl": {"ampla", "ceu", "reator", "coluna", "chamine", "cidade", "roda", "caminhao", "grafite", "chao", "perto", "fora-esq", "fora-dir"},
     "gavea": {"proa", "mar", "horizonte", "frente", "ceu", "estrelas", "sino", "telefone", "ponte", "chamine", "baixo", "lado",
               "ice-longe", "ice-frente", "ice-perto", "ice-lado", "ice-passou", "ext-proa", "ext-lado", "ext-alto"},
 }
-ENTIDADES = {"selva-cretaceo": {"ptero", "sombra"}, "gavea": {"iceberg"}}
+PONTOS.update({
+    "cidade-medieval": {"igreja", "poco", "mercado"},
+    "cidade-colonial": {"igreja", "chafariz"},
+    "cidade-vitoriana": {"relogio", "bonde", "banca"},
+    "cidade-futuro": {"torre", "carros"},
+    "cidade-oriental": {"pagode", "torii"},
+})
+ENTIDADES = {"selva-cretaceo": {"ptero", "sombra"}, "gavea": {"iceberg"}, "chernobyl": {"helicoptero"}}
 ALVOS_GERAIS = {"grupo", "ampla", "panoramica", "prot", "camera", "voce", "todos", "fora", "fora-esq", "fora-dir"}
 
-ERAS_ANTIGAS = {"vela", "antigo", "medieval"}
+ERAS_ANTIGAS = {"vela", "antigo", "medieval", "colonial"}
 
 
 def _ler(arq):
@@ -107,3 +124,13 @@ def papeis_3d_do_motor() -> set:
     for b in blocos:
         papeis |= {a or c for a, c in re.findall(r"^\s{2}(?:'([\w-]+)'|([\w]+)):\s*\{", b, re.M)}
     return papeis
+
+# NFI: cenarios do canal de humor
+AMB_3D.update({
+    "restaurante": dict(era="moderno", mostra="restaurante a luz de velas: mesa do casal (sentados frente a frente), garcom, casais ao fundo"),
+    "escritorio": dict(era="moderno", mostra="sala do chefe: mesa, computador, estante, janelao com predios (entrevista de emprego)"),
+    "casamento": dict(era="moderno", mostra="igreja enfeitada: tapete vermelho, bancos com convidados, altar com arco de flores, noiva, noivo e padre"),
+    "elevador": dict(era="moderno", mostra="elevador de inox apertado: painel de botoes, espelho, visor do andar"),
+})
+PONTOS.update({"restaurante": {"mesa", "vela", "porta", "balcao"}, "escritorio": {"mesa", "computador", "janela", "planta"},
+               "casamento": {"altar", "noiva", "bancos", "bolo"}, "elevador": {"botoes", "espelho", "teto"}})

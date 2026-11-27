@@ -70,6 +70,7 @@ function humano(c, o, x, y, s, t, falando, amp, olhaX, st) {
   // sombra
   c.fillStyle = 'rgba(0,0,0,0.28)'; ell(c, 0, 6, 120, 22); c.fill();
   c.translate(0, bob * 0.4);
+  if (window.TRAJES) TRAJES.tras(c, o, t);
   const pant = o.calca || '#3a4a6a', top = o.camisa || '#d8c8a0', vest = o.colete, skin = o.pele || '#f0c49a', skin2 = mix(skin, '#8a4a2a', 0.22);
   // mochila (atras)
   if (o.mochila) { c.fillStyle = o.mochila; rrect(c, -86, -330, 172, 190, 34); c.fill(); c.fillStyle = 'rgba(0,0,0,0.18)'; rrect(c, -86, -250, 172, 20, 8); c.fill(); }
@@ -89,6 +90,7 @@ function humano(c, o, x, y, s, t, falando, amp, olhaX, st) {
   if (o.emblema) { c.fillStyle = o.emblema; ell(c, -40, -262, 17, 17); c.fill(); c.fillStyle = 'rgba(255,255,255,0.85)'; ell(c, -40, -262, 9, 9); c.fill(); }
   if (o.lenco) { c.fillStyle = o.lenco; c.beginPath(); c.moveTo(-44, -332); c.quadraticCurveTo(0, -300, 44, -332); c.lineTo(0, -270); c.closePath(); c.fill(); }
   if (o.jaleco) { c.fillStyle = 'rgba(255,255,255,0.0)'; }
+  if (window.TRAJES) TRAJES.corpo(c, o, t);
   // bracos
   let a0 = 0.22 + (falando ? 0.12 + gest * 0.2 : Math.sin(t * 1.6) * 0.02), a1 = -0.22 - (falando ? 0.3 + gest * 0.25 : Math.sin(t * 1.6 + 1) * 0.02);
   if (st.passo) { a0 = 0.22 + Math.sin(st.passo) * 0.35; a1 = -0.22 + Math.sin(st.passo) * 0.35; }
@@ -130,6 +132,7 @@ function humano(c, o, x, y, s, t, falando, amp, olhaX, st) {
   if (ab > 0.08) { c.fillStyle = '#4a1410'; ell(c, 0, 64 + ab * 6, 20 - ab * 3, 6 + ab * 24); c.fill(); c.fillStyle = '#e8706a'; ell(c, 0, 64 + ab * 16, 12, 4 + ab * 9); c.fill(); }
   else { c.strokeStyle = '#6a2a20'; c.lineWidth = 6; c.beginPath(); c.arc(0, 52, 18, 0.25, Math.PI - 0.25); c.stroke(); }
   if (o.bigode) { c.fillStyle = o.bigode; c.beginPath(); c.moveTo(-40, 46); c.quadraticCurveTo(0, 30, 40, 46); c.quadraticCurveTo(0, 58, -40, 46); c.fill(); }
+  if (window.TRAJES) TRAJES.rosto(c, o, t);
   // headset (controlador)
   if (o.headset) { c.strokeStyle = '#1a1a20'; c.lineWidth = 12; c.lineCap = 'round'; c.beginPath(); c.arc(0, -8, 120, Math.PI * 1.08, Math.PI * 1.92); c.stroke(); c.fillStyle = '#26262e'; ell(c, -118, 10, 20, 30); c.fill(); ell(c, 118, 10, 20, 30); c.fill(); c.strokeStyle = '#1a1a20'; c.lineWidth = 7; c.beginPath(); c.moveTo(-118, 36); c.quadraticCurveTo(-96, 90, -40, 78); c.stroke(); c.fillStyle = '#1a1a20'; ell(c, -36, 78, 12, 9); c.fill(); }
   // capacete de astronauta (bolha de vidro + argola)
@@ -137,6 +140,7 @@ function humano(c, o, x, y, s, t, falando, amp, olhaX, st) {
   // chapeus
   if (o.chapeu === 'safari') { c.fillStyle = o.corChapeu || '#c9b27a'; ell(c, 0, -68, 150, 34); c.fill(); c.fillStyle = mix(o.corChapeu || '#c9b27a', '#ffffff', 0.12); c.beginPath(); c.moveTo(-84, -70); c.quadraticCurveTo(-88, -168, 0, -170); c.quadraticCurveTo(88, -168, 84, -70); c.closePath(); c.fill(); c.fillStyle = o.faixa || '#6a4a2a'; c.fillRect(-84, -96, 168, 20); }
   if (o.chapeu === 'bone') { c.fillStyle = o.corChapeu || '#c8281e'; c.beginPath(); c.moveTo(-108, -30); c.quadraticCurveTo(-110, -148, 0, -150); c.quadraticCurveTo(110, -148, 108, -30); c.closePath(); c.fill(); c.fillRect(-20, -60, 190, 20); }
+  if (window.TRAJES) TRAJES.cabeca(c, o, t);
   c.restore();
   c.restore();
 }
@@ -494,6 +498,8 @@ window.posRender = () => {};
 <script src="cena2d_cretaceo.js"></script>
 <script src="cena2d_nasa.js"></script>
 <script src="cena2d_lua.js"></script>
-<script src="cena2d_zg.js"></script>
-<script src="cena2d_luas.js"></script>
+<script src="cena2d_apollo_extra.js"></script>
+<script src="cena2d_trajes.js"></script>
+<script src="cena2d_roma.js"></script>
+<script src="cena2d_chernobyl.js"></script>
 </body></html>

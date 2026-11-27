@@ -18,7 +18,7 @@ AMBIENTES = "conves, terra, cabine, palacio, cidade, cidade-antiga, campo, labor
 HORAS = "dia, manha, amanhecer, tarde, entardecer, noite, madrugada"
 PROIBIDOS = ("—", "–", "*", "#")
 
-PLANO = """Voce e roteirista de documentarios curtos de historia em portugues do Brasil para o canal "Zero Gravidade BR" (animacao de bonecos redondinhos, narracao em segunda pessoa: "voce acorda em...").
+PLANO = """Voce e roteirista de documentarios curtos de historia em portugues do Brasil para o canal "Plano B da Historia" (animacao de bonecos redondinhos, narracao em segunda pessoa: "voce acorda em...").
 Tema: {titulo}
 Planeje um video de 9 minutos com 8 capitulos em ordem cronologica. Liste em "pessoas" as ate 4 pessoas REAIS principais (o espectador e a primeira, papel "prot"); se nao tiver certeza de um dado, deixe fora. REGRAS DE VERDADE: so fatos reais e verificaveis (datas, nomes, numeros). Se nao tiver certeza, nao inclua. Nada inventado.
 Responda SOMENTE com JSON: {{"titulo": "...", "titulo_youtube": "ate 95 caracteres, com numero ou nome concreto e curiosidade, sem clickbait falso", "titulo_curto": "ate 28 caracteres MAIUSCULAS", "thumb_texto": "2 a 4 palavras MAIUSCULAS", "descricao": "2 a 3 frases", "comentario_fixado": "1 frase que pergunta a opiniao e repete a votacao A ou B", "tags": ["..."],
@@ -26,7 +26,7 @@ Responda SOMENTE com JSON: {{"titulo": "...", "titulo_youtube": "ate 95 caracter
 "pessoas": [{{"nome": "nome real completo", "papel": "prot (quem o espectador e) ou f0/f1/f2", "cargo": "cargo/funcao curta", "info": ["2 fatos curtos REAIS: datas de vida, feito marcante"], "selo": "missao/evento em ate 14 letras"}}],
 "capitulos": [{{"nome": "...", "ano": "ano ou data curta, ex.: 79 d.C.", "hora": "{horas}", "cenario": "UM destes: {amb}", "fatos": ["3 a 5 fatos REAIS deste capitulo"]}}]}}"""
 
-CAP = """Voce e roteirista de documentarios de historia em portugues do Brasil (canal "Zero Gravidade BR"). Escreva o capitulo {i} de {n} do video "{titulo}".
+CAP = """Voce e roteirista de documentarios de historia em portugues do Brasil (canal "Plano B da Historia"). Escreva o capitulo {i} de {n} do video "{titulo}".
 Capitulo: {nome} ({ano}). Cenario: {cenario}. Fatos reais permitidos (use SO estes e o que for notoriamente verdadeiro; nao invente numeros, citacoes nem detalhes): {fatos}
 {contexto}
 ESTILO: narracao em segunda pessoa ("voce"), ritmo de suspense, frases curtas, gancho ao fim do capitulo. Numeros por extenso na fala. Sem tracos longos, emojis, asteriscos, hashtags. A parte hipotetica deve vir marcada ("imagine", "talvez").

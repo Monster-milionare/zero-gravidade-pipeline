@@ -1,1 +1,190 @@
-{"id":"08-volta-a-terra-paraquedas","ordem":8,"formato":"escolha","estilo":"noir","motor":"2d","titulo":"Você está voltando do espaço e a janela vira fogo. A ou B?","titulo_youtube":"Voltando para a Terra: confia no automático ou assume o controle? A ou B","titulo_curto":"DE VOLTA À TERRA","thumb_texto":"CONFIA OU ASSUME?","descricao":"Na volta do espaço, o ar comprimido na frente da cápsula a envolve em um calor de milhares de graus, e um escudo térmico protege a tripulação. Depois, paraquedas freiam a queda até o mar. As cápsulas Apollo tinham comandos automáticos e também manuais. A situação do vídeo é imaginária. A mais votada vira o próximo vídeo.","comentario_fixado":"A: confiar no sistema automático. B: puxar o comando manual dos paraquedas. Qual a sua escolha?","tags":["reentrada","espaco","capsula","paraquedas","voce decide","ciencia"],"elenco":{"prot":"piloto","f":["comandante"],"vazio":["espaco"]},"perfil":"generico","cenas":[{"falas":[{"quem":"narrador","texto":"Você está voltando para casa dentro de uma cápsula pequena."}],"emocao":"neutro","visuais":["cinematic scene"],"amb":"nave-cabine","fala":"Você está voltando para casa dentro de uma cápsula pequena.","destaques":["voltando"],"cams":["ampla","eu-frente","f0"]},{"falas":[{"quem":"narrador","texto":"Na reentrada, o lado de fora esquenta a milhares de graus."}],"emocao":"surpreso","visuais":["cinematic scene"],"amb":"espaco","fala":"Na reentrada, o lado de fora esquenta a milhares de graus.","destaques":["milhares de graus"],"cams":["ampla","panoramica"],"fx":"reentrada"},{"falas":[{"quem":"f0","texto":"Segura firme. Só o escudo de calor está entre a gente e o fogo."}],"emocao":"preocupado","visuais":["cinematic scene"],"amb":"nave-cabine","fala":"Segura firme. Só o escudo de calor está entre a gente e o fogo.","destaques":["escudo"],"cams":["ampla","eu-frente","f0"]},{"falas":[{"quem":"narrador","texto":"Passado o calor, é hora de abrir o que vai frear a queda."}],"emocao":"misterioso","visuais":["cinematic scene"],"amb":"nave-cabine","fala":"Passado o calor, é hora de abrir o que vai frear a queda.","destaques":["frear"],"cams":["ampla","eu-frente","f0"]},{"falas":[{"quem":"prot","texto":"A luz de abertura ainda não acendeu. Espero ou puxo?"}],"emocao":"preocupado","visuais":["cinematic scene"],"amb":"nave-cabine","fala":"A luz de abertura ainda não acendeu. Espero ou puxo?","destaques":["puxo"],"cams":["ampla","eu-frente","f0"]},{"falas":[{"quem":"narrador","texto":"Os paraquedas precisam abrir na altura certa, nem antes nem depois."}],"emocao":"surpreso","visuais":["cinematic scene"],"amb":"oceano","fala":"Os paraquedas precisam abrir na altura certa, nem antes nem depois.","destaques":["altura certa"],"cams":["ampla","panoramica"],"fx":"paraquedas"},{"falas":[{"quem":"narrador","texto":"Comenta A para confiar no automático, ou B para puxar no manual. A mais votada vira o próximo vídeo."}],"emocao":"neutro","visuais":["cinematic scene"],"amb":"nave-cabine","fala":"Comenta A para confiar no automático, ou B para puxar no manual. A mais votada vira o próximo vídeo.","destaques":["A","B"],"cams":["ampla","eu-frente","f0"]}]}
+{
+ "id": "08-volta-a-terra-paraquedas",
+ "ordem": 8,
+ "formato": "escolha",
+ "estilo": "noir",
+ "motor": "2d",
+ "titulo": "Você está voltando do espaço e a janela vira fogo. A ou B?",
+ "titulo_youtube": "Voltando para a Terra: confia no automático ou assume o controle? A ou B",
+ "titulo_curto": "DE VOLTA À TERRA",
+ "thumb_texto": "CONFIA OU ASSUME?",
+ "descricao": "Na volta do espaço, o ar comprimido na frente da cápsula a envolve em um calor de milhares de graus, e um escudo térmico protege a tripulação. Depois, paraquedas freiam a queda até o mar. As cápsulas Apollo tinham comandos automáticos e também manuais. A situação do vídeo é imaginária. A mais votada vira o próximo vídeo.",
+ "comentario_fixado": "A: confiar no sistema automático. B: puxar o comando manual dos paraquedas. Qual a sua escolha?",
+ "tags": [
+  "reentrada",
+  "espaco",
+  "capsula",
+  "paraquedas",
+  "voce decide",
+  "ciencia"
+ ],
+ "elenco": {
+  "prot": "piloto",
+  "f": [
+   "comandante"
+  ],
+  "vazio": [
+   "espaco"
+  ]
+ },
+ "perfil": "generico",
+ "cenas": [
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Você está voltando para casa dentro de uma cápsula pequena."
+    }
+   ],
+   "emocao": "neutro",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "nave-cabine",
+   "fala": "Você está voltando para casa dentro de uma cápsula pequena.",
+   "destaques": [
+    "voltando"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Na reentrada, o lado de fora esquenta a milhares de graus."
+    }
+   ],
+   "emocao": "surpreso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "espaco",
+   "fala": "Na reentrada, o lado de fora esquenta a milhares de graus.",
+   "destaques": [
+    "milhares de graus"
+   ],
+   "cams": [
+    "ampla",
+    "panoramica"
+   ],
+   "fx": "reentrada"
+  },
+  {
+   "falas": [
+    {
+     "quem": "f0",
+     "texto": "Segura firme. Só o escudo de calor está entre a gente e o fogo."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "nave-cabine",
+   "fala": "Segura firme. Só o escudo de calor está entre a gente e o fogo.",
+   "destaques": [
+    "escudo"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Passado o calor, é hora de abrir o que vai frear a queda."
+    }
+   ],
+   "emocao": "misterioso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "nave-cabine",
+   "fala": "Passado o calor, é hora de abrir o que vai frear a queda.",
+   "destaques": [
+    "frear"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "prot",
+     "texto": "A luz de abertura ainda não acendeu. Espero ou puxo?"
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "nave-cabine",
+   "fala": "A luz de abertura ainda não acendeu. Espero ou puxo?",
+   "destaques": [
+    "puxo"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Os paraquedas precisam abrir na altura certa, nem antes nem depois."
+    }
+   ],
+   "emocao": "surpreso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "oceano",
+   "fala": "Os paraquedas precisam abrir na altura certa, nem antes nem depois.",
+   "destaques": [
+    "altura certa"
+   ],
+   "cams": [
+    "ampla",
+    "panoramica"
+   ],
+   "fx": "paraquedas"
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Comenta A para confiar no automático, ou B para puxar no manual. A mais votada vira o próximo vídeo."
+    }
+   ],
+   "emocao": "neutro",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "nave-cabine",
+   "fala": "Comenta A para confiar no automático, ou B para puxar no manual. A mais votada vira o próximo vídeo.",
+   "destaques": [
+    "A",
+    "B"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  }
+ ],
+ "desativado": true,
+ "desativado_motivo": "o canal virou Nao Faca Isso (humor) em 27/11/2026; roteiro guardado, nao apagado"
+}

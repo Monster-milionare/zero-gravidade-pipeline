@@ -10,7 +10,8 @@ import hashlib
 
 FEMININOS = {"rainha", "cidada", "cleopatra", "isabel", "cidada-berlim", "cidada-berlim2", "exploradora", "bebe-tricera",
              "passageira", "telefonista",
-             "piloto", "cientista"}
+             "camponesa", "senhora-colonial", "quitandeira", "dama-vitoriana", "dama-japonesa", "cidada-futuro", "aldea",
+             "viajante-f", "moradora", "plebeia", "cidada-romana", "menina"}
 GRAVES = {"rei", "imperador", "cabral", "general-romano", "faraoh", "viking", "napoleao", "guia", "oficial", "capitao"}
 AGUDOS = {"cidadao2", "marujo2", "nativo3", "newton", "bebe-tricera", "menino"}
 
@@ -98,3 +99,10 @@ class Elenco:
             extra = -4 if papel in GRAVES else 6 if papel in AGUDOS else 0
             self.por_papel[papel] = (v[0], _hz(v[1], extra))
         return self.por_papel[papel]
+
+# NFI: vozes do canal de humor - narrador de zoeira (rapido, animado) e papeis femininos novos
+FEMININOS |= {"crush", "chefa", "noiva", "convidada", "sogra", "jorginha"}
+GRAVES |= {"seguranca", "chefe", "padre"}
+NARRADORES_M = [("pt-BR-MacerioMultilingualNeural", "~+4Hz@+10%"), ("pt-BR-AntonioNeural", "~+3Hz@+8%")]
+NARRADORES_F = [("pt-BR-ThalitaMultilingualNeural", "~+3Hz@+9%")]
+NARRADORES = NARRADORES_M + NARRADORES_F

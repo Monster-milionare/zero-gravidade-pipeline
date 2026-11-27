@@ -21,13 +21,16 @@ from googleapiclient.http import MediaFileUpload
 import config
 
 SCOPES = ["https://www.googleapis.com/auth/youtube.upload", "https://www.googleapis.com/auth/youtube.readonly"]
+# autorizacao nova (autorizar_youtube.py) tambem pede para responder comentarios (votos dos Shorts)
+SCOPES_COMPLETOS = SCOPES + ["https://www.googleapis.com/auth/youtube.force-ssl"]
 
 
 def _get_credentials() -> Credentials:
     token_path = Path(config.YOUTUBE_TOKEN_FILE)
     creds = None
     if token_path.exists():
-        creds = Credentials.from_authorized_user_file(str(token_path), SCOPES)
+        # sem forcar a lista de escopos: o token usa os que foram autorizados (antigo = upload+leitura; novo = + comentarios)
+        creds = Credentials.from_authorized_user_file(str(token_path))
 
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
@@ -44,7 +47,7 @@ def _get_credentials() -> Credentials:
             )
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                config.YOUTUBE_CLIENT_SECRETS_FILE, SCOPES
+                config.YOUTUBE_CLIENT_SECRETS_FILE, SCOPES_COMPLETOS
             )
             creds = flow.run_local_server(port=0)
         token_path.write_text(creds.to_json(), encoding="utf-8")

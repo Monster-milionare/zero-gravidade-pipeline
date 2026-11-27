@@ -1,0 +1,252 @@
+{
+ "id": "01-nao-faca-primeiro-encontro",
+ "ordem": 1,
+ "formato": "nao-faca",
+ "motor": "3d",
+ "estilo": "aquarela",
+ "titulo": "O que NÃO fazer no primeiro encontro",
+ "titulo_youtube": "O que NUNCA fazer no primeiro encontro (o Jorginho fez)",
+ "titulo_curto": "PRIMEIRO ENCONTRO",
+ "thumb_texto": "ELE SUBIU NA MESA",
+ "descricao": "Primeiro encontro é delicado. O Jorginho conseguiu errar as três regras de ouro, uma pior que a outra.",
+ "comentario_fixado": "Qual foi a pior coisa que você já fez num encontro? Conta aí que a gente não julga (muito).",
+ "tags": [
+  "primeiro encontro",
+  "date",
+  "encontro",
+  "humor",
+  "comedia",
+  "nao faca isso",
+  "jorginho",
+  "zoeira"
+ ],
+ "elenco": {
+  "prot": "jorginho",
+  "f": [
+   "crush",
+   "garcom"
+  ],
+  "amb": {
+   "restaurante": [
+    "crush",
+    "garcom"
+   ]
+  }
+ },
+ "cenas": [
+  {
+   "amb": "restaurante",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Primeiro encontro? Presta atenção, porque o Jorginho fez tudo errado.",
+     "cam": "ampla"
+    },
+    {
+     "quem": "f0",
+     "texto": "Oi, Jorginho! Que lugar lindo.",
+     "cam": "f0c"
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Primeiro encontro? Presta atenção, porque o Jorginho fez tudo errado. Oi, Jorginho! Que lugar lindo.",
+   "presentes": [
+    "f0"
+   ]
+  },
+  {
+   "amb": "restaurante",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Regra número um: não pede o prato mais caro e diz que ela paga.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 1"
+    },
+    {
+     "quem": "prot",
+     "texto": "Garçom, me vê a lagosta. Ela que paga!",
+     "cam": "eu-frente",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "comemora"
+      }
+     ]
+    },
+    {
+     "quem": "f1",
+     "texto": "Excelente escolha, senhor.",
+     "cam": "f1c",
+     "sfx": "plim"
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Regra número um: não pede o prato mais caro e diz que ela paga. Garçom, me vê a lagosta. Ela que paga! Excelente escolha, senhor."
+  },
+  {
+   "amb": "restaurante",
+   "beats": [
+    {
+     "quem": "f0",
+     "texto": "Como é que é, porra?",
+     "cam": "f0c",
+     "carimbo": true,
+     "sfx": "scratch",
+     "acoes": [
+      {
+       "quem": "f0",
+       "faz": "susto"
+      }
+     ]
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Como é que é, porra?"
+  },
+  {
+   "amb": "restaurante",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Regra número dois: não fala da ex. Muito menos chorando.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 2"
+    },
+    {
+     "quem": "prot",
+     "texto": "A Kelly me largou por um cara do pagode!",
+     "cam": "eu-frente",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "treme",
+       "dur": 2.0
+      }
+     ]
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Regra número dois: não fala da ex. Muito menos chorando. A Kelly me largou por um cara do pagode!"
+  },
+  {
+   "amb": "restaurante",
+   "beats": [
+    {
+     "quem": "f0",
+     "texto": "Jorginho, pelo amor de Deus.",
+     "cam": "ampla",
+     "carimbo": true,
+     "sfx": "boing",
+     "acoes": [
+      {
+       "quem": "f0",
+       "faz": "vira"
+      }
+     ]
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Jorginho, pelo amor de Deus."
+  },
+  {
+   "amb": "restaurante",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "E a regra número três, a mais importante de todas:",
+     "cam": "ampla",
+     "regra": "REGRA Nº 3"
+    },
+    {
+     "quem": "narrador",
+     "texto": "nunca, em hipótese alguma, sobe na mesa e caga na frente da menina.",
+     "cam": "eu-frente"
+    },
+    {
+     "quem": "",
+     "texto": "",
+     "dur": 1.5,
+     "cam": "mesa",
+     "sfx": "boing",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "sobe",
+       "para": "mesa",
+       "dur": 1.0
+      }
+     ]
+    },
+    {
+     "quem": "",
+     "texto": "",
+     "dur": 1.9,
+     "cam": "mesa",
+     "censura": true,
+     "sfx": "peido",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "agacha",
+       "dur": 1.9
+      }
+     ]
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "E a regra número três, a mais importante de todas: nunca, em hipótese alguma, sobe na mesa e caga na frente da menina."
+  },
+  {
+   "amb": "restaurante",
+   "beats": [
+    {
+     "quem": "f0",
+     "texto": "Que merda é essa, Jorginho?!",
+     "cam": "f0",
+     "acoes": [
+      {
+       "quem": "f0",
+       "faz": "grita",
+       "dur": 1.6
+      }
+     ]
+    },
+    {
+     "quem": "f1",
+     "texto": "Vou chamar a polícia.",
+     "cam": "ampla"
+    },
+    {
+     "quem": "narrador",
+     "texto": "O Jorginho não teve segundo encontro.",
+     "cam": "mesa",
+     "carimbo": true,
+     "sfx": "risada"
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Que merda é essa, Jorginho?! Vou chamar a polícia. O Jorginho não teve segundo encontro."
+  },
+  {
+   "amb": "restaurante",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Comenta a pior coisa que você já fez num encontro. E segue, que o Jorginho não aprende nunca.",
+     "cam": "ampla"
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Comenta a pior coisa que você já fez num encontro. E segue, que o Jorginho não aprende nunca."
+  }
+ ]
+}

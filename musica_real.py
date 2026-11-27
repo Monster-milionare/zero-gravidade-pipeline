@@ -16,11 +16,14 @@ import config
 
 SR = 44100
 CLIMAS = ("triste", "epica", "animada", "tensa", "misterio", "aventura")
-EMOCAO_CLIMA = {"feliz": "animada", "preocupado": "triste", "surpreso": "epica", "misterioso": "misterio", "tenso": "tensa"}
+# DIRECAO MUSICAL v2 (27/11, Andre: "comecou uma musica de tristeza no comeco do video de Chernobyl"):
+# "preocupado" e TENSAO, nao tristeza; "feliz" e AVENTURA (as faixas comicas ficam fora do canal de historia).
+EMOCAO_CLIMA = {"feliz": "aventura", "preocupado": "tensa", "surpreso": "epica", "misterioso": "misterio", "tenso": "tensa",
+                "triste": "triste", "medo": "tensa", "raiva": "epica", "decidido": "epica", "curioso": "misterio"}
 # clima sem faixa disponivel cai no vizinho mais parecido
 VIZINHO = {"misterio": ["tensa", "triste"], "aventura": ["epica", "animada"], "tensa": ["misterio", "epica"], "epica": ["aventura"], "triste": ["misterio"], "animada": ["aventura"]}
 BASE_DO_ESTILO = {"epica": "epica", "misteriosa": "tensa", "tensa": "tensa", "leve": "animada"}
-UA = "ZeroGravidadeBR/1.0 (canal educativo de YouTube; contato.luard@gmail.com)"
+UA = "NaoFacaIsso/1.0 (canal de humor no YouTube; contato.luard@gmail.com)"   # NFI:ua
 PASTA = config.CACHE_DIR / "musica"
 NIVEL_RMS = 0.075          # nivel alvo da trilha (a voz fica por cima, com ducking no ffmpeg)
 CROSSFADE = 1.6
@@ -95,33 +98,145 @@ def _decodificar(caminho: Path, max_seg: float = 420.0):
         return None
 
 
-def plano_por_cenas(cenas, tempos_cena, base: str):
-    """-> lista de segmentos [(t0, t1, clima)] seguindo a emocao das cenas, sem trocar a toda hora."""
-    base_clima = BASE_DO_ESTILO.get(base, "epica")
+# Faixas que NAO combinam com o Plano B: cortejo funebre/requiem (pesadas demais) e as comicas (quebram o clima).
+PROIBIDAS = ("Marcha Funebre", "Lacrimosa", "Sad Trio", "Heartbreaking", "Monkeys Spinning Monkeys", "Fluffing a Duck",
+             "Sneaky Snitch", "Can-Can", "Wallpaper", "Bumbly March")
+CLIMAS_GANCHO = ("tensa", "misterio", "epica")
+
+# Paleta por TEMA: o gancho (primeiros segundos) e as faixas preferidas de cada clima (prefixo do titulo no trilhas.json).
+TEMAS = [
+    ("desastre", dict(kw=["chernobyl", "pripyat", "reator", "radiac", "usina", "titanic", "iceberg", "pompeia", "vesuvio", "vulcao",
+                          "terremoto", "tsunami", "incendio", "naufrag"], gancho="tensa",
+                      pref={"tensa": ["Dark Fog", "Unseen Horrors", "Volatile Reaction", "Oppressive Gloom", "Long Note Four"],
+                            "misterio": ["Night Cave", "Ghost Story", "Mesmerize"], "epica": ["Hero Down", "Stormfront"],
+                            "triste": ["Lasting Hope", "At Rest", "Satie"], "aventura": ["Crossing the Chasm"]})),
+    ("espaco", dict(kw=["apollo", "nasa", "foguete", "astronauta", "saturn", "orbita", "espaco", " lua", "marte", "galaxia"], gancho="misterio",
+                    pref={"misterio": ["Floating Cities", "Infinite Perspective", "Lost Frontier", "Cipher"],
+                          "tensa": ["Volatile Reaction", "Crypto", "Darkling"], "epica": ["Prelude and Action", "Exhilarate", "Heroic Age"],
+                          "aventura": ["Crossing the Chasm", "Adventure Meme"], "triste": ["Dreamer", "Lasting Hope"]})),
+    ("dinos", dict(kw=["dinossaur", "cretaceo", "t-rex", "rex", "pterossaur", "jurassico", "asteroide"], gancho="tensa",
+                   pref={"tensa": ["Unseen Horrors", "Volatile Reaction", "Darkling"], "epica": ["Stormfront", "Achilles"],
+                         "aventura": ["Rhinoceros", "Crossing the Chasm"], "misterio": ["Night Cave", "Lost Frontier"],
+                         "triste": ["At Rest", "Healing"]})),
+    ("futuro", dict(kw=["futuro", "2100", "2150", "2080", "robo", "inteligencia artificial", "ciborgue"], gancho="misterio",
+                    pref={"misterio": ["Floating Cities", "Mesmerize", "Infinite Perspective", "Cipher"], "tensa": ["Crypto", "Volatile Reaction"],
+                          "epica": ["Exhilarate", "Prelude and Action"], "aventura": ["Adventure Meme"], "triste": ["Dreamer"]})),
+    ("antiga", dict(kw=["roma", "romano", "coliseu", "gladiador", "cesar", "nero", "comodo", "marco aurelio", "egito", "farao", "piramide",
+                        "cleopatra", "alexandre", "esparta", "grecia", "troia", "china han"], gancho="epica",
+                    pref={"epica": ["Achilles", "Clash Defiant", "Five Armies", "Heroic Age", "Holst"], "misterio": ["Curse of the Scarab", "Grim Idol"],
+                          "tensa": ["Gathering Darkness", "Darkling"], "aventura": ["Master of the Feast", "Rhinoceros"], "triste": ["At Rest", "Bach - Air"]})),
+    ("medieval", dict(kw=["peste", "1348", "medieval", "cavaleiro", "viking", "joana", "samurai", "xogum", "gengis", "mongol", "temujin",
+                          "castelo", "cruzada", "napoleao", "waterloo"], gancho="tensa",
+                      pref={"tensa": ["Gathering Darkness", "Oppressive Gloom", "Lightless Dawn", "Darkling"],
+                            "epica": ["Five Armies", "Clash Defiant", "Stormfront", "Achilles"], "misterio": ["Ghost Story", "Night Cave"],
+                            "aventura": ["Thatched Villagers", "Master of the Feast"], "triste": ["At Rest", "Chopin - Noturno"]})),
+    ("brasil", dict(kw=["brasil ", "brasil?", "tiradentes", "cabral", "dom pedro", "d. pedro", "ipiranga", "1822", "1808", "holand", "colonia",
+                        "imperador", "dom joao", "lisboa", "vila rica", "bandeirante"], gancho="epica",
+                    pref={"epica": ["Heroic Age", "Exhilarate", "Prelude and Action"], "aventura": ["Crossing the Chasm", "Adventure Meme", "Thatched Villagers"],
+                          "misterio": ["Investigations", "Spy Glass", "Comfortable Mystery"], "tensa": ["Hitman", "Echoes of Time"], "triste": ["Lasting Hope", "Healing"]})),
+    ("invencoes", dict(kw=["dumont", "aviao", "wright", "14-bis", "14bis", "einstein", "tesla", "edison", "internet", "1900", "invenc", "newton", "londres"], gancho="misterio",
+                       pref={"misterio": ["Investigations", "Comfortable Mystery", "Spy Glass", "Cipher"], "aventura": ["Adventure Meme", "Crossing the Chasm"],
+                             "epica": ["Exhilarate", "Heroic Age"], "tensa": ["Echoes of Time", "Hitman"], "triste": ["Dreamer", "Satie"]})),
+]
+
+
+def tema_musical(conteudo: dict | None):
+    """-> (nome, paleta) do tema do video (pela palavra-chave no titulo/tema/perfil); paleta neutra se nada casar."""
+    if not conteudo:
+        return "geral", {"gancho": "tensa", "pref": {}}
+    import unicodedata
+    txt = " ".join(str(conteudo.get(k, "")) for k in ("titulo", "tema", "perfil", "titulo_youtube"))
+    txt = " " + "".join(ch for ch in unicodedata.normalize("NFD", txt.lower()) if unicodedata.category(ch) != "Mn")
+    melhor, pontos = None, 0
+    for nome, t in TEMAS:
+        p = sum(txt.count(k) for k in t["kw"])
+        if p > pontos:
+            melhor, pontos = (nome, t), p
+    return melhor or ("geral", {"gancho": "tensa", "pref": {}})
+
+
+def plano_por_cenas(cenas, tempos_cena, base: str, conteudo: dict | None = None):
+    """-> segmentos [(t0, t1, clima, preferidas)] com ARCO de Short:
+    1. GANCHO (abertura, ate ~25% ou 8 s): sempre tensao/misterio/epico (o clima do tema). Nunca triste, nunca comico.
+    2. MEIO: segue a emocao das cenas. Tristeza so depois de 40% do video (e no maximo um trecho).
+    3. FINAL (pergunta A ou B): tensao ou epico, pra pessoa querer comentar.
+    Sem trocar a toda hora: trechos de no minimo 7,5 s e, em Short, no maximo 3 climas."""
+    if conteudo is None:             # render.py/render3d.py/render_longo.py chamam sem o roteiro: pega do chamador
+        import inspect
+        f = inspect.currentframe().f_back
+        conteudo = f.f_locals.get("conteudo") if f else None
+        conteudo = conteudo if isinstance(conteudo, dict) else None
+    if getattr(config, "CANAL_HUMOR", False):     # NFI:trilha - humor: UMA faixa comica do comeco ao fim (troca so em video longo)
+        total = max(b for _, b in tempos_cena) if tempos_cena else 30.0
+        comicas = ["Monkeys Spinning Monkeys", "Fluffing a Duck", "Sneaky Snitch", "Wallpaper", "Bumbly March", "Carefree", "Can-Can"]
+        segs = [(0.0, total, "animada", {"tema": "humor", "preferidas": comicas, "gancho": True})]
+        print(f"[musica] direcao (humor): 0-{total:.0f}s animada (comica)", flush=True)
+        return segs
+    nome_tema, tema = tema_musical(conteudo)
+    gancho = tema.get("gancho", "tensa")
+    if not tempos_cena:
+        return []
+    total = max(b for _, b in tempos_cena)
+    fim_gancho = max(min(8.0, total * 0.25), tempos_cena[0][1] if tempos_cena[0][1] <= 12 else 8.0)
+    brutos = []
+    ja_triste = False
+    for i, (c, (a, b)) in enumerate(zip(cenas, tempos_cena)):
+        clima = c.get("clima") or EMOCAO_CLIMA.get(c.get("emocao", "neutro")) or gancho
+        if clima == "animada":
+            clima = "aventura"
+        if a < fim_gancho - 0.5:
+            clima = clima if clima in CLIMAS_GANCHO else gancho
+            if i == 0:
+                clima = gancho if clima not in CLIMAS_GANCHO else clima
+        elif clima == "triste":
+            if a < total * 0.40 or ja_triste:
+                clima = "misterio" if gancho != "misterio" else "tensa"
+            ja_triste = True
+        if i == len(cenas) - 1 and len(cenas) > 2 and clima not in ("tensa", "epica"):
+            clima = "tensa" if gancho != "epica" else "epica"
+        brutos.append([a, b, clima])
     segs = []
-    for c, (a, b) in zip(cenas, tempos_cena):
-        clima = c.get("clima") or EMOCAO_CLIMA.get(c.get("emocao", "neutro"), base_clima)
+    for k, (a, b, clima) in enumerate(brutos):
+        final = k == len(brutos) - 1 and len(brutos) > 2
         if segs and segs[-1][2] == clima:
             segs[-1][1] = b
-        elif segs and (segs[-1][1] - segs[-1][0]) < MIN_SEGMENTO:
+        elif segs and (segs[-1][1] - segs[-1][0]) < MIN_SEGMENTO and not final:
             segs[-1][1] = b          # trecho curto demais: segura o clima anterior
         else:
             segs.append([a, b, clima])
-    if len(segs) > 1 and (segs[-1][1] - segs[-1][0]) < MIN_SEGMENTO * 0.6:
+    if len(segs) > 1 and (segs[-1][1] - segs[-1][0]) < 3.0:      # a pergunta final tem clima proprio (so some se for curtissima)
         segs[-2][1] = segs[-1][1]
         segs.pop()
+    if total <= 90:
+        while len(segs) > 3:         # Short: no maximo 3 climas. Some primeiro o trecho "ilhado" entre dois iguais, depois o mais curto
+            i = min(range(1, len(segs) - 1), key=lambda k: (segs[k - 1][2] != segs[k + 1][2], segs[k][2] == "triste", segs[k][1] - segs[k][0]))
+            segs[i - 1][1] = segs[i][1]
+            segs.pop(i)
+            if i < len(segs) and segs[i - 1][2] == segs[i][2]:
+                segs[i - 1][1] = segs[i][1]
+                segs.pop(i)
+    juntos = []
+    for sg in segs:                  # dois trechos seguidos com o mesmo clima viram um so (a mesma faixa continua)
+        if juntos and juntos[-1][2] == sg[2]:
+            juntos[-1][1] = sg[1]
+        else:
+            juntos.append(sg)
+    segs = juntos
     segs[0][0] = 0.0
-    return [tuple(s) for s in segs]
+    pref = tema.get("pref", {})
+    out = [(s[0], s[1], s[2], {"tema": nome_tema, "preferidas": pref.get(s[2], []), "gancho": k == 0}) for k, s in enumerate(segs)]
+    print("[musica] direcao (" + nome_tema + "): " + " | ".join(f"{a:.0f}-{b:.0f}s {c}" for a, b, c, _ in out), flush=True)
+    return out
 
 
-def _escolher_trecho(audio, dur, rng):
+def _escolher_trecho(audio, dur, rng, gancho=False):
     """Pega 'dur' segundos de uma faixa evitando comeco silencioso; se a faixa for curta, repete com crossfade."""
     n = int(dur * SR)
     mono = np.abs(audio).mean(axis=1)
     janela = SR
     rms = np.array([mono[i:i + janela].mean() for i in range(0, len(mono) - janela, janela)]) if len(mono) > janela * 2 else np.array([mono.mean()])
     mediana = float(np.median(rms)) or 1e-6
-    ok = [i for i, v in enumerate(rms) if v >= 0.7 * mediana]
+    ok = [i for i, v in enumerate(rms) if v >= (1.0 if gancho else 0.7) * mediana]   # gancho: so trecho com energia (nada de intro baixinha)
     if len(audio) <= n:
         trecho = audio[int(SR * ok[0]):] if ok else audio
         saida = trecho
@@ -140,14 +255,17 @@ def _escolher_trecho(audio, dur, rng):
 
 def gerar(total: float, segmentos, saida: str, seed: int = 0):
     """Monta a trilha completa em 'saida' (wav estereo 44.1k). Devolve lista de titulos usados, ou None."""
-    if os.environ.get("CANAL_MUSICA") == "sint":
+    if os.environ.get("PLANOB_MUSICA") == "sint":
         return None
     cat = _catalogo()
     rng = random.Random(seed)
     usadas, resultado, creditos = set(), [], []
     n_total = int((total + 1) * SR)
     mix = np.zeros((n_total, 2), np.float32)
-    for (t0, t1, clima) in segmentos:
+    for seg in segmentos:
+        t0, t1, clima = seg[:3]
+        info = seg[3] if len(seg) > 3 else {}
+        preferidas = info.get("preferidas", [])
         # inicio um pouco antes da cena para a musica "entrar" junto com a emocao
         ini = max(0.0, t0 - CROSSFADE * 0.35) if t0 > 0 else 0.0
         fim = min(total + 1, t1 + CROSSFADE * 0.65) if t1 < total else total + 1
@@ -155,8 +273,13 @@ def gerar(total: float, segmentos, saida: str, seed: int = 0):
         opcoes = _locais(clima) + [dict(x) for x in cat.get(clima, [])]
         for viz in VIZINHO.get(clima, []):
             opcoes += [dict(x, _viz=True) for x in _locais(viz) + cat.get(viz, [])]
+        if not getattr(config, "CANAL_HUMOR", False):      # NFI:proibidas (no humor as comicas sao justamente as preferidas)
+            opcoes = [x for x in opcoes if not any(p in x.get("titulo", "") for p in PROIBIDAS)]
         rng.shuffle(opcoes)
-        opcoes.sort(key=lambda x: (x["arquivo"] in usadas, x.get("_viz", False), not x.get("local", False), not x.get("url")))
+
+        def _pref(x):
+            return not any(x.get("titulo", "").startswith(p) for p in preferidas)
+        opcoes.sort(key=lambda x: (x["arquivo"] in usadas, not x.get("local", False), x.get("_viz", False), _pref(x), not x.get("url")))
         audio, escolhido = None, None
         for item in opcoes:
             arq = _baixar(item)
@@ -170,7 +293,7 @@ def gerar(total: float, segmentos, saida: str, seed: int = 0):
             print(f"[musica] sem faixa para o clima '{clima}'", flush=True)
             continue
         usadas.add(escolhido["arquivo"])
-        trecho = _escolher_trecho(audio, dur, rng)
+        trecho = _escolher_trecho(audio, dur, rng, gancho=info.get("gancho", False))
         # normaliza pelo RMS do trecho
         rms = float(np.sqrt((trecho ** 2).mean())) or 1e-6
         trecho = np.clip(trecho * (NIVEL_RMS / rms), -1, 1)
@@ -181,7 +304,7 @@ def gerar(total: float, segmentos, saida: str, seed: int = 0):
             f = min(xf, n // 2)
             env[:f] = np.sin(np.linspace(0, np.pi / 2, f)) ** 1.0
         else:
-            f = min(int(1.0 * SR), n // 2)
+            f = min(int(0.15 * SR), n // 2)          # o gancho entra JA (fade de 0,15 s), junto com a primeira frase
             env[:f] = np.linspace(0, 1, f)
         if fim < total + 1:
             f = min(xf, n // 2)

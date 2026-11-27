@@ -2,7 +2,7 @@
 """Programador do dia: roda de madrugada (depois que a cota do YouTube zera, ~02h BRT), escolhe TODOS os videos do
 dia e os horarios, e o workflow programar_dia.yml renderiza e sobe cada um como AGENDADO (privado + publishAt).
 
-- 4 Shorts: rodizio 3x 2D + 1x 3D (o 3D e o 2o do dia). Um Short sempre cai no TRAJETO DA MANHA (07h, pedido do
+- 4 Shorts: rodizio 3x 3D + 1x 2D (o 2D e o 3o do dia; o 3D rende ~2x mais views, pente fino de 26/11). Um Short sempre cai no TRAJETO DA MANHA (07h, pedido do
   Andre: o pessoal indo pro trabalho/faculdade vendo celular); os outros nos melhores horarios aprendidos (horarios.py).
 - 1 longo (fila de longos revisados), no horario do longo (noite no dia util, fim de manha no fim de semana).
 - state/agenda.json guarda o plano do dia. Como os videos agendados ja entram em publicados.json com a hora marcada,
@@ -21,9 +21,10 @@ import config
 BRT = timezone(timedelta(hours=-3))
 AGENDA = config.STATE_DIR / "agenda.json"
 PUB = config.STATE_DIR / "publicados.json"
+PEDIDOS = config.STATE_DIR / "pedidos.json"   # {"2026-11-24": {"1": "51-chernobyl-bombeiro"}}: o Andre escolhe o video de um slot do dia
 MANHA = (7, 0)                  # o Short do trajeto da manha
 MINUTOS = [0, 10, 5, 15]        # pequenos deslocamentos (evita bater na hora cheia de todo mundo)
-ORDEM_MOTOR = ["2d", "3d", "2d", "2d"]
+ORDEM_MOTOR = ["3d"]   # NFI:3d   # Andre 27/11: 100% 3D (o 3D faz ~2x as views do 2D); 2D so em continuacao de episodio que ja era 2D
 MIN_ANTECEDENCIA = timedelta(minutes=50)   # o YouTube exige publishAt no futuro; damos folga pro render
 
 
@@ -78,7 +79,8 @@ def _fila_valida():
         ok = diversidade.diversificar(ok)
     except Exception:
         pass
-    return ok
+    # promessa cumprida primeiro: episodio de continuacao (voto dos comentarios) entra antes de qualquer outro
+    return [c for c in ok if c.get("continuacao_de")] + [c for c in ok if not c.get("continuacao_de")]
 
 
 def planejar(d: date, gravar: bool = True) -> dict:
@@ -90,7 +92,9 @@ def planejar(d: date, gravar: bool = True) -> dict:
     pubs = {x["id"]: x for x in _ler(PUB, [])}
     horas = horas_do_dia(d)
     fila = _fila_valida()
-    usados = {s["id"] for s in ag["shorts"]}
+    pedidos = (_ler(PEDIDOS, {}).get(d.isoformat()) or {})
+    por_id = {c["id"]: c for c in fila}
+    usados = {s["id"] for s in ag["shorts"]} | set(pedidos.values())
     novos = []
     for i, (h, m) in enumerate(horas):
         quando = datetime(d.year, d.month, d.day, h, m, tzinfo=BRT)
@@ -102,7 +106,15 @@ def planejar(d: date, gravar: bool = True) -> dict:
             continue
         quer = ORDEM_MOTOR[i % len(ORDEM_MOTOR)]
         livres = [c for c in fila if c["id"] not in usados and c["id"] not in pubs]
-        escolha = next((c for c in livres if publish._motor(c) == quer), None) or (livres[0] if livres else None)
+        pedido = por_id.get(pedidos.get(str(i)))
+        if pedido and pedido["id"] not in pubs:
+            escolha = pedido               # slot escolhido a mao (state/pedidos.json)
+        else:
+            escolha = (next((c for c in livres if c.get("continuacao_de")), None)          # voto do publico primeiro
+                       or next((c for c in livres if publish._motor(c) == quer), None))
+            if escolha is None and livres:          # ultimo recurso: melhor um 2D do que um horario vazio
+                escolha = livres[0]
+                print(f"[programador] sem Short 3D na fila para {h:02d}h{m:02d}: usando {escolha['id']} (2D) - escreva mais 3D")
         if not escolha:
             print(f"[programador] sem roteiro para o slot {h:02d}h{m:02d} (fila vazia)")
             continue
@@ -112,7 +124,7 @@ def planejar(d: date, gravar: bool = True) -> dict:
         ag["shorts"] = [s for s in ag["shorts"] if s.get("slot") != i] + [item]
         novos.append(item)
     # longo
-    if not ag.get("longo") or ag["longo"]["id"] not in pubs:
+    if not getattr(config, "SEM_LONGO", False) and (not ag.get("longo") or ag["longo"]["id"] not in pubs):   # NFI:semlongo
         try:
             import horarios
             hl = horarios.horario_longo(d)

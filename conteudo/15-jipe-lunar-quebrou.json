@@ -1,1 +1,187 @@
-{"id":"15-jipe-lunar-quebrou","ordem":15,"formato":"escolha","estilo":"neon","motor":"2d","tema":"radio-lua","titulo":"O seu rádio falha longe do módulo, em pleno chão da Lua. Seguir a tarefa ou voltar? A ou B?","titulo_youtube":"Rádio mudo na Lua: você termina a tarefa ou volta? A ou B","titulo_curto":"RÁDIO MUDO NA LUA","thumb_texto":"FICA OU VOLTA?","descricao":"Nas missões Apollo, os astronautas tinham limites de distância para que sempre desse tempo de voltar em segurança ao módulo. A missão e os personagens deste vídeo são ficção. A mais votada vira o próximo vídeo.","comentario_fixado":"A: terminar a coleta de amostras. B: voltar já para o módulo. Qual a sua escolha?","tags":["lua","radio","apollo","astronauta","voce decide","ciencia"],"elenco":{"prot":"comandante-traje","f":["cientista-traje"]},"perfil":"generico","cenas":[{"falas":[{"quem":"narrador","texto":"Você explora a superfície da Lua quando o rádio fica completamente mudo."}],"emocao":"surpreso","visuais":["cinematic scene"],"amb":"superficie-lunar","fala":"Você explora a superfície da Lua quando o rádio fica completamente mudo.","destaques":["mudo"],"cams":["ampla","eu-frente","f0"]},{"falas":[{"quem":"prot","texto":"Alguém me ouve? Não escuto nem o chiado."}],"emocao":"preocupado","visuais":["cinematic scene"],"amb":"superficie-lunar","fala":"Alguém me ouve? Não escuto nem o chiado.","destaques":["chiado"],"cams":["eu-frente","ampla","f0"]},{"falas":[{"quem":"f0","texto":"Acho que ele não me escuta. Vou fazer sinal com a mão."}],"emocao":"neutro","visuais":["cinematic scene"],"amb":"superficie-lunar","fala":"Acho que ele não me escuta. Vou fazer sinal com a mão.","destaques":["sinal"],"cams":["f0","ampla","eu-frente"]},{"falas":[{"quem":"narrador","texto":"Por segurança, os astronautas da Apollo tinham um limite para se afastar do módulo."}],"emocao":"neutro","visuais":["cinematic scene"],"amb":"superficie-lunar","fala":"Por segurança, os astronautas da Apollo tinham um limite para se afastar do módulo.","destaques":["limite"],"cams":["ampla","eu-frente","f0"]},{"falas":[{"quem":"f0","texto":"Falta só uma amostra, e ela pode ser a mais importante da viagem."}],"emocao":"neutro","visuais":["cinematic scene"],"amb":"superficie-lunar","fala":"Falta só uma amostra, e ela pode ser a mais importante da viagem.","destaques":["amostra"],"cams":["f0","ampla","eu-frente"]},{"falas":[{"quem":"prot","texto":"Sem rádio, ninguém vai me avisar se o ar começar a faltar."}],"emocao":"preocupado","visuais":["cinematic scene"],"amb":"superficie-lunar","fala":"Sem rádio, ninguém vai me avisar se o ar começar a faltar.","destaques":["ar"],"cams":["eu-frente","ampla","f0"]},{"falas":[{"quem":"narrador","texto":"Comenta A para terminar a coleta, ou B para voltar já ao módulo. A mais votada vira o próximo vídeo."}],"emocao":"neutro","visuais":["cinematic scene"],"amb":"superficie-lunar","fala":"Comenta A para terminar a coleta, ou B para voltar já ao módulo. A mais votada vira o próximo vídeo.","destaques":["escolha"],"cams":["ampla","eu-frente","f0"]}]}
+{
+ "id": "15-jipe-lunar-quebrou",
+ "ordem": 15,
+ "formato": "escolha",
+ "estilo": "neon",
+ "motor": "2d",
+ "tema": "radio-lua",
+ "titulo": "O seu rádio falha longe do módulo, em pleno chão da Lua. Seguir a tarefa ou voltar? A ou B?",
+ "titulo_youtube": "Rádio mudo na Lua: você termina a tarefa ou volta? A ou B",
+ "titulo_curto": "RÁDIO MUDO NA LUA",
+ "thumb_texto": "FICA OU VOLTA?",
+ "descricao": "Nas missões Apollo, os astronautas tinham limites de distância para que sempre desse tempo de voltar em segurança ao módulo. A missão e os personagens deste vídeo são ficção. A mais votada vira o próximo vídeo.",
+ "comentario_fixado": "A: terminar a coleta de amostras. B: voltar já para o módulo. Qual a sua escolha?",
+ "tags": [
+  "lua",
+  "radio",
+  "apollo",
+  "astronauta",
+  "voce decide",
+  "ciencia"
+ ],
+ "elenco": {
+  "prot": "comandante-traje",
+  "f": [
+   "cientista-traje"
+  ]
+ },
+ "perfil": "generico",
+ "cenas": [
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Você explora a superfície da Lua quando o rádio fica completamente mudo."
+    }
+   ],
+   "emocao": "surpreso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "Você explora a superfície da Lua quando o rádio fica completamente mudo.",
+   "destaques": [
+    "mudo"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "prot",
+     "texto": "Alguém me ouve? Não escuto nem o chiado."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "Alguém me ouve? Não escuto nem o chiado.",
+   "destaques": [
+    "chiado"
+   ],
+   "cams": [
+    "eu-frente",
+    "ampla",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "f0",
+     "texto": "Acho que ele não me escuta. Vou fazer sinal com a mão."
+    }
+   ],
+   "emocao": "neutro",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "Acho que ele não me escuta. Vou fazer sinal com a mão.",
+   "destaques": [
+    "sinal"
+   ],
+   "cams": [
+    "f0",
+    "ampla",
+    "eu-frente"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Por segurança, os astronautas da Apollo tinham um limite para se afastar do módulo."
+    }
+   ],
+   "emocao": "neutro",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "Por segurança, os astronautas da Apollo tinham um limite para se afastar do módulo.",
+   "destaques": [
+    "limite"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "f0",
+     "texto": "Falta só uma amostra, e ela pode ser a mais importante da viagem."
+    }
+   ],
+   "emocao": "neutro",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "Falta só uma amostra, e ela pode ser a mais importante da viagem.",
+   "destaques": [
+    "amostra"
+   ],
+   "cams": [
+    "f0",
+    "ampla",
+    "eu-frente"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "prot",
+     "texto": "Sem rádio, ninguém vai me avisar se o ar começar a faltar."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "Sem rádio, ninguém vai me avisar se o ar começar a faltar.",
+   "destaques": [
+    "ar"
+   ],
+   "cams": [
+    "eu-frente",
+    "ampla",
+    "f0"
+   ]
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Comenta A para terminar a coleta, ou B para voltar já ao módulo. A mais votada vira o próximo vídeo."
+    }
+   ],
+   "emocao": "neutro",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "superficie-lunar",
+   "fala": "Comenta A para terminar a coleta, ou B para voltar já ao módulo. A mais votada vira o próximo vídeo.",
+   "destaques": [
+    "escolha"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ]
+  }
+ ],
+ "desativado": true,
+ "desativado_motivo": "o canal virou Nao Faca Isso (humor) em 27/11/2026; roteiro guardado, nao apagado"
+}

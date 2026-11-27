@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Renderiza e publica o(s) proximo(s) video(s) do Zero Gravidade BR.
+"""Renderiza e publica o(s) proximo(s) video(s) do Plano B da Historia.
 
 Uso:
   python publish.py                 # publica 1 video pendente (o mais antigo)
@@ -28,7 +28,7 @@ def _renderizar(c, saida, estilo):
 
 PUB = config.STATE_DIR / "publicados.json"
 VIDEOS = config.STATE_DIR / "videos.json"
-HASHTAGS = "#shorts #espaco #ciencia #nasa #curiosidades #zerogravidade #astronomia"
+HASHTAGS = "#shorts #humor #comedia #naofacaisso #memes #zoeira #brasil"   # NFI:hashtags
 
 
 class CotaEsgotada(Exception):
@@ -61,12 +61,10 @@ def _motor(c: dict) -> str:
 
 
 def alternar(fila: list) -> list:
-    """Rodizio do dia: 3 Shorts 2D + 1 Short 3D. O 3D entra como o 2o Short do dia (horario nobre da tarde);
-    os outros tres sao 2D. Sem estoque do motor desejado, segue a fila normal (e avisa no log)."""
+    """Andre 27/11: 100% 3D. Continuacao pelo voto primeiro (mesmo se o episodio original era 2D), depois Shorts 3D.
+    Sem estoque 3D, segue a fila normal como ultimo recurso (melhor um 2D do que um dia vazio) e avisa no log."""
     if not fila:
         return fila
-    if not any(_motor(c) == "3d" for c in fila):
-        return fila  # canal 100% 2D: nao ha rodizio com 3D
     from zoneinfo import ZoneInfo
     pub = _ler(PUB, [])
     por_id = {}
@@ -87,13 +85,13 @@ def alternar(fila: list) -> list:
             continue
         if c and c.get("formato") != "longo" and dia == hoje:
             feitos_hoje.append(_motor(c))
-    n, tem3d = len(feitos_hoje), "3d" in feitos_hoje
-    quer = "3d" if (n >= 1 and not tem3d) else "2d"
-    pref = [c for c in fila if _motor(c) == quer]
+    n, tem2d = len(feitos_hoje), "2d" in feitos_hoje
+    quer = "3d"                                              # Andre 27/11: 100% 3D (2D so em continuacao de episodio 2D)
+    pref = [c for c in fila if c.get("continuacao_de")] + [c for c in fila if _motor(c) == quer and not c.get("continuacao_de")]
     if not pref:
         print(f"[publish] rodizio: hoje {n} Short(s) ({', '.join(feitos_hoje) or '-'}), queria {quer.upper()} mas nao ha estoque - seguindo a fila normal. CRIE MAIS Shorts {quer.upper()}.", flush=True)
         return fila
-    print(f"[publish] rodizio 3x2D+1x3D: hoje {n} Short(s) ({', '.join(feitos_hoje) or '-'}) -> agora {quer.upper()} ({pref[0]['id']}).", flush=True)
+    print(f"[publish] rodizio 100% 3D: hoje {n} Short(s) ({', '.join(feitos_hoje) or '-'}) -> agora {quer.upper()} ({pref[0]['id']}).", flush=True)
     return pref + [c for c in fila if c not in pref]
 
 
@@ -112,7 +110,9 @@ def _descricao(c: dict) -> str:
     cred = ""
     if c.get("_creditos_musica"):
         cred = "\n\nMúsica:\n" + "\n".join(dict.fromkeys(c["_creditos_musica"]))
-    return (topo + (f"{fixo}\n\n" if fixo else "") + f"{c['descricao']}\n\nSe inscreva no Zero Gravidade BR: o espaço, a ciência e as decisões que mudam tudo, em animação.\nComente A ou B: a opção mais votada vira o próximo vídeo!\n\nDramatização educativa baseada em fatos e relatos reais; as decisões em aberto são hipóteses.{cred}\n\n{HASHTAGS}")
+    return (topo + (f"{fixo}\n\n" if fixo else "") + f"{c['descricao']}\n\nSe inscreva no Não Faça Isso: o manual do que NUNCA fazer na vida (o Jorginho faz por você).\n"
+            f"Comenta a pior coisa que você já fez nessa situação!\n\n"
+            f"Humor e ficção: não tente fazer isso em casa (nem em lugar nenhum).{cred}\n\n{HASHTAGS}")   # NFI:descricao
 
 
 def _enviar_youtube(video: Path, c: dict, publicar_em: str | None = None) -> str:
@@ -142,7 +142,7 @@ def registrar(c: dict, video_id: str, estilo: str, agora_iso: str, ig_id=None, a
 
 
 def _legenda_ig(c: dict) -> str:
-    return (f"{c['titulo']}\n\nSegue @zerogravidadebr pra mais viagens pelo espaço! Comenta A ou B.\n\n#espaco #ciencia #nasa #astronomia #curiosidades")
+    return (f"{c['titulo']}\n\nSegue @naofacaisso: o manual do que NUNCA fazer!\n\n#humor #comedia #memes #zoeira")   # NFI:ig
 
 
 def _so_instagram(fila: list, a) -> int:

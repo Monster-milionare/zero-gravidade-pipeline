@@ -1,0 +1,242 @@
+{
+ "id": "05-nao-faca-jantar-com-a-sogra",
+ "ordem": 5,
+ "formato": "nao-faca",
+ "motor": "3d",
+ "estilo": "aquarela",
+ "titulo": "O que NÃO fazer no jantar com a sogra",
+ "titulo_youtube": "O que NUNCA fazer no primeiro jantar com a sogra",
+ "titulo_curto": "JANTAR COM A SOGRA",
+ "thumb_texto": "CHAMOU DE COROA",
+ "descricao": "Primeiro jantar com a sogra. O Jorginho achou que ia ser tranquilo.",
+ "comentario_fixado": "Conta aí: qual foi o seu maior mico com a sogra?",
+ "tags": [
+  "sogra",
+  "jantar",
+  "familia",
+  "namoro",
+  "humor",
+  "comedia",
+  "nao faca isso",
+  "jorginho",
+  "zoeira"
+ ],
+ "elenco": {
+  "prot": "jorginho",
+  "f": [
+   "sogra",
+   "garcom"
+  ],
+  "amb": {
+   "restaurante": [
+    "sogra",
+    "garcom"
+   ]
+  }
+ },
+ "cenas": [
+  {
+   "amb": "restaurante",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Primeiro jantar com a sogra? O Jorginho achou que ia ser tranquilo.",
+     "cam": "ampla"
+    },
+    {
+     "quem": "f0",
+     "texto": "Então você é o tal do Jorginho.",
+     "cam": "f0c"
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Primeiro jantar com a sogra? O Jorginho achou que ia ser tranquilo. Então você é o tal do Jorginho.",
+   "presentes": [
+    "f0"
+   ]
+  },
+  {
+   "amb": "restaurante",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Regra número um: não chama a sogra de coroa enxuta.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 1"
+    },
+    {
+     "quem": "prot",
+     "texto": "Dona Cida, a senhora é uma coroa enxuta, hein!",
+     "cam": "eu-frente",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "aponta",
+       "para": "f0"
+      }
+     ]
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Regra número um: não chama a sogra de coroa enxuta. Dona Cida, a senhora é uma coroa enxuta, hein!"
+  },
+  {
+   "amb": "restaurante",
+   "beats": [
+    {
+     "quem": "f0",
+     "texto": "Como é que é, moleque?",
+     "cam": "f0c",
+     "carimbo": true,
+     "sfx": "scratch",
+     "acoes": [
+      {
+       "quem": "f0",
+       "faz": "susto"
+      }
+     ]
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Como é que é, moleque?"
+  },
+  {
+   "amb": "restaurante",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Regra número dois: não manda embrulhar a comida dela.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 2"
+    },
+    {
+     "quem": "prot",
+     "texto": "Garçom, embrulha o dela também. Ela não vai comer.",
+     "cam": "eu-frente"
+    },
+    {
+     "quem": "f1",
+     "texto": "Sim, senhor.",
+     "cam": "f1c",
+     "sfx": "plim"
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Regra número dois: não manda embrulhar a comida dela. Garçom, embrulha o dela também. Ela não vai comer. Sim, senhor."
+  },
+  {
+   "amb": "restaurante",
+   "beats": [
+    {
+     "quem": "f0",
+     "texto": "Eu ainda tô comendo, seu folgado!",
+     "cam": "f0c",
+     "carimbo": true,
+     "sfx": "boing",
+     "acoes": [
+      {
+       "quem": "f0",
+       "faz": "grita",
+       "dur": 1.3
+      }
+     ]
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Eu ainda tô comendo, seu folgado!"
+  },
+  {
+   "amb": "restaurante",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "E a regra número três: nunca sobe na mesa pra fazer brinde de bêbado.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 3"
+    },
+    {
+     "quem": "",
+     "texto": "",
+     "dur": 1.4,
+     "cam": "mesa",
+     "sfx": "boing",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "sobe",
+       "para": "mesa",
+       "dur": 1.0
+      }
+     ]
+    },
+    {
+     "quem": "prot",
+     "texto": "Um brinde à minha futura ex sogra!",
+     "cam": "mesa",
+     "sfx": "buzina",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "comemora",
+       "dur": 2.0
+      }
+     ]
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "E a regra número três: nunca sobe na mesa pra fazer brinde de bêbado. Um brinde à minha futura ex sogra!"
+  },
+  {
+   "amb": "restaurante",
+   "beats": [
+    {
+     "quem": "",
+     "texto": "",
+     "dur": 1.2,
+     "cam": "ampla",
+     "sfx": "impacto",
+     "acoes": [
+      {
+       "quem": "f0",
+       "faz": "cai"
+      }
+     ]
+    },
+    {
+     "quem": "f1",
+     "texto": "Acho que ela desmaiou, senhor.",
+     "cam": "ampla"
+    },
+    {
+     "quem": "narrador",
+     "texto": "A filha terminou com o Jorginho por mensagem.",
+     "cam": "mesa",
+     "carimbo": true,
+     "sfx": "risada"
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Acho que ela desmaiou, senhor. A filha terminou com o Jorginho por mensagem."
+  },
+  {
+   "amb": "restaurante",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Comenta o seu maior mico com a sogra. E segue, que o Jorginho tá solteiro de novo.",
+     "cam": "ampla"
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Comenta o seu maior mico com a sogra. E segue, que o Jorginho tá solteiro de novo."
+  }
+ ]
+}

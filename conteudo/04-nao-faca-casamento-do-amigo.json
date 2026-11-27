@@ -1,0 +1,251 @@
+{
+ "id": "04-nao-faca-casamento-do-amigo",
+ "ordem": 4,
+ "formato": "nao-faca",
+ "motor": "3d",
+ "estilo": "aquarela",
+ "titulo": "O que NÃO fazer no casamento do seu amigo",
+ "titulo_youtube": "O que NUNCA fazer no casamento do seu amigo",
+ "titulo_curto": "CASAMENTO",
+ "thumb_texto": "PEIDOU NO ALTAR",
+ "descricao": "O Jorginho foi padrinho. A noiva nunca mais vai esquecer.",
+ "comentario_fixado": "Qual a maior vergonha que você já passou num casamento?",
+ "tags": [
+  "casamento",
+  "padrinho",
+  "noiva",
+  "festa",
+  "humor",
+  "comedia",
+  "nao faca isso",
+  "jorginho",
+  "zoeira"
+ ],
+ "elenco": {
+  "prot": "jorginho",
+  "f": [
+   "noiva",
+   "noivo",
+   "padre"
+  ],
+  "amb": {
+   "casamento": [
+    "noiva",
+    "noivo",
+    "padre"
+   ]
+  }
+ },
+ "cenas": [
+  {
+   "amb": "casamento",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Casamento do seu melhor amigo? O Jorginho vai te ensinar o que nunca fazer.",
+     "cam": "ampla"
+    },
+    {
+     "quem": "f2",
+     "texto": "Se alguém tem algo contra, fale agora.",
+     "cam": "f2c"
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Casamento do seu melhor amigo? O Jorginho vai te ensinar o que nunca fazer. Se alguém tem algo contra, fale agora.",
+   "presentes": [
+    "f0",
+    "f1",
+    "f2"
+   ]
+  },
+  {
+   "amb": "casamento",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Regra número um: quando o padre perguntar isso, fica quieto.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 1"
+    },
+    {
+     "quem": "prot",
+     "texto": "Eu tenho! Ela me deu um fora em dois mil e dezoito!",
+     "cam": "eu-frente",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "grita",
+       "dur": 1.8
+      }
+     ]
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Regra número um: quando o padre perguntar isso, fica quieto. Eu tenho! Ela me deu um fora em dois mil e dezoito!"
+  },
+  {
+   "amb": "casamento",
+   "beats": [
+    {
+     "quem": "f0",
+     "texto": "Cala a boca, Jorginho!",
+     "cam": "f0c",
+     "carimbo": true,
+     "sfx": "scratch",
+     "acoes": [
+      {
+       "quem": "todos",
+       "faz": "susto"
+      }
+     ]
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Cala a boca, Jorginho!"
+  },
+  {
+   "amb": "casamento",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Regra número dois: não conta os podres do noivo no meio da cerimônia.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 2"
+    },
+    {
+     "quem": "prot",
+     "texto": "Ele chorou vendo Titanic. Três vezes!",
+     "cam": "eu-frente",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "aponta",
+       "para": "f1"
+      }
+     ]
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Regra número dois: não conta os podres do noivo no meio da cerimônia. Ele chorou vendo Titanic. Três vezes!"
+  },
+  {
+   "amb": "casamento",
+   "beats": [
+    {
+     "quem": "f1",
+     "texto": "Porra, Jorginho.",
+     "cam": "f1c",
+     "carimbo": true,
+     "sfx": "boing"
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Porra, Jorginho."
+  },
+  {
+   "amb": "casamento",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "E a regra mais importante: nunca vai até o altar soltar um peido na hora do sim.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 3"
+    },
+    {
+     "quem": "",
+     "texto": "",
+     "dur": 1.6,
+     "cam": "ampla",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "anda",
+       "para": "altar",
+       "dur": 1.4
+      }
+     ]
+    },
+    {
+     "quem": "",
+     "texto": "",
+     "dur": 1.7,
+     "cam": "ampla",
+     "sfx": "peido",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "agacha",
+       "dur": 1.5
+      },
+      {
+       "quem": "todos",
+       "faz": "treme",
+       "dur": 1.7
+      }
+     ]
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "E a regra mais importante: nunca vai até o altar soltar um peido na hora do sim."
+  },
+  {
+   "amb": "casamento",
+   "beats": [
+    {
+     "quem": "f2",
+     "texto": "Que cheiro é esse, meu Deus do céu?",
+     "cam": "ampla",
+     "acoes": [
+      {
+       "quem": "f2",
+       "faz": "treme",
+       "dur": 1.6
+      }
+     ]
+    },
+    {
+     "quem": "f0",
+     "texto": "Eu odeio você, Jorginho!",
+     "cam": "f0c",
+     "acoes": [
+      {
+       "quem": "f0",
+       "faz": "grita",
+       "dur": 1.4
+      }
+     ]
+    },
+    {
+     "quem": "narrador",
+     "texto": "O Jorginho não foi convidado pro batizado.",
+     "cam": "ampla",
+     "carimbo": true,
+     "sfx": "risada"
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Que cheiro é esse, meu Deus do céu? Eu odeio você, Jorginho! O Jorginho não foi convidado pro batizado."
+  },
+  {
+   "amb": "casamento",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Comenta a maior vergonha que você já passou num casamento. E segue, que o Jorginho nunca mais foi padrinho.",
+     "cam": "ampla"
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Comenta a maior vergonha que você já passou num casamento. E segue, que o Jorginho nunca mais foi padrinho."
+  }
+ ]
+}

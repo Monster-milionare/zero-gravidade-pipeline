@@ -1,0 +1,249 @@
+{
+ "id": "03-nao-faca-elevador",
+ "ordem": 3,
+ "formato": "nao-faca",
+ "motor": "3d",
+ "estilo": "aquarela",
+ "titulo": "O que NÃO fazer no elevador com a sua chefe",
+ "titulo_youtube": "O que NUNCA fazer no elevador com a chefe",
+ "titulo_curto": "ELEVADOR",
+ "thumb_texto": "FOI ELA!",
+ "descricao": "Treze andares presos com a chefe. O Jorginho transformou o elevador num pesadelo.",
+ "comentario_fixado": "Qual o pior mico que você já pagou num elevador?",
+ "tags": [
+  "elevador",
+  "chefe",
+  "trabalho",
+  "predio",
+  "humor",
+  "comedia",
+  "nao faca isso",
+  "jorginho",
+  "zoeira"
+ ],
+ "elenco": {
+  "prot": "jorginho",
+  "f": [
+   "chefa",
+   "seguranca"
+  ],
+  "amb": {
+   "elevador": [
+    "chefa",
+    "seguranca"
+   ]
+  }
+ },
+ "cenas": [
+  {
+   "amb": "elevador",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Elevador lotado com a sua chefe? Olha o que o Jorginho fez.",
+     "cam": "ampla"
+    },
+    {
+     "quem": "f0",
+     "texto": "Bom dia, Jorginho.",
+     "cam": "f0c"
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Elevador lotado com a sua chefe? Olha o que o Jorginho fez. Bom dia, Jorginho.",
+   "presentes": [
+    "f0",
+    "f1"
+   ]
+  },
+  {
+   "amb": "elevador",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Regra número um: não aperta todos os botões.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 1"
+    },
+    {
+     "quem": "",
+     "texto": "",
+     "dur": 1.6,
+     "cam": "eu-lado",
+     "sfx": "plim",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "aponta",
+       "para": "botoes",
+       "dur": 1.6
+      }
+     ]
+    },
+    {
+     "quem": "prot",
+     "texto": "Ops. Vai parar em todos.",
+     "cam": "eu-frente"
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Regra número um: não aperta todos os botões. Ops. Vai parar em todos."
+  },
+  {
+   "amb": "elevador",
+   "beats": [
+    {
+     "quem": "f0",
+     "texto": "Tá de brincadeira, né?",
+     "cam": "f0c",
+     "carimbo": true,
+     "sfx": "scratch"
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Tá de brincadeira, né?"
+  },
+  {
+   "amb": "elevador",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Regra número dois: não canta a musiquinha do elevador. Bem alto.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 2"
+    },
+    {
+     "quem": "prot",
+     "texto": "Tchu tcha tcha, tchu tchu tcha!",
+     "cam": "eu-frente",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "danca",
+       "dur": 2.0
+      }
+     ]
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Regra número dois: não canta a musiquinha do elevador. Bem alto. Tchu tcha tcha, tchu tchu tcha!"
+  },
+  {
+   "amb": "elevador",
+   "beats": [
+    {
+     "quem": "f1",
+     "texto": "Para com essa porra.",
+     "cam": "f1c",
+     "carimbo": true,
+     "sfx": "boing"
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Para com essa porra."
+  },
+  {
+   "amb": "elevador",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "E a regra de ouro: nunca solta um peido silencioso e aponta pra chefe.",
+     "cam": "ampla",
+     "regra": "REGRA Nº 3"
+    },
+    {
+     "quem": "",
+     "texto": "",
+     "dur": 1.6,
+     "cam": "ampla",
+     "sfx": "peido",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "agacha",
+       "dur": 1.2
+      },
+      {
+       "quem": "todos",
+       "faz": "treme",
+       "dur": 1.6
+      }
+     ]
+    },
+    {
+     "quem": "prot",
+     "texto": "Foi ela!",
+     "cam": "eu-frente",
+     "acoes": [
+      {
+       "quem": "prot",
+       "faz": "aponta",
+       "para": "f0"
+      }
+     ]
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "E a regra de ouro: nunca solta um peido silencioso e aponta pra chefe. Foi ela!"
+  },
+  {
+   "amb": "elevador",
+   "beats": [
+    {
+     "quem": "f0",
+     "texto": "Eu? Seu porco!",
+     "cam": "f0c",
+     "acoes": [
+      {
+       "quem": "f0",
+       "faz": "grita",
+       "dur": 1.4
+      }
+     ]
+    },
+    {
+     "quem": "",
+     "texto": "",
+     "dur": 1.2,
+     "cam": "ampla",
+     "sfx": "impacto",
+     "acoes": [
+      {
+       "quem": "f1",
+       "faz": "cai"
+      }
+     ]
+    },
+    {
+     "quem": "narrador",
+     "texto": "O segurança desmaiou no décimo andar.",
+     "cam": "ampla",
+     "carimbo": true,
+     "sfx": "risada"
+    }
+   ],
+   "emocao": "surpreso",
+   "clima": "animada",
+   "fala": "Eu? Seu porco! O segurança desmaiou no décimo andar."
+  },
+  {
+   "amb": "elevador",
+   "beats": [
+    {
+     "quem": "narrador",
+     "texto": "Comenta o pior mico que você já pagou num elevador. E segue, que o Jorginho agora sobe de escada.",
+     "cam": "ampla"
+    }
+   ],
+   "emocao": "feliz",
+   "clima": "animada",
+   "fala": "Comenta o pior mico que você já pagou num elevador. E segue, que o Jorginho agora sobe de escada."
+  }
+ ]
+}

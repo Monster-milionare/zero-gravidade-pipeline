@@ -1,1 +1,194 @@
-{"id":"14-ar-da-nave-alarme","ordem":14,"formato":"escolha","estilo":"noir","motor":"2d","tema":"ar-da-nave","titulo":"O alarme do ar dispara dentro da nave. Trocar o filtro agora ou chamar a Terra? A ou B?","titulo_youtube":"Alarme de ar na nave: o que você faz primeiro? A ou B","titulo_curto":"O AR ESTÁ MUDANDO","thumb_texto":"TROCA OU CHAMA?","descricao":"Em uma nave, o gás carbônico que a tripulação solta precisa ser retirado do ar por filtros ou outros sistemas. A missão e os personagens deste vídeo são ficção. A mais votada vira o próximo vídeo.","comentario_fixado":"A: trocar o filtro agora. B: chamar a Terra antes de mexer. Qual a sua escolha?","tags":["nave","astronauta","gas carbonico","espaco","voce decide","ciencia"],"elenco":{"prot":"cientista","f":["comandante"]},"perfil":"generico","cenas":[{"falas":[{"quem":"narrador","texto":"No meio da viagem, o alarme do ar dispara e acorda você."}],"emocao":"surpreso","visuais":["cinematic scene"],"amb":"nave-cabine","fala":"No meio da viagem, o alarme do ar dispara e acorda você.","destaques":["alarme"],"cams":["ampla","eu-frente","f0"],"fx":"alarme"},{"falas":[{"quem":"prot","texto":"O gás carbônico está subindo aqui na cabine."}],"emocao":"preocupado","visuais":["cinematic scene"],"amb":"nave-cabine","fala":"O gás carbônico está subindo aqui na cabine.","destaques":["subindo"],"cams":["eu-frente","ampla","f0"],"fx":"alarme"},{"falas":[{"quem":"f0","texto":"Minha cabeça já está pesada. Não podemos demorar."}],"emocao":"preocupado","visuais":["cinematic scene"],"amb":"nave-cabine","fala":"Minha cabeça já está pesada. Não podemos demorar.","destaques":["pesada"],"cams":["f0","ampla","eu-frente"],"fx":"alarme"},{"falas":[{"quem":"narrador","texto":"Cada respiração solta gás carbônico, e são os filtros que limpam o ar."}],"emocao":"neutro","visuais":["cinematic scene"],"amb":"nave-cabine","fala":"Cada respiração solta gás carbônico, e são os filtros que limpam o ar.","destaques":["filtros"],"cams":["ampla","eu-frente","f0"],"fx":"alarme"},{"falas":[{"quem":"prot","texto":"Só temos um filtro reserva. Se eu encaixar errado, ele se perde."}],"emocao":"preocupado","visuais":["cinematic scene"],"amb":"nave-cabine","fala":"Só temos um filtro reserva. Se eu encaixar errado, ele se perde.","destaques":["reserva"],"cams":["eu-frente","ampla","f0"],"fx":"alarme"},{"falas":[{"quem":"f0","texto":"A Terra pode guiar o conserto, mas a resposta leva um tempo."}],"emocao":"neutro","visuais":["cinematic scene"],"amb":"nave-cabine","fala":"A Terra pode guiar o conserto, mas a resposta leva um tempo.","destaques":["resposta"],"cams":["f0","ampla","eu-frente"],"fx":"alarme"},{"falas":[{"quem":"narrador","texto":"Comenta A para trocar o filtro agora, ou B para chamar a Terra antes. A mais votada vira o próximo vídeo."}],"emocao":"neutro","visuais":["cinematic scene"],"amb":"nave-cabine","fala":"Comenta A para trocar o filtro agora, ou B para chamar a Terra antes. A mais votada vira o próximo vídeo.","destaques":["escolha"],"cams":["ampla","eu-frente","f0"],"fx":"alarme"}]}
+{
+ "id": "14-ar-da-nave-alarme",
+ "ordem": 14,
+ "formato": "escolha",
+ "estilo": "noir",
+ "motor": "2d",
+ "tema": "ar-da-nave",
+ "titulo": "O alarme do ar dispara dentro da nave. Trocar o filtro agora ou chamar a Terra? A ou B?",
+ "titulo_youtube": "Alarme de ar na nave: o que você faz primeiro? A ou B",
+ "titulo_curto": "O AR ESTÁ MUDANDO",
+ "thumb_texto": "TROCA OU CHAMA?",
+ "descricao": "Em uma nave, o gás carbônico que a tripulação solta precisa ser retirado do ar por filtros ou outros sistemas. A missão e os personagens deste vídeo são ficção. A mais votada vira o próximo vídeo.",
+ "comentario_fixado": "A: trocar o filtro agora. B: chamar a Terra antes de mexer. Qual a sua escolha?",
+ "tags": [
+  "nave",
+  "astronauta",
+  "gas carbonico",
+  "espaco",
+  "voce decide",
+  "ciencia"
+ ],
+ "elenco": {
+  "prot": "cientista",
+  "f": [
+   "comandante"
+  ]
+ },
+ "perfil": "generico",
+ "cenas": [
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "No meio da viagem, o alarme do ar dispara e acorda você."
+    }
+   ],
+   "emocao": "surpreso",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "nave-cabine",
+   "fala": "No meio da viagem, o alarme do ar dispara e acorda você.",
+   "destaques": [
+    "alarme"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ],
+   "fx": "alarme"
+  },
+  {
+   "falas": [
+    {
+     "quem": "prot",
+     "texto": "O gás carbônico está subindo aqui na cabine."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "nave-cabine",
+   "fala": "O gás carbônico está subindo aqui na cabine.",
+   "destaques": [
+    "subindo"
+   ],
+   "cams": [
+    "eu-frente",
+    "ampla",
+    "f0"
+   ],
+   "fx": "alarme"
+  },
+  {
+   "falas": [
+    {
+     "quem": "f0",
+     "texto": "Minha cabeça já está pesada. Não podemos demorar."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "nave-cabine",
+   "fala": "Minha cabeça já está pesada. Não podemos demorar.",
+   "destaques": [
+    "pesada"
+   ],
+   "cams": [
+    "f0",
+    "ampla",
+    "eu-frente"
+   ],
+   "fx": "alarme"
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Cada respiração solta gás carbônico, e são os filtros que limpam o ar."
+    }
+   ],
+   "emocao": "neutro",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "nave-cabine",
+   "fala": "Cada respiração solta gás carbônico, e são os filtros que limpam o ar.",
+   "destaques": [
+    "filtros"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ],
+   "fx": "alarme"
+  },
+  {
+   "falas": [
+    {
+     "quem": "prot",
+     "texto": "Só temos um filtro reserva. Se eu encaixar errado, ele se perde."
+    }
+   ],
+   "emocao": "preocupado",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "nave-cabine",
+   "fala": "Só temos um filtro reserva. Se eu encaixar errado, ele se perde.",
+   "destaques": [
+    "reserva"
+   ],
+   "cams": [
+    "eu-frente",
+    "ampla",
+    "f0"
+   ],
+   "fx": "alarme"
+  },
+  {
+   "falas": [
+    {
+     "quem": "f0",
+     "texto": "A Terra pode guiar o conserto, mas a resposta leva um tempo."
+    }
+   ],
+   "emocao": "neutro",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "nave-cabine",
+   "fala": "A Terra pode guiar o conserto, mas a resposta leva um tempo.",
+   "destaques": [
+    "resposta"
+   ],
+   "cams": [
+    "f0",
+    "ampla",
+    "eu-frente"
+   ],
+   "fx": "alarme"
+  },
+  {
+   "falas": [
+    {
+     "quem": "narrador",
+     "texto": "Comenta A para trocar o filtro agora, ou B para chamar a Terra antes. A mais votada vira o próximo vídeo."
+    }
+   ],
+   "emocao": "neutro",
+   "visuais": [
+    "cinematic scene"
+   ],
+   "amb": "nave-cabine",
+   "fala": "Comenta A para trocar o filtro agora, ou B para chamar a Terra antes. A mais votada vira o próximo vídeo.",
+   "destaques": [
+    "escolha"
+   ],
+   "cams": [
+    "ampla",
+    "eu-frente",
+    "f0"
+   ],
+   "fx": "alarme"
+  }
+ ],
+ "desativado": true,
+ "desativado_motivo": "o canal virou Nao Faca Isso (humor) em 27/11/2026; roteiro guardado, nao apagado"
+}
