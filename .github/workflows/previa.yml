@@ -1,0 +1,66 @@
+name: Previa de um roteiro (sem publicar)
+
+on:
+  workflow_dispatch:
+    inputs:
+      id:
+        description: "ID do roteiro (ex: 01-brasil-ingles)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  previa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Garantir ffmpeg (a imagem do runner pode nao trazer)
+        run: |
+          which ffmpeg >/dev/null 2>&1 || (sudo apt-get update -y -qq && sudo apt-get install -y -qq ffmpeg)
+          ffmpeg -version | head -1
+
+      - run: pip install -r requirements.txt
+      - name: Motor 3D (Chromium headless + three.js)
+        run: |
+          python -m playwright install --with-deps chromium
+          (cd pov3d && npm install three@0.160.0 --no-audit --no-fund)
+
+      - name: Profundidade por IA (opcional)
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu || true
+          pip install transformers || true
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-depth-anything-v2-small
+      - name: Renderizar (dry-run) e montar folha de contato
+        run: |
+          python publish.py --id "${{ github.event.inputs.id }}" --dry-run 2>&1 | tee previa.log
+          mkdir -p previas
+          V="out/${{ github.event.inputs.id }}.mp4"
+          D=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$V")
+          echo "duracao=$D"
+          for n in 1 2 3 4 5 6; do
+            T=$(python -c "print(round($D*$n/7,2))")
+            ffmpeg -y -loglevel error -ss $T -i "$V" -frames:v 1 -vf scale=360:-1 "previas/f$n.png"
+          done
+          ffmpeg -y -loglevel error -i previas/f%d.png -filter_complex "[0:v][1:v][2:v][3:v][4:v][5:v]hstack=inputs=6" -frames:v 1 "previas/${{ github.event.inputs.id }}.jpg" 2>/dev/null || \
+          ffmpeg -y -loglevel error -framerate 1 -i previas/f%d.png -vf "tile=6x1" -frames:v 1 "previas/${{ github.event.inputs.id }}.jpg"
+          rm -f previas/f*.png
+          cp "$V" "previas/${{ github.event.inputs.id }}.mp4"
+          grep -E "imagem=" previa.log > "previas/${{ github.event.inputs.id }}.txt" || true
+          git config user.name "naofacaisso-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -f previas/
+          git commit -m "previa ${{ github.event.inputs.id }}" || true
+          for i in 1 2 3 4 5; do
+            if git push; then break; fi
+            git pull --rebase --autostash origin main || { python3 state_merge.py && GIT_EDITOR=true git rebase --continue; } || git rebase --abort
+            sleep 5
+          done
