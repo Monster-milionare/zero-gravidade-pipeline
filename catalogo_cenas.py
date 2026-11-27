@@ -18,6 +18,9 @@ POV = Path(config.BASE_DIR) / "pov3d"
 # ceu: o cenario mostra o ceu (a hora do dia importa) | fx: efeitos validos (a chave '' = padrao)
 # max_f: quantos figurantes o cenario comporta (alem do protagonista) | vazio: cenario sem personagens
 AMB_2D = {
+    "europa": dict(mostra="superficie de Europa, lua de Jupiter: gelo branco com rachaduras, picos de gelo, Jupiter gigante no ceu preto", formato="vertical", ceu=False, fx=[""], max_f=3),
+    "tita": dict(mostra="superficie de Tita, lua de Saturno: ceu laranja com neblina, lago escuro de metano, pedras", formato="vertical", ceu=False, fx=[""], max_f=3),
+    "asteroide": dict(mostra="superficie de um asteroide pequeno: rochas soltas, ceu preto com Sol e Terra distantes, nave parada perto", formato="vertical", ceu=False, fx=[""], max_f=3),
     "marte": dict(mostra="superficie de Marte: chao vermelho com crateras, base com cupula e painel solar, ceu salmao (ou tempestade de poeira, ou noite estrelada)", formato="ambos", ceu=True, fx=[""], max_f=3, horas=["dia", "manha", "tarde", "noite", "tempestade"]),
     "selva-cretaceo": dict(mostra="selva do Cretaceo com vulcao, dinossauros e lago", formato="vertical", ceu=True, fx=[""], max_f=3,
                            horas=["manha", "dia", "tarde", "entardecer", "impacto", "noite"]),
