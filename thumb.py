@@ -130,7 +130,55 @@ def _quadro_do_video(video: Path):
     return cv2.addWeighted(g, 1.5, blur, -0.5, 0)
 
 
+def _gerar_vertical(c: dict, estilo_nome: str, saida: Path, video: Path) -> Path:
+    """Capa 1080x1920 dos Shorts. A capa deitada era recortada no meio pelo YouTube e o texto saia cortado."""
+    import subprocess
+    W, H = 1080, 1920
+    cor1, cor2, cor_faixa = CORES.get(estilo_nome, CORES["epico"])
+    dur = _duracao(video)
+    melhor, nota_m = None, -1.0
+    for frac in (0.12, 0.2, 0.28, 0.36, 0.44, 0.52, 0.6, 0.68, 0.76, 0.84):
+        tmp = config.OUT_DIR / "_thumb_quadro.png"
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{dur * frac:.2f}", "-i", str(video), "-frames:v", "1", str(tmp)],
+                       check=True, timeout=120)
+        img = cv2.cvtColor(cv2.imread(str(tmp)), cv2.COLOR_BGR2RGB)
+        n = _nota_quadro(img[int(img.shape[0] * 0.3):int(img.shape[0] * 0.85)])
+        if n > nota_m:
+            melhor, nota_m = img, n
+    g = cv2.resize(melhor, (W, H), interpolation=cv2.INTER_CUBIC)
+    g = cv2.convertScaleAbs(g, alpha=1.15, beta=-8)
+    # topo escurecido: o texto estoura e a legenda do proprio quadro some atras dele
+    sombra = np.interp(np.arange(H), [0, 800, 1050, H], [0.22, 0.30, 1.0, 1.0]).astype(np.float32)[:, None, None]
+    im = Image.fromarray((g.astype(np.float32) * sombra).astype(np.uint8)).convert("RGBA")
+    d = ImageDraw.Draw(im)
+    rotulo = {"e-se": "E SE...?", "voce-acorda": "VOCÊ ACORDA EM...", "quem-venceria": "QUEM VENCERIA?", "pov": "POV",
+              "escolha": "VOCÊ ESCOLHE", "futuro": "VOCÊ ACORDA NO FUTURO"}.get(c.get("formato", ""), "PLANO B")
+    f_r = _fonte(60)
+    larg = d.textlength(rotulo, font=f_r) + 64
+    d.rounded_rectangle([(W - larg) / 2, 230, (W + larg) / 2, 330], 18, fill=cor_faixa + (255,), outline=(255, 255, 255, 255), width=5)
+    d.text((W / 2, 280), rotulo, font=f_r, anchor="mm", fill=(255, 255, 255, 255))
+    y = 380
+    for i, ln in enumerate(_linhas(texto_gancho(c), 10)):
+        f = _fonte(210)
+        larg = d.textlength(ln, font=f)
+        if larg > 940:
+            f = _fonte(int(210 * 940 / larg))
+        d.text((W / 2, y), ln, font=f, anchor="ma", fill=(cor1 if i % 2 == 0 else cor2) + (255,),
+               stroke_width=14, stroke_fill=(8, 6, 16, 255))
+        y += int(f.size * 1.14)
+    spr = mascote.sprite(1.3, 0.6, True, "surpreso", altura=460)
+    im.alpha_composite(spr, ((W - spr.width) // 2, H - spr.height - 200))
+    saida.parent.mkdir(parents=True, exist_ok=True)
+    im.convert("RGB").save(saida, quality=90)
+    return saida
+
+
 def gerar(c: dict, estilo_nome: str, saida: Path, video=None) -> Path:
+    if c.get("formato") != "longo" and video and Path(video).exists():
+        try:
+            return _gerar_vertical(c, estilo_nome, saida, Path(video))
+        except Exception as exc:
+            print(f"[thumb] capa vertical falhou ({str(exc)[:80]}): usando a deitada", flush=True)
     estilo = estilos.ESTILOS[estilo_nome]
     cor1, cor2, cor_faixa = CORES.get(estilo_nome, CORES["epico"])
     base = None
