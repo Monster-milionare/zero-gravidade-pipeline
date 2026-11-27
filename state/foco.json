@@ -1,22 +1,24 @@
 {
- "atualizado": "26/11/2026 09:26 UTC",
+ "atualizado": "27/11/2026 09:38 UTC",
  "tema_peso": {
-  "generico": 0.846,
-  "nasa": 1.123
+  "generico": 0.728,
+  "nasa": 1.218
  },
  "formato_peso": {
   "escolha": 1.0
  },
  "alertas": [
-  "REPETICAO de tema: 'nasa' em 3 dos ultimos 5 Shorts.",
-  "MODELO repetido: 'comandante-traje' aparece em 4 dos ultimos 5 Shorts.",
-  "MODELO repetido: 'piloto-traje' aparece em 4 dos ultimos 5 Shorts.",
-  "Rodizio 2D/3D quebrado nos ultimos 5 Shorts: {'2d': 5}.",
+  "REPETICAO de tema: 'nasa' em 5 dos ultimos 8 Shorts.",
+  "REPETICAO de tema: 'generico' em 3 dos ultimos 8 Shorts.",
+  "2 pares de Shorts seguidos com o mesmo tema.",
+  "MODELO repetido: 'comandante-traje' aparece em 5 dos ultimos 8 Shorts.",
+  "Rodizio 2D/3D quebrado nos ultimos 8 Shorts: {'2d': 8}.",
   "ESTOQUE baixo de Shorts 2D liberados: 0 (meta >= 3).",
   "ESTOQUE baixo de Shorts 3D liberados: 0 (meta >= 3)."
  ],
  "tarefas": [
   "Criar roteiros de OUTROS temas (nao 'nasa') e novos cenarios/modelos para sair da mesmice.",
+  "Criar roteiros de OUTROS temas (nao 'generico') e novos cenarios/modelos para sair da mesmice.",
   "Escrever mais Shorts 2D (temas novos, cenarios novos).",
   "Escrever mais Shorts 3D (temas novos, cenarios novos)."
  ]

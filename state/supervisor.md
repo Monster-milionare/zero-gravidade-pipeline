@@ -1,17 +1,19 @@
-# Supervisor geral - Zero Gravidade BR (26/11/2026 09:26 UTC)
+# Supervisor geral - Zero Gravidade BR (27/11/2026 09:38 UTC)
 
 ## Alertas
 
-- REPETICAO de tema: 'nasa' em 3 dos ultimos 5 Shorts.
-- MODELO repetido: 'comandante-traje' aparece em 4 dos ultimos 5 Shorts.
-- MODELO repetido: 'piloto-traje' aparece em 4 dos ultimos 5 Shorts.
-- Rodizio 2D/3D quebrado nos ultimos 5 Shorts: {'2d': 5}.
+- REPETICAO de tema: 'nasa' em 5 dos ultimos 8 Shorts.
+- REPETICAO de tema: 'generico' em 3 dos ultimos 8 Shorts.
+- 2 pares de Shorts seguidos com o mesmo tema.
+- MODELO repetido: 'comandante-traje' aparece em 5 dos ultimos 8 Shorts.
+- Rodizio 2D/3D quebrado nos ultimos 8 Shorts: {'2d': 8}.
 - ESTOQUE baixo de Shorts 2D liberados: 0 (meta >= 3).
 - ESTOQUE baixo de Shorts 3D liberados: 0 (meta >= 3).
 
 ## O que fazer
 
 - Criar roteiros de OUTROS temas (nao 'nasa') e novos cenarios/modelos para sair da mesmice.
+- Criar roteiros de OUTROS temas (nao 'generico') e novos cenarios/modelos para sair da mesmice.
 - Escrever mais Shorts 2D (temas novos, cenarios novos).
 - Escrever mais Shorts 3D (temas novos, cenarios novos).
 
@@ -24,8 +26,8 @@
 
 | tema | videos | views/dia | peso |
 |---|---|---|---|
-| nasa | 3 | 2 | 1.123 |
-| generico | 2 | 1 | 0.846 |
+| nasa | 3 | 2 | 1.218 |
+| generico | 2 | 1 | 0.728 |
 
 ## Foco por formato
 
