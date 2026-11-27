@@ -1,0 +1,54 @@
+name: Importar motor 3D do Plano B (modo humor)
+
+# O canal virou "Nao Faca Isso" (humor). Este workflow copia o motor 3D do Plano B (repo publico), aplica o modo
+# humor (humor_patch.py, que vem no humor.zip junto com cenarios, roteiros e temas) e guarda a fila antiga do
+# Zero Gravidade DESATIVADA (nada e apagado). Pode rodar de novo para puxar melhorias novas do motor do Plano B.
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "commit ou branch do Plano B"
+        default: "main"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: importar-motor
+  cancel-in-progress: false
+
+jobs:
+  importar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Copiar o motor e aplicar o modo humor
+        run: |
+          set -e
+          git clone -q https://github.com/Monster-milionare/plano-b-pipeline /tmp/pb
+          (cd /tmp/pb && git checkout -q "${{ github.event.inputs.ref }}")
+          rsync -a --exclude .git --exclude .github --exclude conteudo --exclude state --exclude previas \
+                --exclude temas.txt --exclude temas_longos.txt --exclude README.md --exclude notas_qualidade.md /tmp/pb/ ./
+          if [ -f humor.zip ]; then unzip -o humor.zip && rm -f humor.zip; fi
+          python3 humor_patch.py
+          python3 - <<'PY'
+          import glob, json
+          for f in glob.glob("conteudo/*.json"):
+              c = json.load(open(f, encoding="utf-8"))
+              if c.get("formato") != "nao-faca" and not c.get("desativado"):
+                  c["desativado"] = True
+                  c["desativado_motivo"] = "o canal virou Nao Faca Isso (humor) em 27/11/2026; roteiro guardado, nao apagado"
+                  json.dump(c, open(f, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+          PY
+          python3 -m py_compile *.py
+      - name: Commit
+        run: |
+          git config user.name "naofacaisso-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -q -m "feat: Nao Faca Isso - motor 3D do Plano B + modo humor"
+          for i in 1 2 3; do git push && break; git pull --rebase --autostash origin main; sleep 3; done

@@ -1,4 +1,4 @@
-name: Publicar proximo video (Zero Gravidade BR)
+name: Publicar proximo video (Nao Faca Isso)
 
 on:
   schedule:
@@ -51,9 +51,11 @@ jobs:
 
       - run: pip install -r requirements.txt
         if: steps.d.outputs.publicar == 'true'
-      - name: Motor 2D (Chromium headless)
+      - name: Motor 3D (Chromium headless + three.js)
         if: steps.d.outputs.publicar == 'true'
-        run: python -m playwright install --with-deps chromium
+        run: |
+          python -m playwright install --with-deps chromium
+          (cd pov3d && npm install three@0.160.0 --no-audit --no-fund)
 
       - name: Escrever roteiro novo se a fila estiver curta
         if: steps.d.outputs.publicar == 'true'
