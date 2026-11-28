@@ -1,12 +1,14 @@
 {
  "estilos": {
-  "epico": 1.0
+  "epico": 1.25,
+  "neon": 0.667,
+  "noir": 0.667
  },
  "formatos": {
   "escolha": 1.0
  },
- "amostra": 5,
- "media_views_dia": 1.7,
- "atualizado": "2026-11-27T09:38+00:00",
+ "amostra": 8,
+ "media_views_dia": 1.1,
+ "atualizado": "2026-11-28T08:52+00:00",
  "fonte_views": "oauth"
 }
