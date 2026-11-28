@@ -1,25 +1,19 @@
 {
- "data": "2026-11-27",
+ "data": "2026-11-28",
  "shorts": [
   {
-   "slot": 1,
-   "id": "12-controle-sinal-sumiu",
-   "motor": "2d",
-   "publicar_em": "2026-11-27T19:10:00Z"
-  },
-  {
    "slot": 2,
-   "id": "09-europa-gelo-estalando",
-   "motor": "2d",
-   "publicar_em": "2026-11-27T21:05:00Z"
+   "id": "01-nao-faca-primeiro-encontro",
+   "motor": "3d",
+   "publicar_em": "2026-11-28T17:05:00Z"
   },
   {
    "slot": 3,
-   "id": "11-asteroide-um-pulo",
-   "motor": "2d",
-   "publicar_em": "2026-11-27T23:15:00Z"
+   "id": "02-nao-faca-entrevista-de-emprego",
+   "motor": "3d",
+   "publicar_em": "2026-11-28T21:15:00Z"
   }
  ],
  "longo": null,
- "gerado_em": "2026-11-27T22:45:36+00:00"
+ "gerado_em": "2026-11-28T15:51:31+00:00"
 }
